@@ -3,6 +3,7 @@ import BgImage from "@/components/BackgroundImage";
 import BackButton from "@/components/buttons/Back";
 import SignUpCard from "@/components/cards/SignUp";
 import { Progress, Select, SelectItem } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 const languages = [
     { label: "English", value: "english" },
@@ -72,11 +73,13 @@ const locations = [
 ];
 
 export default function LocationSignUp() {
+    const router = useRouter();
+    const routeToInterestsSignUp = () => router.push("/signup/interests");
     return (
         <main className="h-screen">
             <BackButton />
-            <BgImage src="/images/dey00ts_bgs/mobile/2_welcome.png" alt="bg" className="absolute" />
-            <SignUpCard>
+            <BgImage src="/images/dey00ts_bgs/mobile/3_welcome.png" alt="bg" className="absolute" />
+            <SignUpCard onClickNext={routeToInterestsSignUp}>
                 <div className="text-center grid justify-items-center gap-y-5">
                     <Progress
                         size="sm"
