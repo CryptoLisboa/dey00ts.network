@@ -3,13 +3,16 @@ import BgImage from "@/components/BackgroundImage";
 import BackButton from "@/components/buttons/Back";
 import SignUpCard from "@/components/cards/SignUp";
 import { Button, Progress } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 export default function LocationSignUp() {
+    const router = useRouter();
+    const routeToBioSignUp = () => router.push("/signup/bio");
     return (
         <main className="h-screen">
             <BackButton />
             <BgImage src="/images/dey00ts_bgs/mobile/4_welcome.png" alt="bg" className="absolute" />
-            <SignUpCard>
+            <SignUpCard onClickNext={routeToBioSignUp}>
                 <div className="text-center grid justify-items-center gap-y-5">
                     <Progress
                         size="sm"
