@@ -18,7 +18,7 @@ export default function LocationSignUp() {
                             base: "px-16",
                             indicator: "bg-gradient-to-r from-pink-500 to-yellow-500",
                         }}
-                        value={(100 / 6) * 5}
+                        value={(100 / 6) * 4}
                     />
                     <h1 className="text-3xl font-bold text-white text-center">Could you tell about yourself??</h1>
                     <p className="text-base lg:text-xl text-white">
