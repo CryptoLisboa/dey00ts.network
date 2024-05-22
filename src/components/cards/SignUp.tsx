@@ -1,5 +1,4 @@
-import { Button } from "@nextui-org/button";
-import { Link } from "@nextui-org/link";
+import { Button, Link } from "@nextui-org/react";
 
 export default function SignUpCard({
     children,
