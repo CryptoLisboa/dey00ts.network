@@ -20,7 +20,7 @@ export default function LocationSignUp() {
                         }}
                         value={(100 / 6) * 4}
                     />
-                    <h1 className="text-3xl font-bold text-white text-center">Could you tell about yourself??</h1>
+                    <h1 className="text-3xl font-bold text-white text-center">Tell about yourself</h1>
                     <p className="text-base lg:text-xl text-white">
                         The request involves sharing information about oneself, allowing others to understand who they
                         are better.
