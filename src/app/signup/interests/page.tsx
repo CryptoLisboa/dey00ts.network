@@ -2,7 +2,7 @@
 import BgImage from "@/components/BackgroundImage";
 import BackButton from "@/components/buttons/Back";
 import SignUpCard from "@/components/cards/SignUp";
-import { Progress } from "@nextui-org/react";
+import { Button, Progress } from "@nextui-org/react";
 
 export default function LocationSignUp() {
     return (
@@ -25,6 +25,32 @@ export default function LocationSignUp() {
                         Pick up 5, this will customize your content created by La Creme De La Creme of Y00ts & DeGods
                         community!
                     </p>
+                    <div className="flex flex-wrap justify-center gap-4 w-full">
+                        <Button className="p-2 text-lg text-[#BD8BFF] border-[#BD8BFF]" variant="bordered">
+                            Alpha Caller
+                        </Button>
+                        <Button className="p-2 text-lg text-[#06F0FF] border-[#06F0FF]" variant="bordered">
+                            Collab Manager
+                        </Button>
+                        <Button className="p-2 text-lg text-[#FF6B6B] border-[#FF6B6B]" variant="bordered">
+                            Community Builder
+                        </Button>
+                        <Button className="p-2 text-lg text-[#1BCEA3] border-[#1BCEA3] opacity-50" variant="bordered">
+                            Content Creator
+                        </Button>
+                        <Button className="p-2 text-lg text-[#FFFF75] border-[#FFFF75] opacity-50" variant="bordered">
+                            EVM Dev
+                        </Button>
+                        <Button className="p-2 text-lg text-[#FFA500] border-[#FFA500]" variant="bordered">
+                            Full Stack
+                        </Button>
+                        <Button className="p-2 text-lg text-[#FFC9DF] border-[#FFC9DF] opacity-50" variant="bordered">
+                            Sol Dev
+                        </Button>
+                        <Button className="p-2 text-lg text-[#3792FF] border-[#3792FF]" variant="bordered">
+                            Space Host
+                        </Button>
+                    </div>
                 </div>
             </SignUpCard>
         </main>
