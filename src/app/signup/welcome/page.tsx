@@ -17,7 +17,7 @@ export default function WelcomeSignUp() {
                     <div className="relative w-40 h-32 grid">
                         <Image src="/images/sign_up/avatar_pfp_welcome.png" alt="avatar_pfp_welcome" fill />
                     </div>
-                    <h1 className="text-4xl font-bold text-white text-center">welcome to DeY00ts.Network</h1>
+                    <h1 className="text-3xl font-bold text-white text-center">welcome to DeY00ts.Network</h1>
                     <p className="text-base lg:text-xl text-[#FF3634]">
                         let&apos;s get to know each other, trade, meet and have fun!
                     </p>

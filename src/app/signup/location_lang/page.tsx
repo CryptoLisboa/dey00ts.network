@@ -1,19 +1,14 @@
-"use client";
 import BgImage from "@/components/BackgroundImage";
 import BackButton from "@/components/buttons/Back";
 import SignUpCard from "@/components/cards/SignUp";
 import { RadioGroup, Radio, Progress } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 
-export default function GenderSignUp() {
-    const router = useRouter();
-
-    const routeToLocationSignUp = () => router.push("/signup/location_lang");
+export default function LocationSignUp() {
     return (
         <main className="h-screen">
             <BackButton />
             <BgImage src="/images/dey00ts_bgs/mobile/2_welcome.png" alt="bg" className="absolute" />
-            <SignUpCard onClickNext={routeToLocationSignUp}>
+            <SignUpCard>
                 <div className="text-center grid justify-items-center gap-y-5">
                     <Progress
                         size="sm"
@@ -22,13 +17,15 @@ export default function GenderSignUp() {
                             base: "px-16",
                             indicator: "bg-gradient-to-r from-pink-500 to-yellow-500",
                         }}
-                        value={(100 / 6) * 1}
+                        value={(100 / 6) * 2}
                     />
 
-                    <h1 className="text-3xl font-bold text-white text-center">what&apos;s your gender?</h1>
+                    <h1 className="text-3xl font-bold text-white text-center">
+                        What&apos;s your language and where do you live?
+                    </h1>
 
                     <p className="text-base lg:text-xl text-white">
-                        this helps us find more relevant content. we won&apos;t show it on your profile.
+                        This helps us find cool people around you to get some connections and easily communicate.
                     </p>
 
                     <RadioGroup
