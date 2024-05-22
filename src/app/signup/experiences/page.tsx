@@ -3,16 +3,13 @@ import BgImage from "@/components/BackgroundImage";
 import BackButton from "@/components/buttons/Back";
 import SignUpCard from "@/components/cards/SignUp";
 import { Progress, Textarea } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 
 export default function LocationSignUp() {
-    const router = useRouter();
-    const routeToExperiencesSignUp = () => router.push("/signup/experiences");
     return (
         <main className="h-screen">
             <BackButton />
             <BgImage src="/images/dey00ts_bgs/mobile/4_welcome.png" alt="bg" className="absolute" />
-            <SignUpCard onClickNext={routeToExperiencesSignUp}>
+            <SignUpCard>
                 <div className="text-center grid justify-items-center gap-y-5">
                     <Progress
                         size="sm"
@@ -23,12 +20,8 @@ export default function LocationSignUp() {
                         }}
                         value={(100 / 6) * 4}
                     />
-                    <h1 className="text-3xl font-bold text-white text-center">Tell about yourself</h1>
-                    <p className="text-base lg:text-xl text-white">
-                        {
-                            "The request involves sharing information about oneself, allowing others to understand who they are better."
-                        }
-                    </p>
+                    <h1 className="text-3xl font-bold text-white text-center">Share your experience</h1>
+                    <p className="text-base lg:text-xl text-white">This helps us find more relevant content.</p>
                     <Textarea
                         key="bordered"
                         variant="bordered"
