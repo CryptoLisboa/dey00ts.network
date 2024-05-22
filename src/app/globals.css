@@ -26,6 +26,22 @@
     rgb(var(--background-start-rgb));
 } */
 
+@layer base {
+  :root {
+    --color-community-builder: #ff6b6b;
+    --color-collab-manager: #06f0ff;
+    --color-content-creator: #1bcea3;
+    --color-space-host: #3792ff;
+  }
+
+  .dark {
+    --color-community-builder: #ff6b6b;
+    --color-collab-manager: #06f0ff;
+    --color-content-creator: #1bcea3;
+    --color-space-host: #3792ff;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
