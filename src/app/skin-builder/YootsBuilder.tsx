@@ -1,5 +1,5 @@
-"use client";
-import { YOOTSMAPPER } from "@/constants/yootsMapper";
+'use client'
+import { YOOTSMAPPER } from '@/constants/yootsMapper'
 import {
   Button,
   Dropdown,
@@ -7,66 +7,66 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Image,
-} from "@nextui-org/react";
-import NextImage from "next/image";
-import { keys, path } from "ramda";
-import { useState } from "react";
+} from '@nextui-org/react'
+import NextImage from 'next/image'
+import { keys, path } from 'ramda'
+import { Key, useState } from 'react'
 
 const getValueForTraitAndSubTrait = (
   selectedTrait: any,
   selectedSubTrait: any
-) => path([selectedTrait, selectedSubTrait], YOOTSMAPPER);
+) => path([selectedTrait, selectedSubTrait], YOOTSMAPPER)
 
 export const YootsBuilder = () => {
-  const traits = keys(YOOTSMAPPER);
+  const traits = keys(YOOTSMAPPER)
 
   const [selectedTraits, setSelectedTraits] = useState(() => {
     return traits.reduce((acc: any, trait) => {
-      acc[trait] = keys(YOOTSMAPPER[trait])[0];
-      return acc;
-    }, {});
-  });
+      acc[trait] = keys(YOOTSMAPPER[trait])[0]
+      return acc
+    }, {})
+  })
 
   console.log({
     selectedTraits,
     a: selectedTraits[0],
-    test: selectedTraits["Background"],
-  });
+    test: selectedTraits['Background'],
+  })
 
-  const [selectedTrait, setSelectedTrait] = useState(traits[0]);
-  const [selectedSubTrait, setSelectedSubTrait] = useState(
+  const [selectedTrait, setSelectedTrait] = useState(traits[0])
+  const [selectedSubTrait, setSelectedSubTrait] = useState<Key>(
     keys(YOOTSMAPPER[selectedTrait])[0]
-  );
+  )
 
   return (
     <>
-      <div className="flex gap-1 justify-center">
+      <div className='flex gap-1 justify-center'>
         <Dropdown>
           <DropdownTrigger>
-            <Button variant="bordered">{selectedTrait}</Button>
+            <Button variant='bordered'>{selectedTrait}</Button>
           </DropdownTrigger>
           <DropdownMenu
-            aria-label="Action event example"
-            selectionMode="single"
+            aria-label='Action event example'
+            selectionMode='single'
             selectedKeys={[selectedTrait]}
             onAction={(key) => {
               setSelectedTrait(
-                key as "Background" | "Clothes" | "Eyes" | "Head" | "Skins"
-              );
+                key as 'Background' | 'Clothes' | 'Eyes' | 'Head' | 'Skins'
+              )
               setSelectedSubTrait(
                 keys(
                   YOOTSMAPPER[
-                    key as "Background" | "Clothes" | "Eyes" | "Head" | "Skins"
+                    key as 'Background' | 'Clothes' | 'Eyes' | 'Head' | 'Skins'
                   ]
                 )[0]
-              );
+              )
               console.log(
                 keys(
                   YOOTSMAPPER[
-                    key as "Background" | "Clothes" | "Eyes" | "Head" | "Skins"
+                    key as 'Background' | 'Clothes' | 'Eyes' | 'Head' | 'Skins'
                   ]
                 )[0]
-              );
+              )
             }}
           >
             {traits?.map((trait) => (
@@ -76,18 +76,18 @@ export const YootsBuilder = () => {
         </Dropdown>
         <Dropdown>
           <DropdownTrigger>
-            <Button variant="bordered">{selectedSubTrait}</Button>
+            <Button variant='bordered'>{selectedSubTrait}</Button>
           </DropdownTrigger>
           <DropdownMenu
-            selectionMode="single"
-            selectedKeys={[selectedSubTrait]}
-            aria-label="Action event example"
+            selectionMode='single'
+            selectedKeys={[String(selectedSubTrait)]}
+            aria-label='Action event example'
             onAction={(key) => {
-              setSelectedSubTrait(key);
+              setSelectedSubTrait(key)
               setSelectedTraits((prev: any) => ({
                 ...prev,
                 [selectedTrait]: key,
-              }));
+              }))
             }}
           >
             {keys(YOOTSMAPPER[selectedTrait])?.map((subtrait) => (
@@ -97,47 +97,47 @@ export const YootsBuilder = () => {
         </Dropdown>
       </div>
 
-      <div className="flex mt-3 justify-center items-center">
-        <button className="mr-3">
+      <div className='flex mt-3 justify-center items-center'>
+        <button className='mr-3'>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
             strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
+            stroke='currentColor'
+            className='w-6 h-6'
           >
             <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'
             />
           </svg>
         </button>
         <Image
-          className="border-1 border-gray-400"
+          className='border-1 border-gray-400'
           as={NextImage}
           src={`/temporary-yoots/${getValueForTraitAndSubTrait(
             selectedTrait,
             selectedSubTrait
           )}`}
-          alt="Skin Builder"
+          alt='Skin Builder'
           width={220}
           height={220}
         />
-        <button className="ml-3">
+        <button className='ml-3'>
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
             strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
+            stroke='currentColor'
+            className='w-6 h-6'
           >
             <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3'
             />
           </svg>
         </button>
@@ -153,62 +153,62 @@ export const YootsBuilder = () => {
           height={220}
         />
       </div> */}
-      <div className="block mt-3 justify-center">
-        <div className="h-96 grid items-center justify-center w-full relative mt-4">
+      <div className='block mt-3 justify-center'>
+        <div className='h-96 grid items-center justify-center w-full relative mt-4'>
           <NextImage
             src={`/temporary-yoots/Background/${selectedTraits[
-              "Background"
-            ].replace(/#/g, "%23")}.png`}
-            alt={`background-${selectedTraits["Background"].replace(
+              'Background'
+            ].replace(/#/g, '%23')}.png`}
+            alt={`background-${selectedTraits['Background'].replace(
               /#/g,
-              "%23"
+              '%23'
             )}`}
             width={324}
             height={324}
-            className="absolute inset-0 rounded-lg justify-self-center"
+            className='absolute inset-0 rounded-lg justify-self-center'
           />
           <NextImage
-            src={`/temporary-yoots/Skins/${selectedTraits["Skins"].replace(
+            src={`/temporary-yoots/Skins/${selectedTraits['Skins'].replace(
               /#/g,
-              "%23"
+              '%23'
             )}.png`}
-            alt="skin"
+            alt='skin'
             width={324}
             height={324}
-            className="absolute inset-0 rounded-lg justify-self-center"
+            className='absolute inset-0 rounded-lg justify-self-center'
           />
           <NextImage
-            src={`/temporary-yoots/Clothes/${selectedTraits["Clothes"].replace(
+            src={`/temporary-yoots/Clothes/${selectedTraits['Clothes'].replace(
               /#/g,
-              "%23"
+              '%23'
             )}.png`}
-            alt="skin"
+            alt='skin'
             width={324}
             height={324}
-            className="absolute inset-0 rounded-lg justify-self-center"
+            className='absolute inset-0 rounded-lg justify-self-center'
           />
           <NextImage
-            src={`/temporary-yoots/Head/${selectedTraits["Head"].replace(
+            src={`/temporary-yoots/Head/${selectedTraits['Head'].replace(
               /#/g,
-              "%23"
+              '%23'
             )}.png`}
-            alt="eyes"
+            alt='eyes'
             width={324}
             height={324}
-            className="absolute inset-0 rounded-lg justify-self-center"
+            className='absolute inset-0 rounded-lg justify-self-center'
           />
           <NextImage
-            src={`/temporary-yoots/Eyes/${selectedTraits["Eyes"].replace(
+            src={`/temporary-yoots/Eyes/${selectedTraits['Eyes'].replace(
               /#/g,
-              "%23"
+              '%23'
             )}.png`}
-            alt="eyes"
+            alt='eyes'
             width={324}
             height={324}
-            className="absolute inset-0 rounded-lg justify-self-center"
+            className='absolute inset-0 rounded-lg justify-self-center'
           />
         </div>
       </div>
     </>
-  );
-};
+  )
+}
