@@ -17,7 +17,8 @@ const getValueForTraitAndSubTrait = (
   selectedSubTrait: any
 ) => path([selectedTrait, selectedSubTrait], YOOTSMAPPER)
 
-const BASE_URL = 'https://bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link'
+const BASE_URL =
+  'https://bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link'
 
 export const YootsBuilder = () => {
   const traits = keys(YOOTSMAPPER)
@@ -39,6 +40,57 @@ export const YootsBuilder = () => {
   const [selectedSubTrait, setSelectedSubTrait] = useState<Key>(
     keys(YOOTSMAPPER[selectedTrait])[0]
   )
+
+  const handleDownload = () => {
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+    if (!context) return
+    canvas.width = 3000
+    canvas.height = 3000
+
+    const images = [
+      `${BASE_URL}/Background/${selectedTraits['Background'].replace(
+        /#/g,
+        '%23'
+      )}.png`,
+      `${BASE_URL}/Skins/${selectedTraits['Skins'].replace(/#/g, '%23')}.png`,
+      `${BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
+        /#/g,
+        '%23'
+      )}.png`,
+      `${BASE_URL}/Head/${selectedTraits['Head'].replace(/#/g, '%23')}.png`,
+      `${BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(/#/g, '%23')}.png`,
+    ]
+
+    Promise.all(images.map((src) => loadImage(src)))
+      .then((loadedImages) => {
+        loadedImages.forEach((img) => {
+          context.drawImage(img, 0, 0, 3000, 3000)
+        })
+        const dataURL = canvas.toDataURL('image/png')
+        downloadImage(dataURL, 'composed-image.png')
+      })
+      .catch((err) => {
+        console.error('Failed to load images', err)
+      })
+  }
+
+  const loadImage = (src: string): Promise<HTMLImageElement> => {
+    return new Promise((resolve, reject) => {
+      const img = new window.Image()
+      img.crossOrigin = 'anonymous' // to handle CORS issues
+      img.src = src
+      img.onload = () => resolve(img)
+      img.onerror = (err) => reject(err)
+    })
+  }
+
+  const downloadImage = (dataURL: string, filename: string) => {
+    const link = document.createElement('a')
+    link.href = dataURL
+    link.download = filename
+    link.click()
+  }
 
   return (
     <>
@@ -158,9 +210,10 @@ export const YootsBuilder = () => {
       <div className='block mt-3 justify-center'>
         <div className='h-96 grid items-center justify-center w-full relative mt-4'>
           <NextImage
-            src={`${BASE_URL}/Background/${selectedTraits[
-              'Background'
-            ].replace(/#/g, '%23')}.png`}
+            src={`${BASE_URL}/Background/${selectedTraits['Background'].replace(
+              /#/g,
+              '%23'
+            )}.png`}
             alt={`background-${selectedTraits['Background'].replace(
               /#/g,
               '%23'
@@ -210,6 +263,9 @@ export const YootsBuilder = () => {
             className='absolute inset-0 rounded-lg justify-self-center'
           />
         </div>
+        <Button onClick={handleDownload} className='mt-3'>
+          Download
+        </Button>
       </div>
     </>
   )
