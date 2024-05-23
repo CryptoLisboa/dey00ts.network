@@ -41,6 +41,17 @@ export const YootsBuilder = () => {
     keys(YOOTSMAPPER[selectedTrait])[0]
   )
 
+  const formatDate = () => {
+    const now = new Date()
+    const year = now.getFullYear()
+    const month = String(now.getMonth() + 1).padStart(2, '0')
+    const day = String(now.getDate()).padStart(2, '0')
+    const hours = String(now.getHours()).padStart(2, '0')
+    const minutes = String(now.getMinutes()).padStart(2, '0')
+    const seconds = String(now.getSeconds()).padStart(2, '0')
+    return `${year}/${month}/${day}-${hours}:${minutes}:${seconds}`
+  }
+
   const handleDownload = () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
@@ -68,7 +79,7 @@ export const YootsBuilder = () => {
           context.drawImage(img, 0, 0, 3000, 3000)
         })
         const dataURL = canvas.toDataURL('image/png')
-        downloadImage(dataURL, 'composed-image.png')
+        downloadImage(dataURL, 'y00t - ' + formatDate() + '.png')
       })
       .catch((err) => {
         console.error('Failed to load images', err)
@@ -209,59 +220,62 @@ export const YootsBuilder = () => {
       </div> */}
       <div className='block mt-3 justify-center'>
         <div className='h-96 grid items-center justify-center w-full relative mt-4'>
-          <NextImage
-            src={`${BASE_URL}/Background/${selectedTraits['Background'].replace(
-              /#/g,
-              '%23'
-            )}.png`}
-            alt={`background-${selectedTraits['Background'].replace(
-              /#/g,
-              '%23'
-            )}`}
-            width={324}
-            height={324}
-            className='absolute inset-0 rounded-lg justify-self-center'
-          />
-          <NextImage
-            src={`${BASE_URL}/Skins/${selectedTraits['Skins'].replace(
-              /#/g,
-              '%23'
-            )}.png`}
-            alt='skin'
-            width={324}
-            height={324}
-            className='absolute inset-0 rounded-lg justify-self-center'
-          />
-          <NextImage
-            src={`${BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
-              /#/g,
-              '%23'
-            )}.png`}
-            alt='skin'
-            width={324}
-            height={324}
-            className='absolute inset-0 rounded-lg justify-self-center'
-          />
-          <NextImage
-            src={`${BASE_URL}/Head/${selectedTraits['Head'].replace(
-              /#/g,
-              '%23'
-            )}.png`}
-            alt='eyes'
-            width={324}
-            height={324}
-            className='absolute inset-0 rounded-lg justify-self-center'
-          />
-          <NextImage
-            src={`${BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
-              /#/g,
-              '%23'
-            )}.png`}
-            alt='eyes'
-            width={324}
-            height={324}
-            className='absolute inset-0 rounded-lg justify-self-center'
-          />
+          <div className='relative w-80 h-80'>
+            {' '}
+            {/* fixed size for the relative container */}
+            <NextImage
+              src={`${BASE_URL}/Background/${selectedTraits[
+                'Background'
+              ].replace(/#/g, '%23')}.png`}
+              alt={`background-${selectedTraits['Background'].replace(
+                /#/g,
+                '%23'
+              )}`}
+              width={320}
+              height={320}
+              className='absolute inset-0 rounded-lg justify-self-center'
+            />
+            <NextImage
+              src={`${BASE_URL}/Skins/${selectedTraits['Skins'].replace(
+                /#/g,
+                '%23'
+              )}.png`}
+              alt='skin'
+              width={320}
+              height={320}
+              className='absolute inset-0 rounded-lg justify-self-center'
+            />
+            <NextImage
+              src={`${BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
+                /#/g,
+                '%23'
+              )}.png`}
+              alt='skin'
+              width={320}
+              height={320}
+              className='absolute inset-0 rounded-lg justify-self-center'
+            />
+            <NextImage
+              src={`${BASE_URL}/Head/${selectedTraits['Head'].replace(
+                /#/g,
+                '%23'
+              )}.png`}
+              alt='eyes'
+              width={320}
+              height={320}
+              className='absolute inset-0 rounded-lg justify-self-center'
+            />
+            <NextImage
+              src={`${BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
+                /#/g,
+                '%23'
+              )}.png`}
+              alt='eyes'
+              width={320}
+              height={320}
+              className='absolute inset-0 rounded-lg justify-self-center'
+            />
+          </div>
         </div>
         <Button onClick={handleDownload} className='mt-3'>
           Download
