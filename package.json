@@ -18,7 +18,8 @@
     "next": "14.2.3",
     "ramda": "^0.30.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "thirdweb": "^5.23.0"
   },
   "devDependencies": {
     "@types/node": "^20",
