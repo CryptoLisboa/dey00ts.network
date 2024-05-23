@@ -17,6 +17,8 @@ const getValueForTraitAndSubTrait = (
   selectedSubTrait: any
 ) => path([selectedTrait, selectedSubTrait], YOOTSMAPPER)
 
+const BASE_URL = 'https://bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link'
+
 export const YootsBuilder = () => {
   const traits = keys(YOOTSMAPPER)
 
@@ -117,7 +119,7 @@ export const YootsBuilder = () => {
         <Image
           className='border-1 border-gray-400'
           as={NextImage}
-          src={`/temporary-yoots/${getValueForTraitAndSubTrait(
+          src={`${BASE_URL}/${getValueForTraitAndSubTrait(
             selectedTrait,
             selectedSubTrait
           )}`}
@@ -156,7 +158,7 @@ export const YootsBuilder = () => {
       <div className='block mt-3 justify-center'>
         <div className='h-96 grid items-center justify-center w-full relative mt-4'>
           <NextImage
-            src={`/temporary-yoots/Background/${selectedTraits[
+            src={`${BASE_URL}/Background/${selectedTraits[
               'Background'
             ].replace(/#/g, '%23')}.png`}
             alt={`background-${selectedTraits['Background'].replace(
@@ -168,7 +170,7 @@ export const YootsBuilder = () => {
             className='absolute inset-0 rounded-lg justify-self-center'
           />
           <NextImage
-            src={`/temporary-yoots/Skins/${selectedTraits['Skins'].replace(
+            src={`${BASE_URL}/Skins/${selectedTraits['Skins'].replace(
               /#/g,
               '%23'
             )}.png`}
@@ -178,7 +180,7 @@ export const YootsBuilder = () => {
             className='absolute inset-0 rounded-lg justify-self-center'
           />
           <NextImage
-            src={`/temporary-yoots/Clothes/${selectedTraits['Clothes'].replace(
+            src={`${BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
               /#/g,
               '%23'
             )}.png`}
@@ -188,7 +190,7 @@ export const YootsBuilder = () => {
             className='absolute inset-0 rounded-lg justify-self-center'
           />
           <NextImage
-            src={`/temporary-yoots/Head/${selectedTraits['Head'].replace(
+            src={`${BASE_URL}/Head/${selectedTraits['Head'].replace(
               /#/g,
               '%23'
             )}.png`}
@@ -198,7 +200,7 @@ export const YootsBuilder = () => {
             className='absolute inset-0 rounded-lg justify-self-center'
           />
           <NextImage
-            src={`/temporary-yoots/Eyes/${selectedTraits['Eyes'].replace(
+            src={`${BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
               /#/g,
               '%23'
             )}.png`}
