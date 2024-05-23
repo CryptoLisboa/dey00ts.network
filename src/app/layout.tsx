@@ -34,7 +34,7 @@ export default function RootLayout({
     <html lang="en" className={`dark ${rowdies.variable} ${lucky.variable}`}>
       <Providers>
         <body className={inter.className}>
-          <Navbar />
+          {/* <Navbar /> */}
           {children}
         </body>
       </Providers>

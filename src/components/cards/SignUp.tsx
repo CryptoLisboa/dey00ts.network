@@ -1,29 +1,35 @@
-import { Button, Link } from "@nextui-org/react";
+import { Button, Link } from '@nextui-org/react'
 
 export default function SignUpCard({
-    children,
-    onClickNext,
+  children,
+  onClickNext,
+  nextHref,
 }: {
-    children?: React.ReactNode;
-    onClickNext?: () => void;
+  children?: React.ReactNode
+  onClickNext?: () => void
+  nextHref?: string
 }) {
-    return (
-        <div className="h-full grid grid-rows-12 justify-between px-10 pb-52 pt-52">
-            {/* top card area */}
-            <div className="row-span-10">{children}</div>
-            {/* bottom card area */}
-            <div className="row-span-2 grid gap-y-5 lg:gap-y-8 justify-center">
-                <Button
-                    className="bg-black w-full text-white text-sm md:text-3xl"
-                    variant="shadow"
-                    onClick={onClickNext}
-                >
-                    Next
-                </Button>
-                <Link href="#" className="text-white text-center text-sm md:text-3xl" underline="hover">
-                    already part of Dey00ts Network? log in instead
-                </Link>
-            </div>
-        </div>
-    );
+  return (
+    <div className='grid grid-rows-12 md:h-5/6 px-5 md:px-10 pt-12 content-center justify-center'>
+      <div className='row-span-9'>{children}</div>
+      <div className='row-span-3 self-center grid gap-y-2 lg:gap-y-8 justify-center'>
+        <Button
+          className='bg-black w-full text-white text-sm md:text-3xl shadow-lg shadow-white'
+          variant='shadow'
+          onClick={onClickNext}
+          as={Link}
+          href={nextHref}
+        >
+          Next
+        </Button>
+        <Link
+          href='#'
+          className='text-white text-center md:text-base text-sm'
+          underline='hover'
+        >
+          already part of Dey00ts Network? log in instead
+        </Link>
+      </div>
+    </div>
+  )
 }
