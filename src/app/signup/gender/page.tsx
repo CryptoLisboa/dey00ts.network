@@ -40,7 +40,7 @@ export default function GenderSignUp() {
               label=''
               classNames={{
                 base: 'w-full',
-                wrapper: 'grid grid-cols-1 gap-y-5',
+                wrapper: 'grid grid-cols-1 gap-y-5 px-10',
               }}
             >
               <Radio color='primary' value='male'>

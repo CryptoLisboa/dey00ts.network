@@ -10,7 +10,7 @@ export default function SignUpCard({
   nextHref?: string
 }) {
   return (
-    <div className='grid grid-rows-12 md:h-5/6 px-5 md:px-10 pt-12 content-center justify-center'>
+    <div className='grid grid-rows-12 gap-y-10 md:h-5/6 px-5 md:px-10 pt-12 content-center justify-center'>
       <div className='row-span-9'>{children}</div>
       <div className='row-span-3 self-center grid gap-y-2 lg:gap-y-8 justify-center'>
         <Button

@@ -1,9 +1,24 @@
+'use client'
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import { Button, Progress } from '@nextui-org/react'
+import { color } from 'framer-motion'
+import { useState } from 'react'
+
+const INTERESTS = [
+  { name: 'Alpha Caller', color: '#BD8BFF' },
+  { name: 'Collab Manager', color: '#06F0FF' },
+  { name: 'Community Builder', color: '#FF6B6B' },
+  { name: 'Sol Dev', color: '#FFC9DF' },
+  { name: 'Content Creator', color: '#1BCEA3' },
+  { name: 'EVM Dev', color: '#FFFF75' },
+  { name: 'Full Stack', color: '#FFA500' },
+  { name: 'Space Host', color: '#3792FF' },
+]
 
 export default function Interests() {
+  const [interestsSelected, setInterestsSelected] = useState<String[]>([])
   return (
     <main className='dark h-screen overflow-hidden' id='interests'>
       <BackButton />
@@ -32,55 +47,29 @@ export default function Interests() {
               La Creme of Y00ts & DeGods community!
             </p>
             <div className='flex flex-wrap justify-center gap-4 w-full'>
-              <Button
-                className='p-2 text-lg text-[#BD8BFF] border-[#BD8BFF]'
-                variant='bordered'
-              >
-                Alpha Caller
-              </Button>
-              <Button
-                className='p-2 text-lg text-[#06F0FF] border-[#06F0FF]'
-                variant='bordered'
-              >
-                Collab Manager
-              </Button>
-              <Button
-                className='p-2 text-lg text-[#FF6B6B] border-[#FF6B6B]'
-                variant='bordered'
-              >
-                Community Builder
-              </Button>
-              <Button
-                className='p-2 text-lg text-[#FFC9DF] border-[#FFC9DF] opacity-50'
-                variant='bordered'
-              >
-                Sol Dev
-              </Button>
-              <Button
-                className='p-2 text-lg text-[#1BCEA3] border-[#1BCEA3] opacity-50'
-                variant='bordered'
-              >
-                Content Creator
-              </Button>
-              <Button
-                className='p-2 text-lg text-[#FFFF75] border-[#FFFF75] opacity-50'
-                variant='bordered'
-              >
-                EVM Dev
-              </Button>
-              <Button
-                className='p-2 text-lg text-[#FFA500] border-[#FFA500]'
-                variant='bordered'
-              >
-                Full Stack
-              </Button>
-
-              <Button
-                className='p-2 text-lg text-[#3792FF] border-[#3792FF]'
-                variant='bordered'
-              >
-                Space Host
-              </Button>
+              {INTERESTS.map(({ name, color }) => (
+                <Button
+                  key={name}
+                  className='p-2 text-lg'
+                  variant='bordered'
+                  style={{
+                    color,
+                    borderColor: color,
+                    opacity: interestsSelected.includes(name) ? 1 : 0.66,
+                  }}
+                  onClick={() => {
+                    if (interestsSelected.includes(name)) {
+                      setInterestsSelected(
+                        interestsSelected.filter((i) => i !== name)
+                      )
+                    } else {
+                      setInterestsSelected([...interestsSelected, name])
+                    }
+                  }}
+                >
+                  {name}
+                </Button>
+              ))}
             </div>
           </div>
         </SignUpCard>
