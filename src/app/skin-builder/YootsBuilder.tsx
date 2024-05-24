@@ -30,12 +30,6 @@ export const YootsBuilder = () => {
     }, {})
   })
 
-  console.log({
-    selectedTraits,
-    a: selectedTraits[0],
-    test: selectedTraits['Background'],
-  })
-
   const [selectedTrait, setSelectedTrait] = useState(traits[0])
   const [selectedSubTrait, setSelectedSubTrait] = useState<Key>(
     keys(YOOTSMAPPER[selectedTrait])[0]
@@ -53,7 +47,7 @@ export const YootsBuilder = () => {
   }
   const handleLeftClick = () => {
     const currentSubTraits = keys(YOOTSMAPPER[selectedTrait])
-    const currentIndex = currentSubTraits.indexOf(selectedSubTrait)
+    const currentIndex = currentSubTraits.indexOf(selectedSubTrait as never)
     const nextIndex = currentIndex - 1
     if (nextIndex >= 0) {
       setSelectedSubTrait(currentSubTraits[nextIndex])
@@ -72,7 +66,7 @@ export const YootsBuilder = () => {
 
   const handleRightClick = () => {
     const currentSubTraits = keys(YOOTSMAPPER[selectedTrait])
-    const currentIndex = currentSubTraits.indexOf(selectedSubTrait)
+    const currentIndex = currentSubTraits.indexOf(selectedSubTrait as never)
     const nextIndex = currentIndex + 1
     if (nextIndex < currentSubTraits.length) {
       setSelectedSubTrait(currentSubTraits[nextIndex])
@@ -156,13 +150,6 @@ export const YootsBuilder = () => {
                 key as 'Background' | 'Clothes' | 'Eyes' | 'Head' | 'Skins'
               )
               setSelectedSubTrait(
-                keys(
-                  YOOTSMAPPER[
-                    key as 'Background' | 'Clothes' | 'Eyes' | 'Head' | 'Skins'
-                  ]
-                )[0]
-              )
-              console.log(
                 keys(
                   YOOTSMAPPER[
                     key as 'Background' | 'Clothes' | 'Eyes' | 'Head' | 'Skins'
