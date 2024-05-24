@@ -261,6 +261,18 @@ export const DegodsBuilder = ({ gridView }) => {
                   className='absolute inset-0 rounded-lg justify-self-center'
                 />
                 <NextImage
+                  src={`${BASE_URL['Specialty']}/${
+                    selectedTraits['Specialty'].key
+                  }/${selectedTraits['Specialty'].value.replace(
+                    /#/g,
+                    '%23'
+                  )}.png`}
+                  alt={`${selectedSubTraitValue}`}
+                  width={320}
+                  height={320}
+                  className='absolute inset-0 rounded-lg justify-self-center'
+                />
+                <NextImage
                   src={`${BASE_URL['Skins']}/${
                     selectedTraits['Skins'].key
                   }/${selectedTraits['Skins'].value.replace(/#/g, '%23')}.png`}
@@ -300,18 +312,6 @@ export const DegodsBuilder = ({ gridView }) => {
                   src={`${BASE_URL['Neck']}/${
                     selectedTraits['Neck'].key
                   }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
-                  alt={`${selectedSubTraitValue}`}
-                  width={320}
-                  height={320}
-                  className='absolute inset-0 rounded-lg justify-self-center'
-                />
-                <NextImage
-                  src={`${BASE_URL['Specialty']}/${
-                    selectedTraits['Specialty'].key
-                  }/${selectedTraits['Specialty'].value.replace(
-                    /#/g,
-                    '%23'
-                  )}.png`}
                   alt={`${selectedSubTraitValue}`}
                   width={320}
                   height={320}
