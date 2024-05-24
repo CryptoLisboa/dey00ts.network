@@ -24,6 +24,8 @@ const getValueForTraitAndSubTrait = (
   path([selectedTrait, selectedSubTrait, selectedSubTraitValue], DEGODSMAPPER)
 
 export const DegodsBuilder = ({ gridView }) => {
+  const [animationParent] = useAutoAnimate()
+
   const traits = keys(DEGODSMAPPER)
   const [selectedTrait, setSelectedTrait] = useState(traits[0])
   const [selectedSubTrait, setSelectedSubTrait] = useState<string | number>(
@@ -166,6 +168,16 @@ export const DegodsBuilder = ({ gridView }) => {
     debugger
     setTraitModal(trait)
   }
+  const traitOrder = [
+    'Backgrounds',
+    'Specialty',
+    'Skins',
+    'Clothes',
+    'Head',
+    'Eyes',
+    'Mouth',
+    'Neck',
+  ]
   return (
     <>
       {gridView && (
@@ -218,94 +230,27 @@ export const DegodsBuilder = ({ gridView }) => {
                 onRightClick={() => navigateSpecialty('right', 'Backgrounds')}
               />
               <div className='grid items-center justify-center relative mt-4'>
-                <div className='relative w-60 h-60'>
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Backgrounds']}/${
-                      selectedTraits['Backgrounds'].key
-                    }/${selectedTraits['Backgrounds'].value.replace(
-                      /#/g,
-                      '%23'
-                    )}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={240}
-                    height={240}
-                    className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Specialty']}/${
-                      selectedTraits['Specialty'].key
-                    }/${selectedTraits['Specialty'].value.replace(
-                      /#/g,
-                      '%23'
-                    )}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={240}
-                    height={240}
-                    className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Clothes']}/${
-                      selectedTraits['Clothes'].key
-                    }/${selectedTraits['Clothes'].value.replace(
-                      /#/g,
-                      '%23'
-                    )}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={240}
-                    height={240}
-                    className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Skins']}/${
-                      selectedTraits['Skins'].key
-                    }/${selectedTraits['Skins'].value.replace(
-                      /#/g,
-                      '%23'
-                    )}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={240}
-                    height={240}
-                    className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Head']}/${
-                      selectedTraits['Head'].key
-                    }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={240}
-                    height={240}
-                    className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Eyes']}/${
-                      selectedTraits['Eyes'].key
-                    }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={240}
-                    height={240}
-                    className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Mouth']}/${
-                      selectedTraits['Mouth'].key
-                    }/${selectedTraits['Mouth'].value.replace(
-                      /#/g,
-                      '%23'
-                    )}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={240}
-                    height={240}
-                    className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Neck']}/${
-                      selectedTraits['Neck'].key
-                    }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={240}
-                    height={240}
-                    className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
-                  />
+                <div className='relative w-60 h-60' ref={animationParent}>
+                  {traitOrder.map((trait) => (
+                    <NextImage
+                      key={`${DEGODS_BASE_URL[trait]}/${
+                        selectedTraits[trait].key
+                      }/${selectedTraits[trait].value.replace(
+                        /#/g,
+                        '%23'
+                      )}.png`}
+                      src={`${DEGODS_BASE_URL[trait]}/${
+                        selectedTraits[trait].key
+                      }/${selectedTraits[trait].value.replace(
+                        /#/g,
+                        '%23'
+                      )}.png`}
+                      alt={selectedTraits[trait].value}
+                      width={240}
+                      height={240}
+                      className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
+                    />
+                  ))}
                 </div>
               </div>
               <DisplaySingleTrait
@@ -498,84 +443,22 @@ export const DegodsBuilder = ({ gridView }) => {
             </div>
             <div className='block mt-3 justify-center'>
               <div className='h-96 grid items-center justify-center w-full relative mt-4'>
-                <div className='relative w-80 h-80'>
-                  {' '}
-                  {/* fixed size for the relative container */}
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Backgrounds']}/${
-                      selectedTraits['Backgrounds'].key
-                    }/${selectedTraits['Backgrounds'].value.replace(
-                      /#/g,
-                      '%23'
-                    )}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={320}
-                    height={320}
-                    className='absolute inset-0 rounded-lg justify-self-center'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Skins']}/${
-                      selectedTraits['Skins'].key
-                    }/${selectedTraits['Skins'].value.replace(
-                      /#/g,
-                      '%23'
-                    )}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={320}
-                    height={320}
-                    className='absolute inset-0 rounded-lg justify-self-center'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Neck']}/${
-                      selectedTraits['Neck'].key
-                    }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={320}
-                    height={320}
-                    className='absolute inset-0 rounded-lg justify-self-center'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Head']}/${
-                      selectedTraits['Head'].key
-                    }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={320}
-                    height={320}
-                    className='absolute inset-0 rounded-lg justify-self-center'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Mouth']}/${
-                      selectedTraits['Mouth'].key
-                    }/${selectedTraits['Mouth'].value.replace(
-                      /#/g,
-                      '%23'
-                    )}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={320}
-                    height={320}
-                    className='absolute inset-0 rounded-lg justify-self-center'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Eyes']}/${
-                      selectedTraits['Eyes'].key
-                    }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={320}
-                    height={320}
-                    className='absolute inset-0 rounded-lg justify-self-center'
-                  />
-                  <NextImage
-                    src={`${DEGODS_BASE_URL['Specialty']}/${
-                      selectedTraits['Specialty'].key
-                    }/${selectedTraits['Specialty'].value.replace(
-                      /#/g,
-                      '%23'
-                    )}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={320}
-                    height={320}
-                    className='absolute inset-0 rounded-lg justify-self-center'
-                  />
+                <div className='relative w-80 h-80' ref={animationParent}>
+                  {traitOrder.map((trait) => (
+                    <NextImage
+                      key={trait}
+                      src={`${DEGODS_BASE_URL[trait]}/${
+                        selectedTraits[trait].key
+                      }/${selectedTraits[trait].value.replace(
+                        /#/g,
+                        '%23'
+                      )}.png`}
+                      alt={selectedTraits[trait].value}
+                      width={320}
+                      height={320}
+                      className='absolute inset-0 rounded-lg justify-self-center max-w-[320px]'
+                    />
+                  ))}
                 </div>
               </div>
             </div>
