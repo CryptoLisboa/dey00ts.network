@@ -3,12 +3,8 @@ import { Button, ButtonGroup, Tab, Tabs } from '@nextui-org/react'
 import { DegodsBuilder } from './DegodsBuilder'
 import { YootsBuilder } from './YootsBuilder'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { YOOTSMAPPER } from '@/constants/yootsMapper'
 import { Suspense, useState } from 'react'
-import Link from 'next/link'
 import { motion } from 'framer-motion'
-
-// Remove the duplicate declaration of getTopLevelKeys and import it correctly from "ramda"
 
 function SkinBuilderComponent() {
   const router = useRouter()
@@ -30,7 +26,7 @@ function SkinBuilderComponent() {
 
   return (
     <main className='pt-4'>
-      <div className='flex flex-row w-full mb-4'>
+      <div className='flex flex-col md:flex-row gap-y-6 md:gap-y-0 w-full mb-4'>
         <div className='flex flex-1 justify-center items-center'>
           <Tabs
             aria-label='Options'
@@ -67,12 +63,12 @@ function SkinBuilderComponent() {
             )}
           </motion.h1>
           <h2 className='font-rowdies text-sm text-center'>
-            This is a tool that allows you to customize the appearance of DeGods
-            and Y00ts
+            This is a tool that allows you to customize the appearance of <br />
+            DeGods and Y00ts
           </h2>
         </div>
         <div className='flex flex-1 justify-center'>
-          <ButtonGroup className='my-3 gap-3'>
+          <ButtonGroup className='my-3'>
             <Button onClick={() => setGridView(true)}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -108,7 +104,7 @@ function SkinBuilderComponent() {
           </ButtonGroup>
         </div>
       </div>
-      <div className='container mx-auto p-4 md:pt-8 text-center'>
+      <div className='container mx-auto p-4 pb-0 md:pt-8 text-center'>
         {selectedTab === 'DeGods' && <DegodsBuilder gridView={gridView} />}
 
         {selectedTab === 'Y00ts' && <YootsBuilder />}

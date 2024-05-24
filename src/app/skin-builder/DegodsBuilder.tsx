@@ -184,32 +184,9 @@ export const DegodsBuilder = ({ gridView }) => {
     <>
       {gridView && (
         <div className='flex gap-y-3 flex-col'>
-          <div className='flex'>
+          <div className='flex flex-col md:flex-row justify-around'>
             <DisplaySingleTrait
-              trait='Skins'
-              src={`${BASE_URL['Skins']}/${
-                selectedTraits['Skins'].key
-              }/${selectedTraits['Skins'].value.replace(/#/g, '%23')}.png`}
-              onLeftClick={() => navigateSpecialty('left', 'Skins')}
-              onRightClick={() => navigateSpecialty('right', 'Skins')}
-            />
-            <DisplaySingleTrait
-              trait='Head'
-              src={`${BASE_URL['Head']}/${
-                selectedTraits['Head'].key
-              }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
-              onLeftClick={() => navigateSpecialty('left', 'Head')}
-              onRightClick={() => navigateSpecialty('right', 'Head')}
-            />
-            <DisplaySingleTrait
-              trait='Mouth'
-              src={`${BASE_URL['Mouth']}/${
-                selectedTraits['Mouth'].key
-              }/${selectedTraits['Mouth'].value.replace(/#/g, '%23')}.png`}
-              onLeftClick={() => navigateSpecialty('left', 'Mouth')}
-              onRightClick={() => navigateSpecialty('right', 'Mouth')}
-            />
-            <DisplaySingleTrait
+              size={140}
               trait='Clothes'
               src={`${BASE_URL['Clothes']}/${
                 selectedTraits['Clothes'].key
@@ -218,6 +195,7 @@ export const DegodsBuilder = ({ gridView }) => {
               onRightClick={() => navigateSpecialty('right', 'Clothes')}
             />
             <DisplaySingleTrait
+              size={140}
               trait='Neck'
               src={`${BASE_URL['Neck']}/${
                 selectedTraits['Neck'].key
@@ -226,6 +204,7 @@ export const DegodsBuilder = ({ gridView }) => {
               onRightClick={() => navigateSpecialty('right', 'Neck')}
             />
             <DisplaySingleTrait
+              size={140}
               trait='Eyes'
               src={`${BASE_URL['Eyes']}/${
                 selectedTraits['Eyes'].key
@@ -234,8 +213,9 @@ export const DegodsBuilder = ({ gridView }) => {
               onRightClick={() => navigateSpecialty('right', 'Eyes')}
             />
           </div>
-          <div className='flex justify-around gap-3'>
+          <div className='flex flex-col md:flex-row justify-around gap-3'>
             <DisplaySingleTrait
+              size={140}
               trait='Backgrounds'
               src={`${BASE_URL['Backgrounds']}/${
                 selectedTraits['Backgrounds'].key
@@ -273,6 +253,18 @@ export const DegodsBuilder = ({ gridView }) => {
                   className='absolute inset-0 rounded-lg justify-self-center'
                 />
                 <NextImage
+                  src={`${BASE_URL['Clothes']}/${
+                    selectedTraits['Clothes'].key
+                  }/${selectedTraits['Clothes'].value.replace(
+                    /#/g,
+                    '%23'
+                  )}.png`}
+                  alt={`${selectedSubTraitValue}`}
+                  width={320}
+                  height={320}
+                  className='absolute inset-0 rounded-lg justify-self-center'
+                />
+                <NextImage
                   src={`${BASE_URL['Skins']}/${
                     selectedTraits['Skins'].key
                   }/${selectedTraits['Skins'].value.replace(/#/g, '%23')}.png`}
@@ -291,18 +283,18 @@ export const DegodsBuilder = ({ gridView }) => {
                   className='absolute inset-0 rounded-lg justify-self-center'
                 />
                 <NextImage
-                  src={`${BASE_URL['Mouth']}/${
-                    selectedTraits['Mouth'].key
-                  }/${selectedTraits['Mouth'].value.replace(/#/g, '%23')}.png`}
+                  src={`${BASE_URL['Eyes']}/${
+                    selectedTraits['Eyes'].key
+                  }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
                   alt={`${selectedSubTraitValue}`}
                   width={320}
                   height={320}
                   className='absolute inset-0 rounded-lg justify-self-center'
                 />
                 <NextImage
-                  src={`${BASE_URL['Eyes']}/${
-                    selectedTraits['Eyes'].key
-                  }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
+                  src={`${BASE_URL['Mouth']}/${
+                    selectedTraits['Mouth'].key
+                  }/${selectedTraits['Mouth'].value.replace(/#/g, '%23')}.png`}
                   alt={`${selectedSubTraitValue}`}
                   width={320}
                   height={320}
@@ -320,12 +312,42 @@ export const DegodsBuilder = ({ gridView }) => {
               </div>
             </div>
             <DisplaySingleTrait
+              size={140}
               trait='Specialty'
               src={`${BASE_URL['Specialty']}/${
                 selectedTraits['Specialty'].key
               }/${selectedTraits['Specialty'].value.replace(/#/g, '%23')}.png`}
               onLeftClick={() => navigateSpecialty('left', 'Specialty')}
               onRightClick={() => navigateSpecialty('right', 'Specialty')}
+            />
+          </div>
+          <div className='flex flex-col md:flex-row justify-around gap-3'>
+            <DisplaySingleTrait
+              size={140}
+              trait='Skins'
+              src={`${BASE_URL['Skins']}/${
+                selectedTraits['Skins'].key
+              }/${selectedTraits['Skins'].value.replace(/#/g, '%23')}.png`}
+              onLeftClick={() => navigateSpecialty('left', 'Skins')}
+              onRightClick={() => navigateSpecialty('right', 'Skins')}
+            />
+            <DisplaySingleTrait
+              size={140}
+              trait='Head'
+              src={`${BASE_URL['Head']}/${
+                selectedTraits['Head'].key
+              }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
+              onLeftClick={() => navigateSpecialty('left', 'Head')}
+              onRightClick={() => navigateSpecialty('right', 'Head')}
+            />
+            <DisplaySingleTrait
+              size={140}
+              trait='Mouth'
+              src={`${BASE_URL['Mouth']}/${
+                selectedTraits['Mouth'].key
+              }/${selectedTraits['Mouth'].value.replace(/#/g, '%23')}.png`}
+              onLeftClick={() => navigateSpecialty('left', 'Mouth')}
+              onRightClick={() => navigateSpecialty('right', 'Mouth')}
             />
           </div>
         </div>
@@ -494,6 +516,15 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center'
                   />
                   <NextImage
+                    src={`${BASE_URL['Neck']}/${
+                      selectedTraits['Neck'].key
+                    }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
+                    alt={`${selectedSubTraitValue}`}
+                    width={320}
+                    height={320}
+                    className='absolute inset-0 rounded-lg justify-self-center'
+                  />
+                  <NextImage
                     src={`${BASE_URL['Head']}/${
                       selectedTraits['Head'].key
                     }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
@@ -518,15 +549,6 @@ export const DegodsBuilder = ({ gridView }) => {
                     src={`${BASE_URL['Eyes']}/${
                       selectedTraits['Eyes'].key
                     }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
-                    alt={`${selectedSubTraitValue}`}
-                    width={320}
-                    height={320}
-                    className='absolute inset-0 rounded-lg justify-self-center'
-                  />
-                  <NextImage
-                    src={`${BASE_URL['Neck']}/${
-                      selectedTraits['Neck'].key
-                    }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
                     alt={`${selectedSubTraitValue}`}
                     width={320}
                     height={320}
