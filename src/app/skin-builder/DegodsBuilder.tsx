@@ -134,17 +134,13 @@ export const DegodsBuilder = ({ gridView }) => {
 
   const renderedTraitImage = `${a}/${b}`
 
-  const navigateSpecialty = (direction) => {
-    const subTraits = DEGODSMAPPER['Specialty'] // Get all specialty sub-traits
+  const navigateSpecialty = (direction, trait) => {
+    const subTraits = DEGODSMAPPER[trait] // Get all specialty sub-traits
     const subTraitKeys = keys(subTraits) // Get the keys for the sub-traits
-    const currentKeyIndex = subTraitKeys.indexOf(
-      selectedTraits['Specialty'].key
-    ) // Find the index of the current sub-trait
-    const currentSubTraitValues = keys(
-      subTraits[selectedTraits['Specialty'].key]
-    ) // Get all image keys for the current sub-trait
+    const currentKeyIndex = subTraitKeys.indexOf(selectedTraits[trait].key) // Find the index of the current sub-trait
+    const currentSubTraitValues = keys(subTraits[selectedTraits[trait].key]) // Get all image keys for the current sub-trait
     const currentValueIndex = currentSubTraitValues.indexOf(
-      selectedTraits['Specialty'].value
+      selectedTraits[trait].value
     ) // Get the index of the current value
 
     let newSubTraitIndex, newValueIndex
@@ -178,7 +174,7 @@ export const DegodsBuilder = ({ gridView }) => {
     ]
     setSelectedTraits((prev) => ({
       ...prev,
-      Specialty: {
+      [trait]: {
         value: helperValue,
         key: subTraitKeys[newSubTraitIndex],
       },
@@ -194,48 +190,48 @@ export const DegodsBuilder = ({ gridView }) => {
               src={`${BASE_URL['Skins']}/${
                 selectedTraits['Skins'].key
               }/${selectedTraits['Skins'].value.replace(/#/g, '%23')}.png`}
-              onLeftClick={handleLeftClick}
-              onRightClick={handleRightClick}
+              onLeftClick={() => navigateSpecialty('left', 'Skins')}
+              onRightClick={() => navigateSpecialty('right', 'Skins')}
             />
             <DisplaySingleTrait
               trait='Head'
               src={`${BASE_URL['Head']}/${
                 selectedTraits['Head'].key
               }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
-              onLeftClick={handleLeftClick}
-              onRightClick={handleRightClick}
+              onLeftClick={() => navigateSpecialty('left', 'Head')}
+              onRightClick={() => navigateSpecialty('right', 'Head')}
             />
             <DisplaySingleTrait
               trait='Mouth'
               src={`${BASE_URL['Mouth']}/${
                 selectedTraits['Mouth'].key
               }/${selectedTraits['Mouth'].value.replace(/#/g, '%23')}.png`}
-              onLeftClick={handleLeftClick}
-              onRightClick={handleRightClick}
+              onLeftClick={() => navigateSpecialty('left', 'Mouth')}
+              onRightClick={() => navigateSpecialty('right', 'Mouth')}
             />
             <DisplaySingleTrait
               trait='Clothes'
               src={`${BASE_URL['Clothes']}/${
                 selectedTraits['Clothes'].key
               }/${selectedTraits['Clothes'].value.replace(/#/g, '%23')}.png`}
-              onLeftClick={handleLeftClick}
-              onRightClick={handleRightClick}
+              onLeftClick={() => navigateSpecialty('left', 'Clothes')}
+              onRightClick={() => navigateSpecialty('right', 'Clothes')}
             />
             <DisplaySingleTrait
               trait='Neck'
               src={`${BASE_URL['Neck']}/${
                 selectedTraits['Neck'].key
               }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
-              onLeftClick={handleLeftClick}
-              onRightClick={handleRightClick}
+              onLeftClick={() => navigateSpecialty('left', 'Neck')}
+              onRightClick={() => navigateSpecialty('right', 'Neck')}
             />
             <DisplaySingleTrait
               trait='Eyes'
               src={`${BASE_URL['Eyes']}/${
                 selectedTraits['Eyes'].key
               }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
-              onLeftClick={handleLeftClick}
-              onRightClick={handleRightClick}
+              onLeftClick={() => navigateSpecialty('left', 'Eyes')}
+              onRightClick={() => navigateSpecialty('right', 'Eyes')}
             />
           </div>
           <div className='flex justify-around gap-3'>
@@ -247,8 +243,8 @@ export const DegodsBuilder = ({ gridView }) => {
                 /#/g,
                 '%23'
               )}.png`}
-              onLeftClick={handleLeftClick}
-              onRightClick={handleRightClick}
+              onLeftClick={() => navigateSpecialty('left', 'Backgrounds')}
+              onRightClick={() => navigateSpecialty('right', 'Backgrounds')}
             />
             <div className='grid items-center justify-center relative mt-4'>
               <div className='relative w-80 h-80'>
@@ -328,8 +324,8 @@ export const DegodsBuilder = ({ gridView }) => {
               src={`${BASE_URL['Specialty']}/${
                 selectedTraits['Specialty'].key
               }/${selectedTraits['Specialty'].value.replace(/#/g, '%23')}.png`}
-              onLeftClick={() => navigateSpecialty('left')}
-              onRightClick={() => navigateSpecialty('right')}
+              onLeftClick={() => navigateSpecialty('left', 'Specialty')}
+              onRightClick={() => navigateSpecialty('right', 'Specialty')}
             />
           </div>
         </div>
