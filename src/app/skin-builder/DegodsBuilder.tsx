@@ -100,7 +100,6 @@ export const DegodsBuilder = ({ gridView }) => {
 
   const handleRightClick = () => {
     const currentSubTraits = keys(DEGODSMAPPER[selectedTrait][selectedSubTrait])
-    debugger
     const currentIndex = currentSubTraits.indexOf(
       selectedSubTraitValue as never
     )
@@ -135,64 +134,55 @@ export const DegodsBuilder = ({ gridView }) => {
 
   const renderedTraitImage = `${a}/${b}`
 
-  const handleSpecialtyLeftClick = () => {
-    const currentSubTraits = keys(DEGODSMAPPER['Specialty'])
-    const currentKey = selectedTraits['Specialty'].key
-    const currentIndex = currentSubTraits.indexOf(currentKey)
-    const newIndex = currentIndex - 1
+  const navigateSpecialty = (direction) => {
+    const subTraits = DEGODSMAPPER['Specialty'] // Get all specialty sub-traits
+    const subTraitKeys = keys(subTraits) // Get the keys for the sub-traits
+    const currentKeyIndex = subTraitKeys.indexOf(
+      selectedTraits['Specialty'].key
+    ) // Find the index of the current sub-trait
+    const currentSubTraitValues = keys(
+      subTraits[selectedTraits['Specialty'].key]
+    ) // Get all image keys for the current sub-trait
+    const currentValueIndex = currentSubTraitValues.indexOf(
+      selectedTraits['Specialty'].value
+    ) // Get the index of the current value
 
-    if (newIndex >= 0) {
-      setSelectedTraits((prev) => ({
-        ...prev,
-        Specialty: {
-          ...prev.Specialty,
-          key: currentSubTraits[newIndex],
-          value: DEGODSMAPPER['Specialty'][currentSubTraits[newIndex]],
-        },
-      }))
-    } else {
-      // Cycle to the last subtrait if out of bounds
-      setSelectedTraits((prev) => ({
-        ...prev,
-        Specialty: {
-          ...prev.Specialty,
-          key: currentSubTraits[currentSubTraits.length - 1],
-          value:
-            DEGODSMAPPER['Specialty'][
-              currentSubTraits[currentSubTraits.length - 1]
-            ],
-        },
-      }))
+    let newSubTraitIndex, newValueIndex
+
+    if (direction === 'right') {
+      if (currentValueIndex < currentSubTraitValues.length - 1) {
+        // If not at the last image, move to the next image
+        newSubTraitIndex = currentKeyIndex
+        newValueIndex = currentValueIndex + 1
+      } else {
+        // If at the last image, move to the first image of the next sub-trait
+        newSubTraitIndex = (currentKeyIndex + 1) % subTraitKeys.length // Loop back if at the end
+        newValueIndex = 0 // Start at the first image of the new sub-trait
+      }
+    } else if (direction === 'left') {
+      if (currentValueIndex > 0) {
+        // If not at the first image, move to the previous image
+        newSubTraitIndex = currentKeyIndex
+        newValueIndex = currentValueIndex - 1
+      } else {
+        // If at the first image, move to the last image of the previous sub-trait
+        newSubTraitIndex =
+          (currentKeyIndex - 1 + subTraitKeys.length) % subTraitKeys.length // Loop back if at the beginning
+        newValueIndex =
+          keys(subTraits[subTraitKeys[newSubTraitIndex]]).length - 1 // Last image of the new sub-trait
+      }
     }
-  }
 
-  const handleSpecialtyRightClick = () => {
-    const currentSubTraits = keys(DEGODSMAPPER['Specialty'])
-
-    const currentKey = selectedTraits['Specialty'].key
-    const currentIndex = currentSubTraits.indexOf(currentKey)
-    const newIndex = currentIndex + 1
-
-    if (newIndex < currentSubTraits.length) {
-      setSelectedTraits((prev) => ({
-        ...prev,
-        Specialty: {
-          ...prev.Specialty,
-          key: currentSubTraits[newIndex],
-          value: DEGODSMAPPER['Specialty'][currentSubTraits[newIndex]],
-        },
-      }))
-    } else {
-      // Cycle back to the first subtrait if out of bounds
-      setSelectedTraits((prev) => ({
-        ...prev,
-        Specialty: {
-          ...prev.Specialty,
-          key: currentSubTraits[0],
-          value: DEGODSMAPPER['Specialty'][currentSubTraits[0]],
-        },
-      }))
-    }
+    const helperValue = keys(subTraits[subTraitKeys[newSubTraitIndex]])[
+      newValueIndex
+    ]
+    setSelectedTraits((prev) => ({
+      ...prev,
+      Specialty: {
+        value: helperValue,
+        key: subTraitKeys[newSubTraitIndex],
+      },
+    }))
   }
   return (
     <>
@@ -338,8 +328,8 @@ export const DegodsBuilder = ({ gridView }) => {
               src={`${BASE_URL['Specialty']}/${
                 selectedTraits['Specialty'].key
               }/${selectedTraits['Specialty'].value.replace(/#/g, '%23')}.png`}
-              onLeftClick={handleSpecialtyLeftClick}
-              onRightClick={handleSpecialtyRightClick}
+              onLeftClick={() => navigateSpecialty('left')}
+              onRightClick={() => navigateSpecialty('right')}
             />
           </div>
         </div>
