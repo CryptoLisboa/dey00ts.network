@@ -227,7 +227,7 @@ export const DegodsBuilder = ({ gridView }) => {
               onRightClick={() => navigateSpecialty('right', 'Backgrounds')}
             />
             <div className='grid items-center justify-center relative mt-4'>
-              <div className='relative w-80 h-80'>
+              <div className='relative w-60 h-60'>
                 <NextImage
                   src={`${BASE_URL['Backgrounds']}/${
                     selectedTraits['Backgrounds'].key
@@ -236,9 +236,9 @@ export const DegodsBuilder = ({ gridView }) => {
                     '%23'
                   )}.png`}
                   alt={`${selectedSubTraitValue}`}
-                  width={320}
-                  height={320}
-                  className='absolute inset-0 rounded-lg justify-self-center'
+                  width={240}
+                  height={240}
+                  className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                 />
                 <NextImage
                   src={`${BASE_URL['Specialty']}/${
@@ -248,9 +248,9 @@ export const DegodsBuilder = ({ gridView }) => {
                     '%23'
                   )}.png`}
                   alt={`${selectedSubTraitValue}`}
-                  width={320}
-                  height={320}
-                  className='absolute inset-0 rounded-lg justify-self-center'
+                  width={240}
+                  height={240}
+                  className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                 />
                 <NextImage
                   src={`${BASE_URL['Clothes']}/${
@@ -260,54 +260,54 @@ export const DegodsBuilder = ({ gridView }) => {
                     '%23'
                   )}.png`}
                   alt={`${selectedSubTraitValue}`}
-                  width={320}
-                  height={320}
-                  className='absolute inset-0 rounded-lg justify-self-center'
+                  width={240}
+                  height={240}
+                  className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                 />
                 <NextImage
                   src={`${BASE_URL['Skins']}/${
                     selectedTraits['Skins'].key
                   }/${selectedTraits['Skins'].value.replace(/#/g, '%23')}.png`}
                   alt={`${selectedSubTraitValue}`}
-                  width={320}
-                  height={320}
-                  className='absolute inset-0 rounded-lg justify-self-center'
+                  width={240}
+                  height={240}
+                  className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                 />
                 <NextImage
                   src={`${BASE_URL['Head']}/${
                     selectedTraits['Head'].key
                   }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
                   alt={`${selectedSubTraitValue}`}
-                  width={320}
-                  height={320}
-                  className='absolute inset-0 rounded-lg justify-self-center'
+                  width={240}
+                  height={240}
+                  className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                 />
                 <NextImage
                   src={`${BASE_URL['Eyes']}/${
                     selectedTraits['Eyes'].key
                   }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
                   alt={`${selectedSubTraitValue}`}
-                  width={320}
-                  height={320}
-                  className='absolute inset-0 rounded-lg justify-self-center'
+                  width={240}
+                  height={240}
+                  className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                 />
                 <NextImage
                   src={`${BASE_URL['Mouth']}/${
                     selectedTraits['Mouth'].key
                   }/${selectedTraits['Mouth'].value.replace(/#/g, '%23')}.png`}
                   alt={`${selectedSubTraitValue}`}
-                  width={320}
-                  height={320}
-                  className='absolute inset-0 rounded-lg justify-self-center'
+                  width={240}
+                  height={240}
+                  className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                 />
                 <NextImage
                   src={`${BASE_URL['Neck']}/${
                     selectedTraits['Neck'].key
                   }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
                   alt={`${selectedSubTraitValue}`}
-                  width={320}
-                  height={320}
-                  className='absolute inset-0 rounded-lg justify-self-center'
+                  width={240}
+                  height={240}
+                  className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                 />
               </div>
             </div>

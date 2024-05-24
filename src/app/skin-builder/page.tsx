@@ -5,6 +5,7 @@ import { YootsBuilder } from './YootsBuilder'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useState } from 'react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 function SkinBuilderComponent() {
   const router = useRouter()
@@ -42,26 +43,28 @@ function SkinBuilderComponent() {
         </div>
 
         <div className='flex flex-col flex-1 justify-center'>
-          <motion.h1
-            whileHover={{ scale: 1.1 }}
-            className='font-rowdies text-2xl md:text-4xl text-center cursor-progress'
-          >
-            {['S', 'k', 'i', 'n', ' ', 'B', 'u', 'i', 'l', 'd', 'e', 'r'].map(
-              (el, i) => (
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{
-                    duration: 0.2,
-                    delay: i / 20,
-                  }}
-                  key={i}
-                >
-                  {el}
-                </motion.span>
-              )
-            )}
-          </motion.h1>
+          <Link className='underline' href='/skin-builder'>
+            <motion.h1
+              whileHover={{ scale: 1.1 }}
+              className='font-rowdies text-2xl md:text-4xl text-center cursor-progress'
+            >
+              {['S', 'k', 'i', 'n', ' ', 'B', 'u', 'i', 'l', 'd', 'e', 'r'].map(
+                (el, i) => (
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      duration: 0.2,
+                      delay: i / 20,
+                    }}
+                    key={i}
+                  >
+                    {el}
+                  </motion.span>
+                )
+              )}
+            </motion.h1>
+          </Link>
           <h2 className='font-rowdies text-sm text-center'>
             This is a tool that allows you to customize the appearance of <br />
             DeGods and Y00ts
