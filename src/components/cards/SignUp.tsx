@@ -14,7 +14,7 @@ export default function SignUpCard({
       <div className='row-span-9'>{children}</div>
       <div className='row-span-3 self-center grid gap-y-2 lg:gap-y-8 justify-center'>
         <Button
-          className='bg-black w-full text-white text-sm md:text-3xl shadow-md shadow-white'
+          className='bg-black w-full text-white text-sm md:text-3xl shadow-md shadow-white custom-shadow'
           variant='shadow'
           onClick={onClickNext}
           as={Link}

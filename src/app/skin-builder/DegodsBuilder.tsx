@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { DEGODSMAPPER } from '@/constants/degodsMapper'
+import { DEGODS_BASE_URL, DEGODSMAPPER } from '@/constants/degodsMapper'
 import {
   Button,
   ButtonGroup,
@@ -15,30 +15,6 @@ import { keys, path } from 'ramda'
 import { useState } from 'react'
 import { DisplaySingleTrait } from './DisplaySingleTrait'
 import { TraitModal } from './TraitModal'
-
-const BASE_URL = {
-  Backgrounds:
-    'https://bafybeihnbn4zgm27jputfhxlbtlyain3k3kdfv6dnu37tb473zoowwdb6a.ipfs.dweb.link',
-  Backgrounds_ipfs_uri: 'ipfs://QmeHyUvwe22ww6LuQy7cbGw5jxjCbNq9SaF7nhjqcvvfKD',
-  Clothes:
-    'https://bafybeigntq74czaglmytesw5u5bgqiuhghuzwxpyn2igijqy5vbzanpqbm.ipfs.dweb.link',
-  Clothes_ipfs_uri: 'ipfs://QmcBGUWEw6DKhMBaf5KtPvEWDU5WySHCfwa5jAWrj6D3W2',
-  Eyes: 'https://bafybeigim6kdmzlme4ai6hzfrhn3uymzuzsg4osjs5lfltifwhpqbew4im.ipfs.dweb.link/',
-  Eyes_ipfs_uri: 'ipfs://QmbpwrXwmfb6AU7JbVBLdyGkC43mo6Ah3fMVZoW5ZdYRKx',
-  Head: 'https://bafybeid3pam53yhwk67lku4kwizslyxkzqhyd5ddie4hwknlfmflvcdb34.ipfs.dweb.link',
-  Head_ipfs_uri: 'ipfs://QmWed5GJrNARWemoKnJhfuNHZpCeaRhxt4KkkXdKtUUHs4',
-  Mouth:
-    'https://bafybeihnydqqpaeenlfvsntyy2y26ujpohrlmzqftksc5n7cqmdxysa2vi.ipfs.dweb.link',
-  Mouth_ipfs_uri: 'pfs://QmeLjv9M6ZGJTiqcJ5XKMKYVpG11eKMwkEsoGYRngAkLh7',
-  Neck: 'https://bafybeifa35pzmciwbxy6oqsk2rjjyojk2xzkbew5shbs5a3pnqugx6zxm4.ipfs.dweb.link',
-  Neck_ipfs_uri: 'ipfs://QmZAdVbAgtdRuuu46xzMZxmAAaDMAc3H79tBTdUcBPPJCv',
-  Skins:
-    'https://bafybeihrzkh3bnp2n53xr77csfyj6uyyud7cie43oworzvs55343aavdpy.ipfs.dweb.link',
-  Skins_ipfs_uri: 'ipfs://QmecW7PRT9Esmiy9Gdw9YKeYZqk11jB858EkbG8jBtw9x9',
-  Specialty:
-    'https://bafybeib5zumzk2tzxn3pbixrp622xsqxvkpxlo5uvrjlrectpicsac2qvy.ipfs.dweb.link',
-  Specialty_ipfs_uri: 'ipfs://QmSVtyF6dUzbjmBEEuqXhbTjXxjkmnrdoJmw7GDkYCYsgh',
-}
 
 const getValueForTraitAndSubTrait = (
   selectedTrait: any,
@@ -127,7 +103,7 @@ export const DegodsBuilder = ({ gridView }) => {
     }
   }
 
-  const a = BASE_URL[selectedTrait]
+  const a = DEGODS_BASE_URL[selectedTrait]
   const b = getValueForTraitAndSubTrait(
     selectedTrait,
     selectedSubTrait,
@@ -200,7 +176,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 handleImageClick={handleImageClick}
                 size={140}
                 trait='Clothes'
-                src={`${BASE_URL['Clothes']}/${
+                src={`${DEGODS_BASE_URL['Clothes']}/${
                   selectedTraits['Clothes'].key
                 }/${selectedTraits['Clothes'].value.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Clothes')}
@@ -210,7 +186,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 handleImageClick={handleImageClick}
                 size={140}
                 trait='Neck'
-                src={`${BASE_URL['Neck']}/${
+                src={`${DEGODS_BASE_URL['Neck']}/${
                   selectedTraits['Neck'].key
                 }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Neck')}
@@ -220,7 +196,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 handleImageClick={handleImageClick}
                 size={140}
                 trait='Eyes'
-                src={`${BASE_URL['Eyes']}/${
+                src={`${DEGODS_BASE_URL['Eyes']}/${
                   selectedTraits['Eyes'].key
                 }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Eyes')}
@@ -232,7 +208,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 handleImageClick={handleImageClick}
                 size={140}
                 trait='Backgrounds'
-                src={`${BASE_URL['Backgrounds']}/${
+                src={`${DEGODS_BASE_URL['Backgrounds']}/${
                   selectedTraits['Backgrounds'].key
                 }/${selectedTraits['Backgrounds'].value.replace(
                   /#/g,
@@ -244,7 +220,7 @@ export const DegodsBuilder = ({ gridView }) => {
               <div className='grid items-center justify-center relative mt-4'>
                 <div className='relative w-60 h-60'>
                   <NextImage
-                    src={`${BASE_URL['Backgrounds']}/${
+                    src={`${DEGODS_BASE_URL['Backgrounds']}/${
                       selectedTraits['Backgrounds'].key
                     }/${selectedTraits['Backgrounds'].value.replace(
                       /#/g,
@@ -256,7 +232,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                   />
                   <NextImage
-                    src={`${BASE_URL['Specialty']}/${
+                    src={`${DEGODS_BASE_URL['Specialty']}/${
                       selectedTraits['Specialty'].key
                     }/${selectedTraits['Specialty'].value.replace(
                       /#/g,
@@ -268,7 +244,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                   />
                   <NextImage
-                    src={`${BASE_URL['Clothes']}/${
+                    src={`${DEGODS_BASE_URL['Clothes']}/${
                       selectedTraits['Clothes'].key
                     }/${selectedTraits['Clothes'].value.replace(
                       /#/g,
@@ -280,7 +256,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                   />
                   <NextImage
-                    src={`${BASE_URL['Skins']}/${
+                    src={`${DEGODS_BASE_URL['Skins']}/${
                       selectedTraits['Skins'].key
                     }/${selectedTraits['Skins'].value.replace(
                       /#/g,
@@ -292,7 +268,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                   />
                   <NextImage
-                    src={`${BASE_URL['Head']}/${
+                    src={`${DEGODS_BASE_URL['Head']}/${
                       selectedTraits['Head'].key
                     }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
                     alt={`${selectedSubTraitValue}`}
@@ -301,7 +277,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                   />
                   <NextImage
-                    src={`${BASE_URL['Eyes']}/${
+                    src={`${DEGODS_BASE_URL['Eyes']}/${
                       selectedTraits['Eyes'].key
                     }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
                     alt={`${selectedSubTraitValue}`}
@@ -310,7 +286,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                   />
                   <NextImage
-                    src={`${BASE_URL['Mouth']}/${
+                    src={`${DEGODS_BASE_URL['Mouth']}/${
                       selectedTraits['Mouth'].key
                     }/${selectedTraits['Mouth'].value.replace(
                       /#/g,
@@ -322,7 +298,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
                   />
                   <NextImage
-                    src={`${BASE_URL['Neck']}/${
+                    src={`${DEGODS_BASE_URL['Neck']}/${
                       selectedTraits['Neck'].key
                     }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
                     alt={`${selectedSubTraitValue}`}
@@ -336,7 +312,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 handleImageClick={handleImageClick}
                 size={140}
                 trait='Specialty'
-                src={`${BASE_URL['Specialty']}/${
+                src={`${DEGODS_BASE_URL['Specialty']}/${
                   selectedTraits['Specialty'].key
                 }/${selectedTraits['Specialty'].value.replace(
                   /#/g,
@@ -351,7 +327,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 handleImageClick={handleImageClick}
                 size={140}
                 trait='Skins'
-                src={`${BASE_URL['Skins']}/${
+                src={`${DEGODS_BASE_URL['Skins']}/${
                   selectedTraits['Skins'].key
                 }/${selectedTraits['Skins'].value.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Skins')}
@@ -361,7 +337,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 handleImageClick={handleImageClick}
                 size={140}
                 trait='Head'
-                src={`${BASE_URL['Head']}/${
+                src={`${DEGODS_BASE_URL['Head']}/${
                   selectedTraits['Head'].key
                 }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Head')}
@@ -371,7 +347,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 handleImageClick={handleImageClick}
                 size={140}
                 trait='Mouth'
-                src={`${BASE_URL['Mouth']}/${
+                src={`${DEGODS_BASE_URL['Mouth']}/${
                   selectedTraits['Mouth'].key
                 }/${selectedTraits['Mouth'].value.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Mouth')}
@@ -526,7 +502,7 @@ export const DegodsBuilder = ({ gridView }) => {
                   {' '}
                   {/* fixed size for the relative container */}
                   <NextImage
-                    src={`${BASE_URL['Backgrounds']}/${
+                    src={`${DEGODS_BASE_URL['Backgrounds']}/${
                       selectedTraits['Backgrounds'].key
                     }/${selectedTraits['Backgrounds'].value.replace(
                       /#/g,
@@ -538,7 +514,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center'
                   />
                   <NextImage
-                    src={`${BASE_URL['Skins']}/${
+                    src={`${DEGODS_BASE_URL['Skins']}/${
                       selectedTraits['Skins'].key
                     }/${selectedTraits['Skins'].value.replace(
                       /#/g,
@@ -550,7 +526,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center'
                   />
                   <NextImage
-                    src={`${BASE_URL['Neck']}/${
+                    src={`${DEGODS_BASE_URL['Neck']}/${
                       selectedTraits['Neck'].key
                     }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
                     alt={`${selectedSubTraitValue}`}
@@ -559,7 +535,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center'
                   />
                   <NextImage
-                    src={`${BASE_URL['Head']}/${
+                    src={`${DEGODS_BASE_URL['Head']}/${
                       selectedTraits['Head'].key
                     }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
                     alt={`${selectedSubTraitValue}`}
@@ -568,7 +544,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center'
                   />
                   <NextImage
-                    src={`${BASE_URL['Mouth']}/${
+                    src={`${DEGODS_BASE_URL['Mouth']}/${
                       selectedTraits['Mouth'].key
                     }/${selectedTraits['Mouth'].value.replace(
                       /#/g,
@@ -580,7 +556,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center'
                   />
                   <NextImage
-                    src={`${BASE_URL['Eyes']}/${
+                    src={`${DEGODS_BASE_URL['Eyes']}/${
                       selectedTraits['Eyes'].key
                     }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
                     alt={`${selectedSubTraitValue}`}
@@ -589,7 +565,7 @@ export const DegodsBuilder = ({ gridView }) => {
                     className='absolute inset-0 rounded-lg justify-self-center'
                   />
                   <NextImage
-                    src={`${BASE_URL['Specialty']}/${
+                    src={`${DEGODS_BASE_URL['Specialty']}/${
                       selectedTraits['Specialty'].key
                     }/${selectedTraits['Specialty'].value.replace(
                       /#/g,
