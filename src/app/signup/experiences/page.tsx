@@ -1,7 +1,62 @@
+'use client'
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
-import { Progress, Textarea } from '@nextui-org/react'
+import { Button, DatePicker, Input, Progress, Switch } from '@nextui-org/react'
+import { useState } from 'react'
+
+function ExperienceForm() {
+  const [isCurrent, setIsCurrent] = useState(false)
+  console.log('isCurrent', isCurrent)
+  return (
+    <div className='grid gap-y-4 w-full'>
+      <Input
+        key='Project name'
+        variant='bordered'
+        placeholder='xyz'
+        className='text-[#D9D9D9] border-[#AFE5FF]'
+        size='lg'
+        labelPlacement='outside'
+        label='Project name'
+      />
+      <Input
+        key='Role'
+        variant='bordered'
+        placeholder='magician'
+        className='text-[#D9D9D9] border-[#AFE5FF]'
+        size='lg'
+        labelPlacement='outside'
+        label='Role'
+      />
+      <div className='grid grid-cols-2 gap-x-6'>
+        <DatePicker
+          labelPlacement='outside'
+          label={'Start'}
+          variant='bordered'
+          classNames={{
+            label: 'text-left',
+          }}
+        />
+        <DatePicker
+          labelPlacement='outside'
+          label={'End'}
+          variant='bordered'
+          classNames={{
+            label: 'text-left',
+          }}
+          isDisabled={isCurrent}
+        />
+      </div>
+      <div className='w-full flex flex-row justify-end gap-x-4 content-center'>
+        <div className='text-base text-left'>Current</div>
+        <Switch
+          aria-label='current work'
+          onClick={() => setIsCurrent(!isCurrent)}
+        />
+      </div>
+    </div>
+  )
+}
 
 export default function Experiences() {
   return (
@@ -30,14 +85,18 @@ export default function Experiences() {
             <p className='text-base lg:text-xl text-white'>
               This helps us find more relevant content.
             </p>
-            <Textarea
-              key='bordered'
-              variant='bordered'
-              placeholder='type here'
-              className='text-[#D9D9D9] border-[#AFE5FF] h-full'
-              size='lg'
-              minRows={5}
-            />
+            <div className='w-full flex flex-row justify-between items-center mt-6'>
+              <div className='text-base text-left'>Add Experience</div>
+              <Button
+                className='bg-[#212121] text-white text-center text-2xl md:text-3xl shadow-md shadow-white w-4 h-8 grid justify-center items-center'
+                variant='shadow'
+                // onClick={onClickNext}
+                size='sm'
+              >
+                +
+              </Button>
+            </div>
+            <ExperienceForm />
           </div>
         </SignUpCard>
       </div>
