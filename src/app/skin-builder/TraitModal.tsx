@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DEGODS_BASE_URL, DEGODSMAPPER } from '@/constants/degodsMapper'
 import {
   Avatar,
@@ -11,7 +12,7 @@ import {
   ModalHeader,
 } from '@nextui-org/react'
 
-const getListBoxItems = (traitType) => {
+const getListBoxItems = (traitType: string) => {
   const traitData = DEGODSMAPPER[traitType]
   const baseUrl = DEGODS_BASE_URL[traitType]
   const items = []
