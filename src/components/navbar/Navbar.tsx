@@ -35,7 +35,7 @@ export const Navbar = () => {
           />
         </DropdownTrigger>
         <DropdownMenu aria-label='Avatar menu'>
-          <DropdownItem key='my-profile'>
+          <DropdownItem key='my-profile' as={Link} href='/profile'>
             <div className='flex flex-row items-center gap-3'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -54,7 +54,7 @@ export const Navbar = () => {
               My Profile
             </div>
           </DropdownItem>
-          <DropdownItem key='copy'>
+          <DropdownItem key='edit' as={Link} href='/profile/edit'>
             <div className='flex flex-row items-center gap-3'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'

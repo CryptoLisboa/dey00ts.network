@@ -15,6 +15,7 @@ import { keys, path } from 'ramda'
 import { useState } from 'react'
 import { DisplaySingleTrait } from './DisplaySingleTrait'
 import { TraitModal } from './TraitModal'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const getValueForTraitAndSubTrait = (
   selectedTrait: any,
