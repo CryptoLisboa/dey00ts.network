@@ -5,6 +5,8 @@ import { YootsBuilder } from './YootsBuilder'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { YOOTSMAPPER } from '@/constants/yootsMapper'
 import { Suspense } from 'react'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 // Remove the duplicate declaration of getTopLevelKeys and import it correctly from "ramda"
 
@@ -24,17 +26,32 @@ function SkinBuilderComponent() {
     }
     router.replace(`${pathname}?${params.toString()}`)
   }
+  //  of DeGods.
 
   return (
-    <main className='container mx-auto p-4 text-center'>
+    <main className='container mx-auto p-4 md:pt-8 text-center'>
       <div className='mb-4'>
-        <h1>
-          <strong>Welcome to Skin Builder</strong>
+        <h1 className='font-rowdies text-2xl md:text-4xl'>
+          {['S', 'k', 'i', 'n', ' ', 'B', 'u', 'i', 'l', 'd', 'e', 'r'].map(
+            (el, i) => (
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  duration: 0.2,
+                  delay: i / 20,
+                }}
+                key={i}
+              >
+                {el}
+              </motion.span>
+            )
+          )}
         </h1>
-
-        <p className='text-sm'>
-          This is a tool that allows you to customize the appearance of DeGods.
-        </p>
+        <h2 className='font-rowdies text-sm'>
+          This is a tool that allows you to customize the appearance of DeGods
+          and Y00ts
+        </h2>
       </div>
 
       <Tabs

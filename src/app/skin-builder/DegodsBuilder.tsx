@@ -2,6 +2,7 @@
 import { DEGODSMAPPER } from '@/constants/degodsMapper'
 import {
   Button,
+  ButtonGroup,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -10,7 +11,8 @@ import {
 } from '@nextui-org/react'
 import NextImage from 'next/image'
 import { keys, path } from 'ramda'
-import { Key, useState } from 'react'
+import { useState } from 'react'
+import { DisplaySingleTrait } from './DisplaySingleTrait'
 
 const BASE_URL = {
   Backgrounds:
@@ -133,33 +135,264 @@ export const DegodsBuilder = () => {
 
   const renderedTraitImage = `${a}/${b}`
 
-  console.log({ total: renderedTraitImage, a, b, selectedTrait })
+  const [gridView, setGridView] = useState(true)
+  const handleSpecialtyLeftClick = () => {
+    const currentSubTraits = keys(DEGODSMAPPER['Specialty'])
+    const currentKey = selectedTraits['Specialty'].key
+    const currentIndex = currentSubTraits.indexOf(currentKey)
+    const newIndex = currentIndex - 1
+
+    if (newIndex >= 0) {
+      setSelectedTraits((prev) => ({
+        ...prev,
+        Specialty: {
+          ...prev.Specialty,
+          key: currentSubTraits[newIndex],
+          value: DEGODSMAPPER['Specialty'][currentSubTraits[newIndex]],
+        },
+      }))
+    } else {
+      // Cycle to the last subtrait if out of bounds
+      setSelectedTraits((prev) => ({
+        ...prev,
+        Specialty: {
+          ...prev.Specialty,
+          key: currentSubTraits[currentSubTraits.length - 1],
+          value:
+            DEGODSMAPPER['Specialty'][
+              currentSubTraits[currentSubTraits.length - 1]
+            ],
+        },
+      }))
+    }
+  }
+
+  const handleSpecialtyRightClick = () => {
+    const currentSubTraits = keys(DEGODSMAPPER['Specialty'])
+
+    debugger
+    const currentKey = selectedTraits['Specialty'].key
+    const currentIndex = currentSubTraits.indexOf(currentKey)
+    const newIndex = currentIndex + 1
+
+    if (newIndex < currentSubTraits.length) {
+      setSelectedTraits((prev) => ({
+        ...prev,
+        Specialty: {
+          ...prev.Specialty,
+          key: currentSubTraits[newIndex],
+          value: DEGODSMAPPER['Specialty'][currentSubTraits[newIndex]],
+        },
+      }))
+    } else {
+      // Cycle back to the first subtrait if out of bounds
+      setSelectedTraits((prev) => ({
+        ...prev,
+        Specialty: {
+          ...prev.Specialty,
+          key: currentSubTraits[0],
+          value: DEGODSMAPPER['Specialty'][currentSubTraits[0]],
+        },
+      }))
+    }
+  }
   return (
     <>
-      <div className='flex gap-1 justify-center'>
-        <Dropdown>
-          <DropdownTrigger>
-            <Button variant='bordered'>{selectedTrait}</Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label='Yoots trait dropdown'
-            selectionMode='single'
-            selectedKeys={[selectedTrait]}
-            onAction={(key) => {
-              setSelectedTrait(
-                key as
-                  | 'Backgrounds'
-                  | 'Clothes'
-                  | 'Eyes'
-                  | 'Head'
-                  | 'Mouth'
-                  | 'Neck'
-                  | 'Skins'
-                  | 'Specialty'
-              )
-              setSelectedSubTrait(
-                keys(
-                  DEGODSMAPPER[
+      <ButtonGroup className='my-3 gap-3'>
+        <Button onClick={() => setGridView(true)}>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth={1.5}
+            stroke='currentColor'
+            className='size-6'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z'
+            />
+          </svg>
+        </Button>
+        <Button onClick={() => setGridView(false)}>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth={1.5}
+            stroke='currentColor'
+            className='size-6 '
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
+            />
+          </svg>
+        </Button>
+      </ButtonGroup>
+      {gridView && (
+        <div className='flex gap-y-3 flex-col'>
+          <div className='flex'>
+            <DisplaySingleTrait
+              trait='Skins'
+              src={`${BASE_URL['Skins']}/${
+                selectedTraits['Skins'].key
+              }/${selectedTraits['Skins'].value.replace(/#/g, '%23')}.png`}
+              onLeftClick={handleLeftClick}
+              onRightClick={handleRightClick}
+            />
+            <DisplaySingleTrait
+              trait='Head'
+              src={`${BASE_URL['Head']}/${
+                selectedTraits['Head'].key
+              }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
+              onLeftClick={handleLeftClick}
+              onRightClick={handleRightClick}
+            />
+            <DisplaySingleTrait
+              trait='Mouth'
+              src={`${BASE_URL['Mouth']}/${
+                selectedTraits['Mouth'].key
+              }/${selectedTraits['Mouth'].value.replace(/#/g, '%23')}.png`}
+              onLeftClick={handleLeftClick}
+              onRightClick={handleRightClick}
+            />
+            <DisplaySingleTrait
+              trait='Clothes'
+              src={`${BASE_URL['Clothes']}/${
+                selectedTraits['Clothes'].key
+              }/${selectedTraits['Clothes'].value.replace(/#/g, '%23')}.png`}
+              onLeftClick={handleLeftClick}
+              onRightClick={handleRightClick}
+            />
+            <DisplaySingleTrait
+              trait='Neck'
+              src={`${BASE_URL['Neck']}/${
+                selectedTraits['Neck'].key
+              }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
+              onLeftClick={handleLeftClick}
+              onRightClick={handleRightClick}
+            />
+            <DisplaySingleTrait
+              trait='Eyes'
+              src={`${BASE_URL['Eyes']}/${
+                selectedTraits['Eyes'].key
+              }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
+              onLeftClick={handleLeftClick}
+              onRightClick={handleRightClick}
+            />
+          </div>
+          <div className='flex justify-around gap-3'>
+            <DisplaySingleTrait
+              trait='Backgrounds'
+              src={`${BASE_URL['Backgrounds']}/${
+                selectedTraits['Backgrounds'].key
+              }/${selectedTraits['Backgrounds'].value.replace(
+                /#/g,
+                '%23'
+              )}.png`}
+              onLeftClick={handleLeftClick}
+              onRightClick={handleRightClick}
+            />
+            <div className='grid items-center justify-center relative mt-4'>
+              <div className='relative w-80 h-80'>
+                <NextImage
+                  src={`${BASE_URL['Backgrounds']}/${
+                    selectedTraits['Backgrounds'].key
+                  }/${selectedTraits['Backgrounds'].value.replace(
+                    /#/g,
+                    '%23'
+                  )}.png`}
+                  alt={`${selectedSubTraitValue}`}
+                  width={320}
+                  height={320}
+                  className='absolute inset-0 rounded-lg justify-self-center'
+                />
+                <NextImage
+                  src={`${BASE_URL['Skins']}/${
+                    selectedTraits['Skins'].key
+                  }/${selectedTraits['Skins'].value.replace(/#/g, '%23')}.png`}
+                  alt={`${selectedSubTraitValue}`}
+                  width={320}
+                  height={320}
+                  className='absolute inset-0 rounded-lg justify-self-center'
+                />
+                <NextImage
+                  src={`${BASE_URL['Head']}/${
+                    selectedTraits['Head'].key
+                  }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
+                  alt={`${selectedSubTraitValue}`}
+                  width={320}
+                  height={320}
+                  className='absolute inset-0 rounded-lg justify-self-center'
+                />
+                <NextImage
+                  src={`${BASE_URL['Mouth']}/${
+                    selectedTraits['Mouth'].key
+                  }/${selectedTraits['Mouth'].value.replace(/#/g, '%23')}.png`}
+                  alt={`${selectedSubTraitValue}`}
+                  width={320}
+                  height={320}
+                  className='absolute inset-0 rounded-lg justify-self-center'
+                />
+                <NextImage
+                  src={`${BASE_URL['Eyes']}/${
+                    selectedTraits['Eyes'].key
+                  }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
+                  alt={`${selectedSubTraitValue}`}
+                  width={320}
+                  height={320}
+                  className='absolute inset-0 rounded-lg justify-self-center'
+                />
+                <NextImage
+                  src={`${BASE_URL['Neck']}/${
+                    selectedTraits['Neck'].key
+                  }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
+                  alt={`${selectedSubTraitValue}`}
+                  width={320}
+                  height={320}
+                  className='absolute inset-0 rounded-lg justify-self-center'
+                />
+                <NextImage
+                  src={`${BASE_URL['Specialty']}/${
+                    selectedTraits['Specialty'].key
+                  }/${selectedTraits['Specialty'].value.replace(
+                    /#/g,
+                    '%23'
+                  )}.png`}
+                  alt={`${selectedSubTraitValue}`}
+                  width={320}
+                  height={320}
+                  className='absolute inset-0 rounded-lg justify-self-center'
+                />
+              </div>
+            </div>
+            <DisplaySingleTrait
+              trait='Specialty'
+              src={`${BASE_URL['Specialty']}/${
+                selectedTraits['Specialty'].key
+              }/${selectedTraits['Specialty'].value.replace(/#/g, '%23')}.png`}
+              onLeftClick={handleSpecialtyLeftClick}
+              onRightClick={handleSpecialtyRightClick}
+            />
+          </div>
+        </div>
+      )}
+      {!gridView && (
+        <>
+          <div className='flex gap-1 justify-center'>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button variant='bordered'>{selectedTrait}</Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label='Yoots trait dropdown'
+                selectionMode='single'
+                selectedKeys={[selectedTrait]}
+                onAction={(key) => {
+                  setSelectedTrait(
                     key as
                       | 'Backgrounds'
                       | 'Clothes'
@@ -169,220 +402,204 @@ export const DegodsBuilder = () => {
                       | 'Neck'
                       | 'Skins'
                       | 'Specialty'
-                  ]
-                )[0]
-              )
-            }}
-          >
-            {traits?.map((trait) => (
-              <DropdownItem key={trait}>{trait}</DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-        <Dropdown>
-          <DropdownTrigger>
-            <Button variant='bordered'>{selectedSubTrait}</Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            selectionMode='single'
-            selectedKeys={[String(selectedSubTrait)]}
-            aria-label='Action event example'
-            onAction={(key) => {
-              setSelectedSubTrait(key)
-              setSelectedSubTraitValue(
-                keys(DEGODSMAPPER[selectedTrait][key])[0]
-              )
-            }}
-          >
-            {keys(DEGODSMAPPER[selectedTrait])?.map((subtrait) => (
-              <DropdownItem key={subtrait}>{subtrait}</DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
+                  )
+                  setSelectedSubTrait(
+                    keys(
+                      DEGODSMAPPER[
+                        key as
+                          | 'Backgrounds'
+                          | 'Clothes'
+                          | 'Eyes'
+                          | 'Head'
+                          | 'Mouth'
+                          | 'Neck'
+                          | 'Skins'
+                          | 'Specialty'
+                      ]
+                    )[0]
+                  )
+                }}
+              >
+                {traits?.map((trait) => (
+                  <DropdownItem key={trait}>{trait}</DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button variant='bordered'>{selectedSubTrait}</Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                selectionMode='single'
+                selectedKeys={[String(selectedSubTrait)]}
+                aria-label='Action event example'
+                onAction={(key) => {
+                  setSelectedSubTrait(key)
+                  setSelectedSubTraitValue(
+                    keys(DEGODSMAPPER[selectedTrait][key])[0]
+                  )
+                }}
+              >
+                {keys(DEGODSMAPPER[selectedTrait])?.map((subtrait) => (
+                  <DropdownItem key={subtrait}>{subtrait}</DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
 
-        <Dropdown>
-          <DropdownTrigger>
-            <Button variant='bordered'>{selectedSubTraitValue}</Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            selectionMode='single'
-            selectedKeys={[String(selectedSubTraitValue)]}
-            aria-label='Action event example'
-            onAction={(key) => {
-              setSelectedSubTraitValue(key)
-              setSelectedTraits((prev: any) => ({
-                ...prev,
-                [selectedTrait]: { value: key, key: selectedSubTrait },
-              }))
-            }}
-          >
-            {keys(DEGODSMAPPER[selectedTrait][selectedSubTrait])?.map(
-              (subtrait) => (
-                <DropdownItem key={subtrait}>{subtrait}</DropdownItem>
-              )
-            )}
-          </DropdownMenu>
-        </Dropdown>
-      </div>
-
-      <div className='flex mt-3 justify-center items-center'>
-        <button className='mr-3' onClick={handleLeftClick}>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-6 h-6'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'
-            />
-          </svg>
-        </button>
-        <Image
-          className='border-1 border-gray-400'
-          as={NextImage}
-          src={renderedTraitImage}
-          alt='Skin Builder'
-          width={220}
-          height={220}
-        />
-        <button className='ml-3' onClick={handleRightClick}>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-6 h-6'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3'
-            />
-          </svg>
-        </button>
-      </div>
-      <div className='block mt-3 justify-center'>
-        <div className='h-96 grid items-center justify-center w-full relative mt-4'>
-          <div className='relative w-80 h-80'>
-            {' '}
-            {/* fixed size for the relative container */}
-            <NextImage
-              src={`${BASE_URL['Backgrounds']}/${
-                selectedTraits['Backgrounds'].key
-              }/${selectedTraits['Backgrounds'].value.replace(
-                /#/g,
-                '%23'
-              )}.png`}
-              alt={`${selectedSubTraitValue}`}
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL['Skins']}/${
-                selectedTraits['Skins'].key
-              }/${selectedTraits['Skins'].value.replace(/#/g, '%23')}.png`}
-              alt={`${selectedSubTraitValue}`}
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL['Head']}/${
-                selectedTraits['Head'].key
-              }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
-              alt={`${selectedSubTraitValue}`}
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL['Mouth']}/${
-                selectedTraits['Mouth'].key
-              }/${selectedTraits['Mouth'].value.replace(/#/g, '%23')}.png`}
-              alt={`${selectedSubTraitValue}`}
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL['Eyes']}/${
-                selectedTraits['Eyes'].key
-              }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
-              alt={`${selectedSubTraitValue}`}
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL['Neck']}/${
-                selectedTraits['Neck'].key
-              }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
-              alt={`${selectedSubTraitValue}`}
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL['Specialty']}/${
-                selectedTraits['Specialty'].key
-              }/${selectedTraits['Specialty'].value.replace(/#/g, '%23')}.png`}
-              alt={`${selectedSubTraitValue}`}
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            {/* <NextImage
-              src={`${
-                BASE_URL['Clothes']
-              }/${selectedSubTrait}/${selectedSubTraitValue.replace(
-                /#/g,
-                '%23'
-              )}.png`}
-              alt='skin'
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
-                /#/g,
-                '%23'
-              )}.png`}
-              alt='skin'
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL}/Head/${selectedTraits['Head'].replace(
-                /#/g,
-                '%23'
-              )}.png`}
-              alt='eyes'
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
-                /#/g,
-                '%23'
-              )}.png`}
-              alt='eyes'
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            /> */}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button variant='bordered'>{selectedSubTraitValue}</Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                selectionMode='single'
+                selectedKeys={[String(selectedSubTraitValue)]}
+                aria-label='Action event example'
+                onAction={(key) => {
+                  setSelectedSubTraitValue(key)
+                  setSelectedTraits((prev: any) => ({
+                    ...prev,
+                    [selectedTrait]: { value: key, key: selectedSubTrait },
+                  }))
+                }}
+              >
+                {keys(DEGODSMAPPER[selectedTrait][selectedSubTrait])?.map(
+                  (subtrait) => (
+                    <DropdownItem key={subtrait}>{subtrait}</DropdownItem>
+                  )
+                )}
+              </DropdownMenu>
+            </Dropdown>
           </div>
-        </div>
-      </div>
+
+          <div className='flex flex-col md:flex-row justify-center gap-6'>
+            <div className='flex mt-3 justify-center items-center'>
+              <button className='mr-3' onClick={handleLeftClick}>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='w-6 h-6'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'
+                  />
+                </svg>
+              </button>
+              <Image
+                className='border-1 border-gray-400'
+                as={NextImage}
+                src={renderedTraitImage}
+                alt='Skin Builder'
+                width={220}
+                height={220}
+              />
+              <button className='ml-3' onClick={handleRightClick}>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='w-6 h-6'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3'
+                  />
+                </svg>
+              </button>
+            </div>
+            <div className='block mt-3 justify-center'>
+              <div className='h-96 grid items-center justify-center w-full relative mt-4'>
+                <div className='relative w-80 h-80'>
+                  {' '}
+                  {/* fixed size for the relative container */}
+                  <NextImage
+                    src={`${BASE_URL['Backgrounds']}/${
+                      selectedTraits['Backgrounds'].key
+                    }/${selectedTraits['Backgrounds'].value.replace(
+                      /#/g,
+                      '%23'
+                    )}.png`}
+                    alt={`${selectedSubTraitValue}`}
+                    width={320}
+                    height={320}
+                    className='absolute inset-0 rounded-lg justify-self-center'
+                  />
+                  <NextImage
+                    src={`${BASE_URL['Skins']}/${
+                      selectedTraits['Skins'].key
+                    }/${selectedTraits['Skins'].value.replace(
+                      /#/g,
+                      '%23'
+                    )}.png`}
+                    alt={`${selectedSubTraitValue}`}
+                    width={320}
+                    height={320}
+                    className='absolute inset-0 rounded-lg justify-self-center'
+                  />
+                  <NextImage
+                    src={`${BASE_URL['Head']}/${
+                      selectedTraits['Head'].key
+                    }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
+                    alt={`${selectedSubTraitValue}`}
+                    width={320}
+                    height={320}
+                    className='absolute inset-0 rounded-lg justify-self-center'
+                  />
+                  <NextImage
+                    src={`${BASE_URL['Mouth']}/${
+                      selectedTraits['Mouth'].key
+                    }/${selectedTraits['Mouth'].value.replace(
+                      /#/g,
+                      '%23'
+                    )}.png`}
+                    alt={`${selectedSubTraitValue}`}
+                    width={320}
+                    height={320}
+                    className='absolute inset-0 rounded-lg justify-self-center'
+                  />
+                  <NextImage
+                    src={`${BASE_URL['Eyes']}/${
+                      selectedTraits['Eyes'].key
+                    }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
+                    alt={`${selectedSubTraitValue}`}
+                    width={320}
+                    height={320}
+                    className='absolute inset-0 rounded-lg justify-self-center'
+                  />
+                  <NextImage
+                    src={`${BASE_URL['Neck']}/${
+                      selectedTraits['Neck'].key
+                    }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
+                    alt={`${selectedSubTraitValue}`}
+                    width={320}
+                    height={320}
+                    className='absolute inset-0 rounded-lg justify-self-center'
+                  />
+                  <NextImage
+                    src={`${BASE_URL['Specialty']}/${
+                      selectedTraits['Specialty'].key
+                    }/${selectedTraits['Specialty'].value.replace(
+                      /#/g,
+                      '%23'
+                    )}.png`}
+                    alt={`${selectedSubTraitValue}`}
+                    width={320}
+                    height={320}
+                    className='absolute inset-0 rounded-lg justify-self-center'
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   )
 }

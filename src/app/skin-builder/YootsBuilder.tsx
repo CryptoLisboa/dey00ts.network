@@ -186,114 +186,114 @@ export const YootsBuilder = () => {
         </Dropdown>
       </div>
 
-      <div className='flex mt-3 justify-center items-center'>
-        <button className='mr-3' onClick={handleLeftClick}>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-6 h-6'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'
-            />
-          </svg>
-        </button>
-        <Image
-          className='border-1 border-gray-400'
-          as={NextImage}
-          src={`${BASE_URL}/${getValueForTraitAndSubTrait(
-            selectedTrait,
-            selectedSubTrait
-          )}`}
-          alt='Skin Builder'
-          width={220}
-          height={220}
-        />
-        <button className='ml-3' onClick={handleRightClick}>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='w-6 h-6'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3'
-            />
-          </svg>
-        </button>
-      </div>
-
-      <div className='block mt-3 justify-center'>
-        <div className='h-96 grid items-center justify-center w-full relative mt-4'>
-          <div className='relative w-80 h-80'>
-            {' '}
-            {/* fixed size for the relative container */}
-            <NextImage
-              src={`${BASE_URL}/Background/${selectedTraits[
-                'Background'
-              ].replace(/#/g, '%23')}.png`}
-              alt={`background-${selectedTraits['Background'].replace(
-                /#/g,
-                '%23'
-              )}`}
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL}/Skins/${selectedTraits['Skins'].replace(
-                /#/g,
-                '%23'
-              )}.png`}
-              alt='skin'
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
-                /#/g,
-                '%23'
-              )}.png`}
-              alt='skin'
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
-                /#/g,
-                '%23'
-              )}.png`}
-              alt='eyes'
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-            <NextImage
-              src={`${BASE_URL}/Head/${selectedTraits['Head'].replace(
-                /#/g,
-                '%23'
-              )}.png`}
-              alt='eyes'
-              width={320}
-              height={320}
-              className='absolute inset-0 rounded-lg justify-self-center'
-            />
-          </div>
+      <div className='flex flex-col md:flex-row justify-center gap-6'>
+        <div className='flex mt-3 justify-center items-center'>
+          <button className='mr-3' onClick={handleLeftClick}>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='w-6 h-6'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'
+              />
+            </svg>
+          </button>
+          <Image
+            className='border-1 border-gray-400'
+            as={NextImage}
+            src={`${BASE_URL}/${getValueForTraitAndSubTrait(
+              selectedTrait,
+              selectedSubTrait
+            )}`}
+            alt='Skin Builder'
+            width={220}
+            height={220}
+          />
+          <button className='ml-3' onClick={handleRightClick}>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='w-6 h-6'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3'
+              />
+            </svg>
+          </button>
         </div>
-        <Button onClick={handleDownload} className='mt-3'>
-          Download
-        </Button>
+
+        <div className='block mt-3 justify-center'>
+          <div className='h-96 grid items-center justify-center w-full relative mt-4'>
+            <div className='relative w-80 h-80'>
+              <NextImage
+                src={`${BASE_URL}/Background/${selectedTraits[
+                  'Background'
+                ].replace(/#/g, '%23')}.png`}
+                alt={`background-${selectedTraits['Background'].replace(
+                  /#/g,
+                  '%23'
+                )}`}
+                width={320}
+                height={320}
+                className='absolute inset-0 rounded-lg justify-self-center'
+              />
+              <NextImage
+                src={`${BASE_URL}/Skins/${selectedTraits['Skins'].replace(
+                  /#/g,
+                  '%23'
+                )}.png`}
+                alt='skin'
+                width={320}
+                height={320}
+                className='absolute inset-0 rounded-lg justify-self-center'
+              />
+              <NextImage
+                src={`${BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
+                  /#/g,
+                  '%23'
+                )}.png`}
+                alt='skin'
+                width={320}
+                height={320}
+                className='absolute inset-0 rounded-lg justify-self-center'
+              />
+              <NextImage
+                src={`${BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
+                  /#/g,
+                  '%23'
+                )}.png`}
+                alt='eyes'
+                width={320}
+                height={320}
+                className='absolute inset-0 rounded-lg justify-self-center'
+              />
+              <NextImage
+                src={`${BASE_URL}/Head/${selectedTraits['Head'].replace(
+                  /#/g,
+                  '%23'
+                )}.png`}
+                alt='eyes'
+                width={320}
+                height={320}
+                className='absolute inset-0 rounded-lg justify-self-center'
+              />
+            </div>
+          </div>
+          <Button onClick={handleDownload} className='mt-3'>
+            Download
+          </Button>
+        </div>
       </div>
     </>
   )

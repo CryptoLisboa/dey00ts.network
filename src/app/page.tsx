@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Navbar } from '@nextui-org/react'
+import Navbar from '@/components/navbar'
 
 export default function Home() {
   return (
