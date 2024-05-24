@@ -14,7 +14,7 @@ export default function LocationSignUp() {
         className='absolute'
       />
       <div className='container mx-auto h-full sm:px-24 md:px-32 lg:px-96'>
-        <SignUpCard nextHref='/signup/interests'>
+        <SignUpCard nextHref='/signup/skills'>
           <div className='text-center grid justify-items-center gap-y-5'>
             <Progress
               size='sm'

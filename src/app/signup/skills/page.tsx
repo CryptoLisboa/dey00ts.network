@@ -6,7 +6,7 @@ import { Button, Progress } from '@nextui-org/react'
 import { color } from 'framer-motion'
 import { useState } from 'react'
 
-const INTERESTS = [
+const SKILLS = [
   { name: 'Alpha Caller', color: '#BD8BFF' },
   { name: 'Collab Manager', color: '#06F0FF' },
   { name: 'Community Builder', color: '#FF6B6B' },
@@ -17,10 +17,10 @@ const INTERESTS = [
   { name: 'Space Host', color: '#3792FF' },
 ]
 
-export default function Interests() {
-  const [interestsSelected, setInterestsSelected] = useState<String[]>([])
+export default function Skills() {
+  const [skillsSelected, setSkillsSelected] = useState<String[]>([])
   return (
-    <main className='dark h-screen overflow-hidden' id='interests'>
+    <main className='dark h-screen overflow-hidden' id='skills'>
       <BackButton />
       <BgImage
         src='/images/dey00ts_bgs/mobile/4_welcome.png'
@@ -40,14 +40,14 @@ export default function Interests() {
               value={(100 / 6) * 3}
             />
             <h1 className='text-2xl font-bold text-white text-center'>
-              What are you interested in?
+              What are your skills?
             </h1>
             <p className='text-base lg:text-xl text-white'>
               Pick up 5, this will customize your content created by La Creme De
               La Creme of Y00ts & DeGods community!
             </p>
             <div className='flex flex-wrap justify-center gap-4 w-full'>
-              {INTERESTS.map(({ name, color }) => (
+              {SKILLS.map(({ name, color }) => (
                 <Button
                   key={name}
                   className='p-2 text-lg'
@@ -55,15 +55,15 @@ export default function Interests() {
                   style={{
                     color,
                     borderColor: color,
-                    opacity: interestsSelected.includes(name) ? 1 : 0.66,
+                    opacity: skillsSelected.includes(name) ? 1 : 0.66,
                   }}
                   onClick={() => {
-                    if (interestsSelected.includes(name)) {
-                      setInterestsSelected(
-                        interestsSelected.filter((i) => i !== name)
+                    if (skillsSelected.includes(name)) {
+                      setSkillsSelected(
+                        skillsSelected.filter((i) => i !== name)
                       )
                     } else {
-                      setInterestsSelected([...interestsSelected, name])
+                      setSkillsSelected([...skillsSelected, name])
                     }
                   }}
                 >

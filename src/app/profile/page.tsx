@@ -51,12 +51,12 @@ export default function Profile() {
         explorer. Turning words into poetry since 1990.
       </p>
 
-      <h3 className="mt-4 text-lg font-bold">Experience</h3>
+      <h3 className="mt-4 text-lg font-bold">Experiences</h3>
       <p className="text-sm ">EZY | Web Designer 01/02/2024 - 02/02/2024</p>
       <p className="text-sm ">EZY | Web Designer 01/02/2024 - 02/02/2024</p>
       <p className="text-sm ">EZY | Web Designer 01/02/2024 - 02/02/2024</p>
 
-      <h3 className="mt-4 text-lg font-bold">Interest</h3>
+      <h3 className="mt-4 text-lg font-bold">Skills</h3>
       <div className="flex flex-wrap gap-6">
         <Button className="bg-transparent border-1 border-community-builder text-community-builder">
           Community Builder
