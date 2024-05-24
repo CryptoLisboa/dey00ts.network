@@ -45,7 +45,7 @@ const getValueForTraitAndSubTrait = (
 ) =>
   path([selectedTrait, selectedSubTrait, selectedSubTraitValue], DEGODSMAPPER)
 
-export const DegodsBuilder = () => {
+export const DegodsBuilder = ({ gridView }) => {
   const traits = keys(DEGODSMAPPER)
   const [selectedTrait, setSelectedTrait] = useState(traits[0])
   const [selectedSubTrait, setSelectedSubTrait] = useState<string | number>(
@@ -135,7 +135,6 @@ export const DegodsBuilder = () => {
 
   const renderedTraitImage = `${a}/${b}`
 
-  const [gridView, setGridView] = useState(true)
   const handleSpecialtyLeftClick = () => {
     const currentSubTraits = keys(DEGODSMAPPER['Specialty'])
     const currentKey = selectedTraits['Specialty'].key
@@ -170,7 +169,6 @@ export const DegodsBuilder = () => {
   const handleSpecialtyRightClick = () => {
     const currentSubTraits = keys(DEGODSMAPPER['Specialty'])
 
-    debugger
     const currentKey = selectedTraits['Specialty'].key
     const currentIndex = currentSubTraits.indexOf(currentKey)
     const newIndex = currentIndex + 1
@@ -198,40 +196,6 @@ export const DegodsBuilder = () => {
   }
   return (
     <>
-      <ButtonGroup className='my-3 gap-3'>
-        <Button onClick={() => setGridView(true)}>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='size-6'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z'
-            />
-          </svg>
-        </Button>
-        <Button onClick={() => setGridView(false)}>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth={1.5}
-            stroke='currentColor'
-            className='size-6 '
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M7.5 3.75H6A2.25 2.25 0 0 0 3.75 6v1.5M16.5 3.75H18A2.25 2.25 0 0 1 20.25 6v1.5m0 9V18A2.25 2.25 0 0 1 18 20.25h-1.5m-9 0H6A2.25 2.25 0 0 1 3.75 18v-1.5M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'
-            />
-          </svg>
-        </Button>
-      </ButtonGroup>
       {gridView && (
         <div className='flex gap-y-3 flex-col'>
           <div className='flex'>
