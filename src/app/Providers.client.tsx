@@ -1,12 +1,12 @@
-"use client";
+'use client'
 
-import React from "react";
-import { NextUIProvider } from "@nextui-org/system";
+import React from 'react'
+import { NextUIProvider } from '@nextui-org/system'
 
 export const Providers = ({
   children,
 }: {
-  children: JSX.Element[] | JSX.Element | string;
+  children: JSX.Element[] | JSX.Element | string
 }) => {
-  return <NextUIProvider>{children} </NextUIProvider>;
-};
+  return <NextUIProvider>{children}</NextUIProvider>
+}

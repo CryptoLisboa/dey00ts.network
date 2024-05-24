@@ -3,7 +3,7 @@ import Image from 'next/image'
 export default function BgImage({
   src,
   alt,
-  className = '',
+  className,
 }: {
   src: string
   alt: string
@@ -13,7 +13,7 @@ export default function BgImage({
     <Image
       src={src}
       alt={alt}
-      layout='fill'
+      fill
       style={{ objectFit: 'cover', zIndex: -1 }}
       className={className}
       // placeholder="blur" // needs blurDataURL

@@ -5,7 +5,7 @@ import NextImage from 'next/image'
 
 export default function WelcomeSignUp() {
   return (
-    <main className='dark h-screen' id='welcome'>
+    <main className='dark h-screen overflow-hidden' id='welcome'>
       <BgImage
         src='/images/dey00ts_bgs/mobile/1_welcome.png'
         alt='bg'
