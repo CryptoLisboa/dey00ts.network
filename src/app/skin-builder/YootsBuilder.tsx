@@ -51,6 +51,43 @@ export const YootsBuilder = () => {
     const seconds = String(now.getSeconds()).padStart(2, '0')
     return `${year}/${month}/${day}-${hours}:${minutes}:${seconds}`
   }
+  const handleLeftClick = () => {
+    const currentSubTraits = keys(YOOTSMAPPER[selectedTrait])
+    const currentIndex = currentSubTraits.indexOf(selectedSubTrait)
+    const nextIndex = currentIndex - 1
+    if (nextIndex >= 0) {
+      setSelectedSubTrait(currentSubTraits[nextIndex])
+      setSelectedTraits((prev: any) => ({
+        ...prev,
+        [selectedTrait]: currentSubTraits[nextIndex],
+      }))
+    } else {
+      setSelectedSubTrait(currentSubTraits[currentSubTraits.length - 1]) // Cycle back to the last item
+      setSelectedTraits((prev: any) => ({
+        ...prev,
+        [selectedTrait]: currentSubTraits[currentSubTraits.length - 1],
+      }))
+    }
+  }
+
+  const handleRightClick = () => {
+    const currentSubTraits = keys(YOOTSMAPPER[selectedTrait])
+    const currentIndex = currentSubTraits.indexOf(selectedSubTrait)
+    const nextIndex = currentIndex + 1
+    if (nextIndex < currentSubTraits.length) {
+      setSelectedSubTrait(currentSubTraits[nextIndex])
+      setSelectedTraits((prev: any) => ({
+        ...prev,
+        [selectedTrait]: currentSubTraits[nextIndex],
+      }))
+    } else {
+      setSelectedSubTrait(currentSubTraits[0]) // Cycle back to the first item
+      setSelectedTraits((prev: any) => ({
+        ...prev,
+        [selectedTrait]: currentSubTraits[0],
+      }))
+    }
+  }
 
   const handleDownload = () => {
     const canvas = document.createElement('canvas')
@@ -163,7 +200,7 @@ export const YootsBuilder = () => {
       </div>
 
       <div className='flex mt-3 justify-center items-center'>
-        <button className='mr-3'>
+        <button className='mr-3' onClick={handleLeftClick}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -190,7 +227,7 @@ export const YootsBuilder = () => {
           width={220}
           height={220}
         />
-        <button className='ml-3'>
+        <button className='ml-3' onClick={handleRightClick}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -208,16 +245,6 @@ export const YootsBuilder = () => {
         </button>
       </div>
 
-      {/* <div className="flex mt-3 justify-center">
-        <Image
-          className="border-1 border-gray-400"
-          as={NextImage}
-          src="/temp/download.png"
-          alt="Skin Builder"
-          width={220}
-          height={220}
-        />
-      </div> */}
       <div className='block mt-3 justify-center'>
         <div className='h-96 grid items-center justify-center w-full relative mt-4'>
           <div className='relative w-80 h-80'>
