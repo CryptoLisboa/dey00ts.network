@@ -6,6 +6,7 @@ type DisplaySingleTraitProps = {
   trait: string
   onLeftClick: () => void
   onRightClick: () => void
+  handleImageClick?: (trait: string) => void
   size: number
 }
 
@@ -15,6 +16,7 @@ export const DisplaySingleTrait = ({
   onLeftClick,
   onRightClick,
   size = 200,
+  handleImageClick,
 }: DisplaySingleTraitProps) => {
   return (
     <div className='flex flex-col self-center'>
@@ -37,12 +39,15 @@ export const DisplaySingleTrait = ({
           </svg>
         </button>
         <Image
-          className={`border-1 border-gray-400 max-w-[${size}px]`}
+          className={`border-1 border-gray-400 max-w-[${size}px] ${
+            handleImageClick && 'cursor-pointer'
+          }`}
           as={NextImage}
           src={src}
           alt='Skin Builder'
           width={size}
           height={size}
+          onClick={() => handleImageClick && handleImageClick(trait)}
         />
         <button className='ml-3' onClick={onRightClick}>
           <svg
