@@ -106,8 +106,8 @@ export const YootsBuilder = () => {
         /#/g,
         '%23'
       )}.png`,
-      `${BASE_URL}/Head/${selectedTraits['Head'].replace(/#/g, '%23')}.png`,
       `${BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(/#/g, '%23')}.png`,
+      `${BASE_URL}/Head/${selectedTraits['Head'].replace(/#/g, '%23')}.png`,
     ]
 
     Promise.all(images.map((src) => loadImage(src)))
@@ -283,7 +283,7 @@ export const YootsBuilder = () => {
               className='absolute inset-0 rounded-lg justify-self-center'
             />
             <NextImage
-              src={`${BASE_URL}/Head/${selectedTraits['Head'].replace(
+              src={`${BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
                 /#/g,
                 '%23'
               )}.png`}
@@ -293,7 +293,7 @@ export const YootsBuilder = () => {
               className='absolute inset-0 rounded-lg justify-self-center'
             />
             <NextImage
-              src={`${BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
+              src={`${BASE_URL}/Head/${selectedTraits['Head'].replace(
                 /#/g,
                 '%23'
               )}.png`}
