@@ -3,6 +3,7 @@ import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import { Button, DatePicker, Input, Progress, Switch } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 function ExperienceForm({
@@ -82,6 +83,10 @@ export default function Experiences() {
   const onRemoveExperience = () => {
     setExperiences(experiences - 1)
   }
+
+  const router = useRouter()
+
+  const routeToConnectDeID = () => router.push('/signup/connect_de_id')
   return (
     <main className='dark' id='experiences'>
       <BackButton />
@@ -91,7 +96,7 @@ export default function Experiences() {
         className='absolute'
       />
       <div className='container mx-auto h-full sm:px-24 md:px-32 lg:px-96'>
-        <SignUpCard>
+        <SignUpCard onClickNext={routeToConnectDeID}>
           <div className='text-center grid justify-items-center gap-y-10'>
             <Progress
               size='sm'
