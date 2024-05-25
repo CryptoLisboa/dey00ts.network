@@ -8,6 +8,10 @@
     --color-collab-manager: #06f0ff;
     --color-content-creator: #1bcea3;
     --color-space-host: #3792ff;
+    --color-alpha-caller: #bd8bff;
+    --color-full-stack: #ffa500;
+    --color-evm-dev: #ffff75;
+    --color-sol-dev: #ffc9df;
   }
 
   .dark {
@@ -15,6 +19,10 @@
     --color-collab-manager: #06f0ff;
     --color-content-creator: #1bcea3;
     --color-space-host: #3792ff;
+    --color-alpha-caller: #bd8bff;
+    --color-full-stack: #ffa500;
+    --color-evm-dev: #ffff75;
+    --color-sol-dev: #ffc9df;
   }
 }
 
