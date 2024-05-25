@@ -5,7 +5,11 @@ import SignUpCard from '@/components/cards/SignUp'
 import { Button, DatePicker, Input, Progress, Switch } from '@nextui-org/react'
 import { useState } from 'react'
 
-function ExperienceForm() {
+function ExperienceForm({
+  onRemoveExperience,
+}: {
+  onRemoveExperience: () => void
+}) {
   const [isCurrent, setIsCurrent] = useState(false)
   console.log('isCurrent', isCurrent)
   return (
@@ -47,18 +51,37 @@ function ExperienceForm() {
           isDisabled={isCurrent}
         />
       </div>
-      <div className='w-full flex flex-row justify-end gap-x-4 content-center'>
-        <div className='text-base text-left'>Current</div>
-        <Switch
-          aria-label='current work'
-          onClick={() => setIsCurrent(!isCurrent)}
-        />
+      <div className='w-full flex flex-row justify-between gap-x-4 content-center'>
+        <Button
+          className='bg-[#212121] text-white text-center text-2xl md:text-3xl shadow-md shadow-white w-4 h-8 grid justify-center items-center'
+          variant='shadow'
+          size='sm'
+          onClick={onRemoveExperience}
+        >
+          -
+        </Button>
+        <div className='flex flex-row'>
+          <div className='text-base text-left'>Current</div>
+          <Switch
+            aria-label='current work'
+            onClick={() => setIsCurrent(!isCurrent)}
+          />
+        </div>
       </div>
     </div>
   )
 }
 
 export default function Experiences() {
+  const [experiences, setExperiences] = useState<number>(0)
+
+  const onAddExperience = () => {
+    setExperiences(experiences + 1)
+  }
+
+  const onRemoveExperience = () => {
+    setExperiences(experiences - 1)
+  }
   return (
     <main className='dark' id='experiences'>
       <BackButton />
@@ -69,7 +92,7 @@ export default function Experiences() {
       />
       <div className='container mx-auto h-full sm:px-24 md:px-32 lg:px-96'>
         <SignUpCard>
-          <div className='text-center grid justify-items-center gap-y-5'>
+          <div className='text-center grid justify-items-center gap-y-10'>
             <Progress
               size='sm'
               radius='sm'
@@ -90,13 +113,22 @@ export default function Experiences() {
               <Button
                 className='bg-[#212121] text-white text-center text-2xl md:text-3xl shadow-md shadow-white w-4 h-8 grid justify-center items-center'
                 variant='shadow'
-                // onClick={onClickNext}
                 size='sm'
+                onClick={onAddExperience}
               >
                 +
               </Button>
             </div>
-            <ExperienceForm />
+            <div className='grid gap-y-12 w-full'>
+              {Array.from({ length: experiences }, (_, i) => i).map(
+                (_, index) => (
+                  <ExperienceForm
+                    key={index}
+                    onRemoveExperience={onRemoveExperience}
+                  />
+                )
+              )}
+            </div>
           </div>
         </SignUpCard>
       </div>
