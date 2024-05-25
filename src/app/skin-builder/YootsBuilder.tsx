@@ -1,3 +1,4 @@
+//  @ts-nocheck
 'use client'
 import { YOOTSMAPPER } from '@/constants/yootsMapper'
 import {
@@ -7,10 +8,17 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Image,
+  useDisclosure,
 } from '@nextui-org/react'
 import NextImage from 'next/image'
 import { keys, path } from 'ramda'
 import { Key, useState } from 'react'
+import { TraitModal } from './TraitModal'
+import { DisplaySingleTrait } from './DisplaySingleTrait'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { NFTType } from '@/types/degods'
+
+const traitOrder = ['Background', 'Skins', 'Clothes', 'Eyes', 'Head']
 
 const getValueForTraitAndSubTrait = (
   selectedTrait: any,
@@ -20,15 +28,21 @@ const getValueForTraitAndSubTrait = (
 const BASE_URL =
   'https://bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link'
 
-export const YootsBuilder = () => {
+export const YootsBuilder = ({ gridView }: { gridView: boolean }) => {
   const traits = keys(YOOTSMAPPER)
 
   const [selectedTraits, setSelectedTraits] = useState(() => {
     return traits.reduce((acc: any, trait) => {
-      acc[trait] = keys(YOOTSMAPPER[trait])[0]
+      if (trait === 'Skins') {
+        acc[trait] = 'Redlines 127 1'
+        return acc
+      }
+      acc[trait] = null //keys(YOOTSMAPPER[trait])[0]
       return acc
     }, {})
   })
+
+  console.log({ selectedTraits })
 
   const [selectedTrait, setSelectedTrait] = useState(traits[0])
   const [selectedSubTrait, setSelectedSubTrait] = useState<Key>(
@@ -82,6 +96,14 @@ export const YootsBuilder = () => {
       }))
     }
   }
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [animationParent] = useAutoAnimate()
+  const [traitModal, setTraitModal] = useState('')
+
+  const handleImageClick = (trait: string) => {
+    onOpen()
+    setTraitModal(trait)
+  }
 
   const handleDownload = () => {
     const canvas = document.createElement('canvas')
@@ -134,167 +156,266 @@ export const YootsBuilder = () => {
     link.click()
   }
 
+  const handleSelectionChange = (selected: any) => {
+    debugger
+
+    setSelectedTraits((prev: any) => ({
+      ...prev,
+      [traitModal]: selected?.key,
+    }))
+    onClose()
+  }
+
+  const navigateGridTrait = (direction: string, trait: string) => {
+    const subTraits = keys(YOOTSMAPPER[trait])
+    let currentIndex = subTraits.indexOf(selectedSubTrait)
+    if (direction === 'right') {
+      currentIndex = (currentIndex + 1) % subTraits.length
+    } else {
+      currentIndex = (currentIndex - 1 + subTraits.length) % subTraits.length
+    }
+    const newSubTrait = subTraits[currentIndex]
+    setSelectedSubTrait(newSubTrait)
+    setSelectedTraits((prev) => ({
+      ...prev,
+      [trait]: newSubTrait,
+    }))
+  }
   return (
     <>
-      <div className='flex gap-1 justify-center'>
-        <Dropdown>
-          <DropdownTrigger>
-            <Button variant='bordered'>{selectedTrait}</Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label='Action event example'
-            selectionMode='single'
-            selectedKeys={[selectedTrait]}
-            onAction={(key) => {
-              setSelectedTrait(
-                key as 'Background' | 'Clothes' | 'Eyes' | 'Head' | 'Skins'
-              )
-              setSelectedSubTrait(
-                keys(
-                  YOOTSMAPPER[
-                    key as 'Background' | 'Clothes' | 'Eyes' | 'Head' | 'Skins'
-                  ]
-                )[0]
-              )
-            }}
-          >
-            {traits?.map((trait) => (
-              <DropdownItem key={trait}>{trait}</DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-        <Dropdown>
-          <DropdownTrigger>
-            <Button variant='bordered'>{selectedSubTrait}</Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            selectionMode='single'
-            selectedKeys={[String(selectedSubTrait)]}
-            aria-label='Action event example'
-            onAction={(key) => {
-              setSelectedSubTrait(key)
-              setSelectedTraits((prev: any) => ({
-                ...prev,
-                [selectedTrait]: key,
-              }))
-            }}
-          >
-            {keys(YOOTSMAPPER[selectedTrait])?.map((subtrait) => (
-              <DropdownItem key={subtrait}>{subtrait}</DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-      </div>
-
-      <div className='flex flex-col md:flex-row justify-center gap-6'>
-        <div className='flex mt-3 justify-center items-center'>
-          <button className='mr-3' onClick={handleLeftClick}>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='w-6 h-6'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'
-              />
-            </svg>
-          </button>
-          <Image
-            className='border-1 border-gray-400'
-            as={NextImage}
-            src={`${BASE_URL}/${getValueForTraitAndSubTrait(
-              selectedTrait,
-              selectedSubTrait
-            )}`}
-            alt='Skin Builder'
-            width={220}
-            height={220}
-          />
-          <button className='ml-3' onClick={handleRightClick}>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth={1.5}
-              stroke='currentColor'
-              className='w-6 h-6'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3'
-              />
-            </svg>
-          </button>
-        </div>
-
-        <div className='block mt-3 justify-center'>
-          <div className='h-96 grid items-center justify-center w-full relative mt-4'>
-            <div className='relative w-80 h-80'>
-              <NextImage
+      {gridView && (
+        <>
+          <div className='flex gap-y-3 flex-col'>
+            <div className='flex flex-col md:flex-row justify-around'>
+              <DisplaySingleTrait
+                handleImageClick={handleImageClick}
+                size={180}
+                trait='Background'
                 src={`${BASE_URL}/Background/${selectedTraits[
                   'Background'
-                ].replace(/#/g, '%23')}.png`}
-                alt={`background-${selectedTraits['Background'].replace(
-                  /#/g,
-                  '%23'
-                )}`}
-                width={320}
-                height={320}
-                className='absolute inset-0 rounded-lg justify-self-center'
+                ]?.replace(/#/g, '%23')}.png`}
+                onLeftClick={() => navigateGridTrait('left', 'Background')}
+                onRightClick={() => navigateGridTrait('right', 'Background')}
               />
-              <NextImage
-                src={`${BASE_URL}/Skins/${selectedTraits['Skins'].replace(
+              <DisplaySingleTrait
+                handleImageClick={handleImageClick}
+                size={180}
+                trait='Clothes'
+                src={`${BASE_URL}/Clothes/${selectedTraits['Clothes']?.replace(
                   /#/g,
                   '%23'
                 )}.png`}
-                alt='skin'
-                width={320}
-                height={320}
-                className='absolute inset-0 rounded-lg justify-self-center'
+                onLeftClick={() => navigateGridTrait('left', 'Clothes')}
+                onRightClick={() => navigateGridTrait('right', 'Clothes')}
               />
-              <NextImage
-                src={`${BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
+              <DisplaySingleTrait
+                handleImageClick={handleImageClick}
+                size={180}
+                trait='Eyes'
+                src={`${BASE_URL}/Eyes/${selectedTraits['Eyes']?.replace(
                   /#/g,
                   '%23'
                 )}.png`}
-                alt='skin'
-                width={320}
-                height={320}
-                className='absolute inset-0 rounded-lg justify-self-center'
+                onLeftClick={() => navigateGridTrait('left', 'Eyes')}
+                onRightClick={() => navigateGridTrait('right', 'Eyes')}
               />
-              <NextImage
-                src={`${BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
+            </div>
+            <div className='flex flex-col md:flex-row justify-around gap-3'>
+              <DisplaySingleTrait
+                handleImageClick={handleImageClick}
+                size={180}
+                trait='Head'
+                src={`${BASE_URL}/Head/${selectedTraits['Head']?.replace(
                   /#/g,
                   '%23'
                 )}.png`}
-                alt='eyes'
-                width={320}
-                height={320}
-                className='absolute inset-0 rounded-lg justify-self-center'
+                onLeftClick={() => navigateGridTrait('left', 'Head')}
+                onRightClick={() => navigateGridTrait('right', 'Head')}
               />
-              <NextImage
-                src={`${BASE_URL}/Head/${selectedTraits['Head'].replace(
+              <div className='grid items-center justify-center relative mt-4'>
+                <div className='relative w-60 h-60' ref={animationParent}>
+                  {traitOrder.map((trait) => {
+                    const val = selectedTraits[trait]
+                    if (!val) return null
+                    const src = `${BASE_URL}/${trait}/${val?.replace(
+                      /#/g,
+                      '%23'
+                    )}.png`
+
+                    if (src.includes('undefined' || 'null')) return null
+                    return (
+                      <NextImage
+                        key={trait}
+                        src={src}
+                        alt={src}
+                        width={320}
+                        height={320}
+                        className='absolute inset-0 rounded-lg justify-self-center'
+                      />
+                    )
+                  })}
+                </div>
+              </div>
+              <DisplaySingleTrait
+                handleImageClick={handleImageClick}
+                size={180}
+                trait='Skins'
+                src={`${BASE_URL}/Skins/${selectedTraits['Skins']?.replace(
                   /#/g,
                   '%23'
                 )}.png`}
-                alt='eyes'
-                width={320}
-                height={320}
-                className='absolute inset-0 rounded-lg justify-self-center'
+                onLeftClick={() => navigateGridTrait('left', 'Skins')}
+                onRightClick={() => navigateGridTrait('right', 'Skins')}
               />
             </div>
           </div>
-          <Button onClick={handleDownload} className='mt-3'>
-            Download
-          </Button>
-        </div>
-      </div>
+          <TraitModal
+            nftType={NFTType.YOOTS}
+            isOpen={isOpen}
+            onClose={onClose}
+            modalTitle={traitModal}
+            handleSelectionChange={handleSelectionChange}
+          />
+        </>
+      )}
+
+      {!gridView && (
+        <>
+          <div className='flex gap-1 justify-center'>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button variant='bordered'>{selectedTrait}</Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label='Action event example'
+                selectionMode='single'
+                selectedKeys={[selectedTrait]}
+                onAction={(key) => {
+                  setSelectedTrait(
+                    key as 'Background' | 'Clothes' | 'Eyes' | 'Head' | 'Skins'
+                  )
+                  setSelectedSubTrait(
+                    keys(
+                      YOOTSMAPPER[
+                        key as
+                          | 'Background'
+                          | 'Clothes'
+                          | 'Eyes'
+                          | 'Head'
+                          | 'Skins'
+                      ]
+                    )[0]
+                  )
+                }}
+              >
+                {traits?.map((trait) => (
+                  <DropdownItem key={trait}>{trait}</DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown>
+              <DropdownTrigger>
+                <Button variant='bordered'>{selectedSubTrait}</Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                selectionMode='single'
+                selectedKeys={[String(selectedSubTrait)]}
+                aria-label='Action event example'
+                onAction={(key) => {
+                  setSelectedSubTrait(key)
+                  setSelectedTraits((prev: any) => ({
+                    ...prev,
+                    [selectedTrait]: key,
+                  }))
+                }}
+              >
+                {keys(YOOTSMAPPER[selectedTrait])?.map((subtrait) => (
+                  <DropdownItem key={subtrait}>{subtrait}</DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+          <div className='flex flex-col md:flex-row justify-center gap-6'>
+            <div className='flex mt-3 justify-center items-center'>
+              <button className='mr-3' onClick={handleLeftClick}>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='w-6 h-6'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18'
+                  />
+                </svg>
+              </button>
+              <Image
+                className='border-1 border-gray-400'
+                as={NextImage}
+                src={`${BASE_URL}/${getValueForTraitAndSubTrait(
+                  selectedTrait,
+                  selectedSubTrait
+                )}`}
+                alt='Skin Builder'
+                width={220}
+                height={220}
+              />
+              <button className='ml-3' onClick={handleRightClick}>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                  className='w-6 h-6'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3'
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div className='block mt-3 justify-center'>
+              <div className='h-96 grid items-center justify-center w-full relative mt-4'>
+                <div className='relative w-80 h-80'>
+                  {traitOrder.map((trait) => {
+                    const val = selectedTraits[trait]
+                    if (!val) return null
+                    const src = `${BASE_URL}/${trait}/${val.replace(
+                      /#/g,
+                      '%23'
+                    )}.png`
+
+                    if (src.includes('undefined' || 'null')) return null
+                    return (
+                      <NextImage
+                        key={src}
+                        src={src}
+                        alt={`${trait.toLowerCase()}-${selectedTraits[
+                          trait
+                        ].replace(/#/g, '%23')}`}
+                        width={320}
+                        height={320}
+                        className='absolute inset-0 rounded-lg justify-self-center'
+                      />
+                    )
+                  })}
+                </div>
+              </div>
+              <Button onClick={handleDownload} className='mt-3'>
+                Download
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
     </>
   )
 }

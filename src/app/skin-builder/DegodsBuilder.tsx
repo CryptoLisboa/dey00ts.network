@@ -16,6 +16,7 @@ import { useState } from 'react'
 import { DisplaySingleTrait } from './DisplaySingleTrait'
 import { TraitModal } from './TraitModal'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { NFTType } from '@/types/degods'
 
 const getValueForTraitAndSubTrait = (
   selectedTrait: any,
@@ -38,9 +39,16 @@ export const DegodsBuilder = ({ gridView }) => {
 
   const [selectedTraits, setSelectedTraits] = useState(() => {
     return traits.reduce((acc: any, trait) => {
+      if (trait === 'Skins') {
+        acc[trait] = {
+          value: 'X-ray 3',
+          key: 'X-ray',
+        }
+        return acc
+      }
       acc[trait] = {
-        value: keys(DEGODSMAPPER[selectedTrait][selectedSubTrait])[0],
-        key: keys(DEGODSMAPPER[trait])[0],
+        value: null, // keys(DEGODSMAPPER[selectedTrait][selectedSubTrait])[0],
+        key: null, // keys(DEGODSMAPPER[trait])[0],
       }
       return acc
     }, {})
@@ -166,7 +174,6 @@ export const DegodsBuilder = ({ gridView }) => {
 
   const handleImageClick = (trait) => {
     onOpen()
-    debugger
     setTraitModal(trait)
   }
   const traitOrder = [
@@ -179,6 +186,17 @@ export const DegodsBuilder = ({ gridView }) => {
     'Mouth',
     'Neck',
   ]
+
+  const handleSelectionChange = (selected) => {
+    setSelectedTraits((prev) => ({
+      ...prev,
+      [traitModal]: {
+        value: selected?.key,
+        key: selected?.name,
+      },
+    }))
+    onClose()
+  }
   return (
     <>
       {gridView && (
@@ -191,7 +209,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 trait='Clothes'
                 src={`${DEGODS_BASE_URL['Clothes']}/${
                   selectedTraits['Clothes'].key
-                }/${selectedTraits['Clothes'].value.replace(/#/g, '%23')}.png`}
+                }/${selectedTraits['Clothes'].value?.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Clothes')}
                 onRightClick={() => navigateSpecialty('right', 'Clothes')}
               />
@@ -201,7 +219,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 trait='Neck'
                 src={`${DEGODS_BASE_URL['Neck']}/${
                   selectedTraits['Neck'].key
-                }/${selectedTraits['Neck'].value.replace(/#/g, '%23')}.png`}
+                }/${selectedTraits['Neck'].value?.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Neck')}
                 onRightClick={() => navigateSpecialty('right', 'Neck')}
               />
@@ -211,7 +229,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 trait='Eyes'
                 src={`${DEGODS_BASE_URL['Eyes']}/${
                   selectedTraits['Eyes'].key
-                }/${selectedTraits['Eyes'].value.replace(/#/g, '%23')}.png`}
+                }/${selectedTraits['Eyes'].value?.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Eyes')}
                 onRightClick={() => navigateSpecialty('right', 'Eyes')}
               />
@@ -223,7 +241,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 trait='Backgrounds'
                 src={`${DEGODS_BASE_URL['Backgrounds']}/${
                   selectedTraits['Backgrounds'].key
-                }/${selectedTraits['Backgrounds'].value.replace(
+                }/${selectedTraits['Backgrounds'].value?.replace(
                   /#/g,
                   '%23'
                 )}.png`}
@@ -232,26 +250,26 @@ export const DegodsBuilder = ({ gridView }) => {
               />
               <div className='grid items-center justify-center relative mt-4'>
                 <div className='relative w-60 h-60' ref={animationParent}>
-                  {traitOrder.map((trait) => (
-                    <NextImage
-                      key={`${DEGODS_BASE_URL[trait]}/${
-                        selectedTraits[trait].key
-                      }/${selectedTraits[trait].value.replace(
-                        /#/g,
-                        '%23'
-                      )}.png`}
-                      src={`${DEGODS_BASE_URL[trait]}/${
-                        selectedTraits[trait].key
-                      }/${selectedTraits[trait].value.replace(
-                        /#/g,
-                        '%23'
-                      )}.png`}
-                      alt={selectedTraits[trait].value}
-                      width={240}
-                      height={240}
-                      className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
-                    />
-                  ))}
+                  {traitOrder.map((trait) => {
+                    const val = selectedTraits[trait].value
+                    const key = selectedTraits[trait].key
+
+                    if (!val || !key) return null
+                    const src = `${
+                      DEGODS_BASE_URL[trait]
+                    }/${key}/${val?.replace(/#/g, '%23')}.png`
+                    if (src.includes('undefined' || 'null')) return null
+                    return (
+                      <NextImage
+                        key={src}
+                        src={src}
+                        alt={selectedTraits[trait].value}
+                        width={240}
+                        height={240}
+                        className='absolute inset-0 rounded-lg justify-self-center max-w-[240px]'
+                      />
+                    )
+                  })}
                 </div>
               </div>
               <DisplaySingleTrait
@@ -260,7 +278,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 trait='Specialty'
                 src={`${DEGODS_BASE_URL['Specialty']}/${
                   selectedTraits['Specialty'].key
-                }/${selectedTraits['Specialty'].value.replace(
+                }/${selectedTraits['Specialty'].value?.replace(
                   /#/g,
                   '%23'
                 )}.png`}
@@ -275,7 +293,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 trait='Skins'
                 src={`${DEGODS_BASE_URL['Skins']}/${
                   selectedTraits['Skins'].key
-                }/${selectedTraits['Skins'].value.replace(/#/g, '%23')}.png`}
+                }/${selectedTraits['Skins'].value?.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Skins')}
                 onRightClick={() => navigateSpecialty('right', 'Skins')}
               />
@@ -285,7 +303,7 @@ export const DegodsBuilder = ({ gridView }) => {
                 trait='Head'
                 src={`${DEGODS_BASE_URL['Head']}/${
                   selectedTraits['Head'].key
-                }/${selectedTraits['Head'].value.replace(/#/g, '%23')}.png`}
+                }/${selectedTraits['Head'].value?.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Head')}
                 onRightClick={() => navigateSpecialty('right', 'Head')}
               />
@@ -295,16 +313,18 @@ export const DegodsBuilder = ({ gridView }) => {
                 trait='Mouth'
                 src={`${DEGODS_BASE_URL['Mouth']}/${
                   selectedTraits['Mouth'].key
-                }/${selectedTraits['Mouth'].value.replace(/#/g, '%23')}.png`}
+                }/${selectedTraits['Mouth'].value?.replace(/#/g, '%23')}.png`}
                 onLeftClick={() => navigateSpecialty('left', 'Mouth')}
                 onRightClick={() => navigateSpecialty('right', 'Mouth')}
               />
             </div>
           </div>
           <TraitModal
+            nftType={NFTType.DEGODS}
             isOpen={isOpen}
             onClose={onClose}
             modalTitle={traitModal}
+            handleSelectionChange={handleSelectionChange}
           />
         </>
       )}
@@ -445,21 +465,23 @@ export const DegodsBuilder = ({ gridView }) => {
             <div className='block mt-3 justify-center'>
               <div className='h-96 grid items-center justify-center w-full relative mt-4'>
                 <div className='relative w-80 h-80' ref={animationParent}>
-                  {traitOrder.map((trait) => (
-                    <NextImage
-                      key={trait}
-                      src={`${DEGODS_BASE_URL[trait]}/${
-                        selectedTraits[trait].key
-                      }/${selectedTraits[trait].value.replace(
-                        /#/g,
-                        '%23'
-                      )}.png`}
-                      alt={selectedTraits[trait].value}
-                      width={320}
-                      height={320}
-                      className='absolute inset-0 rounded-lg justify-self-center max-w-[320px]'
-                    />
-                  ))}
+                  {traitOrder.map((trait) => {
+                    const src = `${DEGODS_BASE_URL[trait]}/${
+                      selectedTraits[trait].key
+                    }/${selectedTraits[trait].value?.replace(/#/g, '%23')}.png`
+                    if (src.includes('undefined' || 'null')) return null
+
+                    return (
+                      <NextImage
+                        key={src}
+                        src={src}
+                        alt={selectedTraits[trait].value}
+                        width={320}
+                        height={320}
+                        className='absolute inset-0 rounded-lg justify-self-center max-w-[320px]'
+                      />
+                    )
+                  })}
                 </div>
               </div>
             </div>

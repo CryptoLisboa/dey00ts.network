@@ -4,8 +4,8 @@ import NextImage from 'next/image'
 type DisplaySingleTraitProps = {
   src: string
   trait: string
-  onLeftClick: () => void
-  onRightClick: () => void
+  onLeftClick?: () => void
+  onRightClick?: () => void
   handleImageClick?: (trait: string) => void
   size: number
 }

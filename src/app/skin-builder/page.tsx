@@ -110,7 +110,7 @@ function SkinBuilderComponent() {
       <div className='container mx-auto p-4 pb-0 md:pt-8 text-center'>
         {selectedTab === 'DeGods' && <DegodsBuilder gridView={gridView} />}
 
-        {selectedTab === 'Y00ts' && <YootsBuilder />}
+        {selectedTab === 'Y00ts' && <YootsBuilder gridView={gridView} />}
       </div>
     </main>
   )
