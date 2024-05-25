@@ -12,7 +12,6 @@ function ExperienceForm({
   onRemoveExperience: () => void
 }) {
   const [isCurrent, setIsCurrent] = useState(false)
-  console.log('isCurrent', isCurrent)
   return (
     <div className='grid gap-y-4 w-full'>
       <Input

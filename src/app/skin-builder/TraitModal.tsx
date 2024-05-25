@@ -39,7 +39,6 @@ const getYootsListBoxItems = (traitType) => {
     'https://bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link'
   const items = []
 
-  console.log({ traitType })
   Object.keys(traitData).forEach((key) => {
     const urlPrefix = `${baseUrl}/` // Ensure the base URL is correctly formatted with a trailing slash
     const imageName = traitData[key]

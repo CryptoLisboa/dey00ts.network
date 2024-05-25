@@ -1,7 +1,7 @@
 'use client'
 import { Button, ButtonGroup, Tab, Tabs } from '@nextui-org/react'
-import { DegodsBuilder } from './DegodsBuilder'
-import { YootsBuilder } from './YootsBuilder'
+import { DegodsBuilder } from './Degods/DegodsBuilder'
+import { YootsBuilder } from './Yoots/YootsBuilder'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useState } from 'react'
 import { motion } from 'framer-motion'
@@ -23,7 +23,18 @@ function SkinBuilderComponent() {
     }
     router.replace(`${pathname}?${params.toString()}`)
   }
-  const [gridView, setGridView] = useState(true)
+
+  function handleGrid(tab: string) {
+    const params = new URLSearchParams(searchParams || undefined)
+    if (tab) {
+      params.set('grid', tab)
+    } else {
+      params.delete('grid')
+    }
+    router.replace(`${pathname}?${params.toString()}`)
+  }
+
+  const selectedGrid = searchParams?.get('grid') || 'true'
 
   return (
     <main className='pt-4'>
@@ -72,7 +83,7 @@ function SkinBuilderComponent() {
         </div>
         <div className='flex flex-1 justify-center'>
           <ButtonGroup className='my-3'>
-            <Button onClick={() => setGridView(true)}>
+            <Button onClick={() => handleGrid('true')}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -88,7 +99,7 @@ function SkinBuilderComponent() {
                 />
               </svg>
             </Button>
-            <Button onClick={() => setGridView(false)}>
+            <Button onClick={() => handleGrid('false')}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -108,9 +119,13 @@ function SkinBuilderComponent() {
         </div>
       </div>
       <div className='container mx-auto p-4 pb-0 md:pt-8 text-center'>
-        {selectedTab === 'DeGods' && <DegodsBuilder gridView={gridView} />}
+        {selectedTab === 'DeGods' && (
+          <DegodsBuilder gridView={selectedGrid === 'true'} />
+        )}
 
-        {selectedTab === 'Y00ts' && <YootsBuilder gridView={gridView} />}
+        {selectedTab === 'Y00ts' && (
+          <YootsBuilder gridView={selectedGrid === 'true'} />
+        )}
       </div>
     </main>
   )

@@ -1619,3 +1619,14 @@ export const DEGODS_BASE_URL = {
   Specialty:
     'https://bafybeib5zumzk2tzxn3pbixrp622xsqxvkpxlo5uvrjlrectpicsac2qvy.ipfs.dweb.link',
 }
+
+export const degodsTraitOrder = [
+  'Backgrounds',
+  'Specialty',
+  'Skins',
+  'Clothes',
+  'Head',
+  'Eyes',
+  'Mouth',
+  'Neck',
+]

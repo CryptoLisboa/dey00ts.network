@@ -289,3 +289,13 @@ export const YOOTSMAPPER = {
     'zombie_sheesh#0': 'Skins/zombie_sheesh%230.png',
   },
 }
+export const YOOTS_BASE_URL =
+  'https://bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link'
+
+export const yootsTraitOrder = [
+  'Background',
+  'Skins',
+  'Clothes',
+  'Eyes',
+  'Head',
+]
