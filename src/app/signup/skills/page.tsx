@@ -2,20 +2,9 @@
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
+import { SKILLS } from '@/constants/app.constants'
 import { Button, Progress } from '@nextui-org/react'
-import { color } from 'framer-motion'
 import { useState } from 'react'
-
-const SKILLS = [
-  { name: 'Alpha Caller', color: '#BD8BFF' },
-  { name: 'Collab Manager', color: '#06F0FF' },
-  { name: 'Community Builder', color: '#FF6B6B' },
-  { name: 'Sol Dev', color: '#FFC9DF' },
-  { name: 'Content Creator', color: '#1BCEA3' },
-  { name: 'EVM Dev', color: '#FFFF75' },
-  { name: 'Full Stack', color: '#FFA500' },
-  { name: 'Space Host', color: '#3792FF' },
-]
 
 export default function Skills() {
   const [skillsSelected, setSkillsSelected] = useState<String[]>([])
