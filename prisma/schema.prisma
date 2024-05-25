@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  name        String?
+  profile     Profile?
+  locations   Location[]
+  experiences Experience[]
+  // Lists of users that follow this user and users this user is following
+  followers   Connection[] @relation(name: "followingConnection")
+  followings  Connection[] @relation(name: "followerConnection")
+  contents    Content[]
+  wallets     Wallet[]
+}
+
+model Wallet {
+  id      Int    @id @default(autoincrement())
+  userId  Int
+  address String // Store only wallet address
+  user    User   @relation(fields: [userId], references: [id])
+}
+
+model Profile {
+  id        Int     @id @default(autoincrement())
+  userId    Int     @unique
+  bio       String?
+  avatarUrl String?
+  user      User    @relation(fields: [userId], references: [id])
+}
+
+model Location {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  latitude    Float?
+  longitude   Float?
+  User        User?   @relation(fields: [userId], references: [id])
+  userId      Int?
+  Event       Event[]
+}
+
+model Experience {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String?
+  userId      Int
+  user        User    @relation(fields: [userId], references: [id])
+}
+
+model Connection {
+  id          Int  @id @default(autoincrement())
+  followerId  Int
+  followingId Int
+  // This user is followed by the follower
+  follower    User @relation(name: "followingConnection", fields: [followerId], references: [id])
+  // This user is following the following
+  following   User @relation(name: "followerConnection", fields: [followingId], references: [id])
+}
+
+model Avatar {
+  id          Int     @id @default(autoincrement())
+  imageUrl    String
+  description String?
+}
+
+model Content {
+  id     Int     @id @default(autoincrement())
+  title  String?
+  body   String?
+  userId Int
+  user   User    @relation(fields: [userId], references: [id])
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  locationId  Int
+  location    Location @relation(fields: [locationId], references: [id])
+}
