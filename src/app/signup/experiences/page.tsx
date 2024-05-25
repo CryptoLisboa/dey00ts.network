@@ -87,7 +87,7 @@ export default function Experiences() {
 
   const routeToConnectDeID = () => router.push('/signup/connect_de_id')
   return (
-    <main className='dark' id='experiences'>
+    <main className='dark overflow' id='experiences'>
       <BackButton />
       <BgImage
         src='/images/dey00ts_bgs/mobile/4_welcome.png'

@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function GenderSignUp() {
   return (
-    <main className='dark h-screen overflow-hidden' id='gender'>
+    <main className='dark  overflow-hidden' id='gender'>
       <BackButton />
       <BgImage
         src='/images/dey00ts_bgs/mobile/2_welcome.png'

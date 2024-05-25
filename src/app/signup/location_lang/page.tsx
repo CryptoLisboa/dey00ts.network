@@ -6,7 +6,7 @@ import { LocationForm } from './LocationForm.client'
 
 export default function LocationSignUp() {
   return (
-    <main className='dark h-screen overflow-hidden' id='location'>
+    <main className='dark  overflow-hidden' id='location'>
       <BackButton />
       <BgImage
         src='/images/dey00ts_bgs/mobile/3_welcome.png'

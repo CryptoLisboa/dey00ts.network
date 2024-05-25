@@ -5,7 +5,7 @@ import { Progress, Textarea } from '@nextui-org/react'
 
 export default function Bio() {
   return (
-    <main className='dark h-screen overflow-hidden' id='bio'>
+    <main className='dark  overflow-hidden' id='bio'>
       <BackButton />
       <BgImage
         src='/images/dey00ts_bgs/mobile/4_welcome.png'

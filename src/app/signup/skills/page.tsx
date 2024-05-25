@@ -20,7 +20,7 @@ const SKILLS = [
 export default function Skills() {
   const [skillsSelected, setSkillsSelected] = useState<String[]>([])
   return (
-    <main className='dark h-screen overflow-hidden' id='skills'>
+    <main className='dark  overflow-hidden' id='skills'>
       <BackButton />
       <BgImage
         src='/images/dey00ts_bgs/mobile/4_welcome.png'
