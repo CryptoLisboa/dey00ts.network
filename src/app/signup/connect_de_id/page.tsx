@@ -17,8 +17,10 @@ export default function GenderSignUp() {
           <h1 className='text-3xl font-bold text-white text-center'>
             Connect your DeID
           </h1>
+          {/* <div className='mx-16'> */}
           <Button
-            className='bg-[#212121] text-white text-center text-2xl md:text-3xl shadow-md shadow-white w-full h-8 flex items-center justify-between px-20'
+            className='text-white text-center text-2xl md:text-3xl shadow-md shadow-white w-full h-8 flex items-center justify-between px-20'
+            // className='bg-[#212121] text-white text-center text-2xl md:text-3xl shadow-md shadow-white w-full h-8 flex items-center justify-between mx-24 px-20'
             variant='shadow'
             size='sm'
           >
@@ -30,6 +32,7 @@ export default function GenderSignUp() {
               height={64}
             />
           </Button>
+          {/* </div> */}
         </div>
       </div>
     </main>
