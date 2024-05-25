@@ -1,12 +1,17 @@
 'use client'
 import { Button, ButtonGroup, Tab, Tabs } from '@nextui-org/react'
-import { DegodsBuilder } from './Degods/DegodsBuilder'
-import { YootsBuilder } from './Yoots/YootsBuilder'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { Suspense, useState } from 'react'
+import { Suspense } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 
+const DynamicDegodsBuilder = dynamic(() =>
+  import('./Degods/DegodsBuilder').then((mod) => mod.DegodsBuilder)
+)
+const DynamicYootsBuilder = dynamic(() =>
+  import('./Yoots/YootsBuilder').then((mod) => mod.YootsBuilder)
+)
 function SkinBuilderComponent() {
   const router = useRouter()
   const pathname = usePathname()
@@ -83,7 +88,12 @@ function SkinBuilderComponent() {
         </div>
         <div className='flex flex-1 justify-center'>
           <ButtonGroup className='my-3'>
-            <Button onClick={() => handleGrid('true')}>
+            <Button
+              className={`${
+                selectedGrid === 'false' ? 'bg-[#212121]' : 'bg-[#D9D9D9]'
+              }`}
+              onClick={() => handleGrid('true')}
+            >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -99,7 +109,12 @@ function SkinBuilderComponent() {
                 />
               </svg>
             </Button>
-            <Button onClick={() => handleGrid('false')}>
+            <Button
+              className={`${
+                selectedGrid === 'true' ? 'bg-[#212121]' : 'bg-[#D9D9D9]'
+              }`}
+              onClick={() => handleGrid('false')}
+            >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -120,11 +135,11 @@ function SkinBuilderComponent() {
       </div>
       <div className='container mx-auto p-4 pb-0 md:pt-8 text-center'>
         {selectedTab === 'DeGods' && (
-          <DegodsBuilder gridView={selectedGrid === 'true'} />
+          <DynamicDegodsBuilder gridView={selectedGrid === 'true'} />
         )}
 
         {selectedTab === 'Y00ts' && (
-          <YootsBuilder gridView={selectedGrid === 'true'} />
+          <DynamicYootsBuilder gridView={selectedGrid === 'true'} />
         )}
       </div>
     </main>
