@@ -14,6 +14,8 @@ const DynamicGridView = dynamic(() =>
   import('./YootsGridView').then((mod) => mod.YootsGridView)
 )
 
+const IMAGE_SIZE = 500
+
 export const YootsBuilder = ({ gridView }: { gridView: boolean }) => {
   const traits = keys(YOOTSMAPPER)
 
@@ -51,36 +53,47 @@ export const YootsBuilder = ({ gridView }: { gridView: boolean }) => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
     if (!context) return
-    canvas.width = 3000
-    canvas.height = 3000
+    // const imageSize = 3000
+    canvas.width = IMAGE_SIZE
+    canvas.height = IMAGE_SIZE
 
     const images = [
-      `${YOOTS_BASE_URL}/Background/${selectedTraits['Background'].replace(
-        /#/g,
-        '%23'
-      )}.png`,
-      `${YOOTS_BASE_URL}/Skins/${selectedTraits['Skins'].replace(
-        /#/g,
-        '%23'
-      )}.png`,
-      `${YOOTS_BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
-        /#/g,
-        '%23'
-      )}.png`,
-      `${YOOTS_BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
-        /#/g,
-        '%23'
-      )}.png`,
-      `${YOOTS_BASE_URL}/Head/${selectedTraits['Head'].replace(
-        /#/g,
-        '%23'
-      )}.png`,
-    ]
+      selectedTraits['Background']
+        ? `${YOOTS_BASE_URL}/Background/${selectedTraits['Background'].replace(
+            /#/g,
+            '%23'
+          )}.png`
+        : null,
+      selectedTraits['Skins']
+        ? `${YOOTS_BASE_URL}/Skins/${selectedTraits['Skins'].replace(
+            /#/g,
+            '%23'
+          )}.png`
+        : null,
+      selectedTraits['Eyes']
+        ? `${YOOTS_BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
+            /#/g,
+            '%23'
+          )}.png`
+        : null,
+      selectedTraits['Head']
+        ? `${YOOTS_BASE_URL}/Head/${selectedTraits['Head'].replace(
+            /#/g,
+            '%23'
+          )}.png`
+        : null,
+      selectedTraits['Clothes']
+        ? `${YOOTS_BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
+            /#/g,
+            '%23'
+          )}.png`
+        : null,
+    ].filter((src) => src !== null) as string[]
 
     Promise.all(images.map((src) => loadImage(src)))
       .then((loadedImages) => {
         loadedImages.forEach((img) => {
-          context.drawImage(img, 0, 0, 3000, 3000)
+          context.drawImage(img, 0, 0, IMAGE_SIZE, IMAGE_SIZE)
         })
         const dataURL = canvas.toDataURL('image/png')
         downloadImage(dataURL, 'y00t - ' + formatDate() + '.png')
@@ -118,6 +131,7 @@ export const YootsBuilder = ({ gridView }: { gridView: boolean }) => {
           selectedTrait={selectedTrait}
           selectedSubTrait={selectedSubTrait}
           traits={traits}
+          handleDownload={handleDownload}
         />
       )}
 

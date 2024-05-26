@@ -36,7 +36,8 @@ const getListBoxItems = (traitType: string) => {
 const getYootsListBoxItems = (traitType) => {
   const traitData = YOOTSMAPPER[traitType]
   const baseUrl =
-    'https://bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link'
+    'https://bafybeidz4pvfdd6yyu4mx3xwfo2imxfjtwc3vugmcrgfeq5u7skgj36moy.ipfs.dweb.link'
+  // const baseUrl = 'https://bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link'
   const items = []
 
   Object.keys(traitData).forEach((key) => {

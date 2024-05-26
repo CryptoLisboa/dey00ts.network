@@ -23,7 +23,6 @@
     "ramda": "^0.30.0",
     "react": "^18",
     "react-dom": "^18",
-    "thirdweb": "^5.23.0",
     "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
@@ -36,6 +35,7 @@
     "postcss": "^8",
     "prisma": "5.14.0",
     "tailwindcss": "^3.4.1",
+    "thirdweb": "^5.24.0",
     "typescript": "^5"
   }
 }

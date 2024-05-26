@@ -290,12 +290,13 @@ export const YOOTSMAPPER = {
   },
 }
 export const YOOTS_BASE_URL =
-  'https://bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link'
+  'https://bafybeidz4pvfdd6yyu4mx3xwfo2imxfjtwc3vugmcrgfeq5u7skgj36moy.ipfs.dweb.link'
+// export const YOOTS_BASE_URL = 'https://bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link'
 
 export const yootsTraitOrder = [
   'Background',
   'Skins',
-  'Clothes',
   'Eyes',
   'Head',
+  'Clothes',
 ]
