@@ -142,7 +142,7 @@ export const YootsGridView = ({
             onRightClick={() => navigateGridTrait('right', 'Skins')}
           />
         </div>
-        <Button onClick={handleDownload} className='mt-3'>
+        <Button onClick={handleDownload} className='mt-3' color={'primary'}>
           Download
         </Button>
       </div>

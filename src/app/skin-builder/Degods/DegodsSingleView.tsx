@@ -286,7 +286,11 @@ export const DegodsSingleView = ({
             </div>
           </div>
           <div className='w-full'>
-            <Button onClick={handleDownload} className='mt-3 w-full'>
+            <Button
+              onClick={handleDownload}
+              className='mt-3 w-full'
+              color={'primary'}
+            >
               Download
             </Button>
           </div>

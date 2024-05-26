@@ -250,7 +250,7 @@ export const DegodsGridView = ({
             onRightClick={() => navigateGridTrait('right', 'Mouth')}
           />
         </div>
-        <Button onClick={handleDownload} className='mt-3'>
+        <Button onClick={handleDownload} className='mt-3' color={'primary'}>
           Download
         </Button>
       </div>
