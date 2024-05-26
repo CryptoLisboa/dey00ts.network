@@ -19,6 +19,13 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname:
+          'bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname:
           'bafybeihnbn4zgm27jputfhxlbtlyain3k3kdfv6dnu37tb473zoowwdb6a.ipfs.dweb.link',
         port: '',
         pathname: '/**',
