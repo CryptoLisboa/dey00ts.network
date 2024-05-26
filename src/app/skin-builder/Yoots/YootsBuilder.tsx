@@ -63,15 +63,15 @@ export const YootsBuilder = ({ gridView }: { gridView: boolean }) => {
         /#/g,
         '%23'
       )}.png`,
-      `${YOOTS_BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
-        /#/g,
-        '%23'
-      )}.png`,
       `${YOOTS_BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
         /#/g,
         '%23'
       )}.png`,
       `${YOOTS_BASE_URL}/Head/${selectedTraits['Head'].replace(
+        /#/g,
+        '%23'
+      )}.png`,
+      `${YOOTS_BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
         /#/g,
         '%23'
       )}.png`,

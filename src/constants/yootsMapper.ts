@@ -296,7 +296,7 @@ export const YOOTS_BASE_URL =
 export const yootsTraitOrder = [
   'Background',
   'Skins',
-  'Clothes',
   'Eyes',
   'Head',
+  'Clothes',
 ]
