@@ -25,9 +25,6 @@ export const DEGODSMAPPER = {
       '.DS_Store': 'Backgrounds/Deep_Ocean_Blue/.DS_Store',
       deep_ocean_blue: 'Backgrounds/Deep_Ocean_Blue/deep_ocean_blue.png',
     },
-    Godchella_Hoodie: {
-      '1': 'Backgrounds/Godchella_Hoodie/1.png',
-    },
     Heaven: {
       '1': 'Backgrounds/Heaven/1.png',
       '2': 'Backgrounds/Heaven/2.png',
@@ -545,9 +542,6 @@ export const DEGODSMAPPER = {
       '3': 'Eyes/Glowing_Eyes/3.png',
       '4': 'Eyes/Glowing_Eyes/4.png',
     },
-    Godchella_Hoodie: {
-      '1': 'Eyes/Godchella_Hoodie/1.png',
-    },
     Laser_Eyes: {
       '1': 'Eyes/Laser_Eyes/1.png',
       '2': 'Eyes/Laser_Eyes/2.png',
@@ -814,9 +808,6 @@ export const DEGODSMAPPER = {
       '4': 'Head/Fade/4.png',
       '5': 'Head/Fade/5.png',
       '6': 'Head/Fade/6.png',
-    },
-    Godchella_Hoodie: {
-      '1': 'Head/Godchella_Hoodie/1.png',
     },
     Godfro: {
       '1': 'Head/Godfro/1.png',
@@ -1118,9 +1109,6 @@ export const DEGODSMAPPER = {
       '5': 'Mouth/Goatee/5.png',
       '6': 'Mouth/Goatee/6.png',
     },
-    Godchella_Hoodie: {
-      '1': 'Mouth/Godchella_Hoodie/1.png',
-    },
     Heavenly_Wood: {
       '1': 'Mouth/Heavenly_Wood/1.png',
       '2': 'Mouth/Heavenly_Wood/2.png',
@@ -1212,9 +1200,6 @@ export const DEGODSMAPPER = {
       '2': 'Neck/Friendship_Necklace/2.png',
       '3': 'Neck/Friendship_Necklace/3.png',
       '4': 'Neck/Friendship_Necklace/4.png',
-    },
-    Godchella_Hoodie: {
-      '1': 'Neck/Godchella_Hoodie/1.png',
     },
     Gold_Chain: {
       '1': 'Neck/Gold_Chain/1.png',
@@ -1568,9 +1553,6 @@ export const DEGODSMAPPER = {
       '3': 'Specialty/God_of_War/3.png',
       '4': 'Specialty/God_of_War/4.png',
     },
-    Godchella_Hoodie: {
-      '1': 'Specialty/Godchella_Hoodie/1.png',
-    },
     Mythic_Wings: {
       '1': 'Specialty/Mythic_Wings/1.png',
       '2': 'Specialty/Mythic_Wings/2.png',
@@ -1624,9 +1606,9 @@ export const degodsTraitOrder = [
   'Backgrounds',
   'Specialty',
   'Skins',
-  'Clothes',
   'Head',
   'Eyes',
   'Mouth',
+  'Clothes',
   'Neck',
 ]
