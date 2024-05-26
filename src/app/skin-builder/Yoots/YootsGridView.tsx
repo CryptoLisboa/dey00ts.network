@@ -8,7 +8,7 @@ import NextImage from 'next/image'
 import { TraitModal } from '../TraitModal'
 import { NFTType } from '@/types/degods'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { useDisclosure } from '@nextui-org/react'
+import { Button, useDisclosure } from '@nextui-org/react'
 import { useState } from 'react'
 import { keys } from 'ramda'
 
@@ -17,12 +17,14 @@ type YootsGridViewProps = {
   setSelectedTraits: (value: any) => void
   setSelectedSubTrait: (value: any) => void
   selectedSubTrait: string
+  handleDownload: () => void
 }
 export const YootsGridView = ({
   selectedTraits,
   setSelectedTraits,
   setSelectedSubTrait,
   selectedSubTrait,
+  handleDownload,
 }: YootsGridViewProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [animationParent] = useAutoAnimate()
@@ -140,6 +142,9 @@ export const YootsGridView = ({
             onRightClick={() => navigateGridTrait('right', 'Skins')}
           />
         </div>
+        <Button onClick={handleDownload} className='mt-3'>
+          Download
+        </Button>
       </div>
       <TraitModal
         nftType={NFTType.YOOTS}

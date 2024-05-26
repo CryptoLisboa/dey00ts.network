@@ -203,9 +203,11 @@ export function YootsSingleView({
               })}
             </div>
           </div>
-          <Button onClick={handleDownload} className='mt-3'>
-            Download
-          </Button>
+          <div className='w-96'>
+            <Button onClick={handleDownload} className='mt-3 w-full'>
+              Download
+            </Button>
+          </div>
         </div>
       </div>
     </>
