@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { NextUIProvider } from '@nextui-org/system'
 import { SignUpProvider } from './SignUpProvider'
@@ -9,10 +10,10 @@ export const Providers = ({
   children: JSX.Element[] | JSX.Element | string
 }) => {
   return (
-    <NextUIProvider>
-      <AuthProvider>
-        <SignUpProvider>{children}</SignUpProvider>
-      </AuthProvider>
-    </NextUIProvider>
+    <AuthProvider>
+      {/* <SignUpProvider> */}
+      <NextUIProvider>{children}</NextUIProvider>
+      {/* </SignUpProvider> */}
+    </AuthProvider>
   )
 }

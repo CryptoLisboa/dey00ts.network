@@ -7,9 +7,9 @@ import Navbar from '@/components/navbar'
 export default function Home() {
   return (
     <div className='dark' id='root'>
-      <header>
+      {/* <header>
         <Navbar />
-      </header>
+      </header> */}
       <main className='flex flex-col items-center justify-center h-[85vh]'>
         <h1 className='font-rowdies text-4xl md:text-6xl'>DeY00ts.Network</h1>
         <h2 className='font-rowdies text-2xl md:text-4xl'>

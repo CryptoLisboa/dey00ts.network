@@ -1,4 +1,5 @@
-import { Button, Link } from '@nextui-org/react'
+import { Button, Link as NextUILink } from '@nextui-org/react'
+import Link from 'next/link'
 
 export default function SignUpCard({
   children,
@@ -19,13 +20,14 @@ export default function SignUpCard({
         >
           Next
         </Button>
-        <Link
+        <NextUILink
+          as={Link}
           href='#'
           className='text-white text-center md:text-base text-sm'
           underline='hover'
         >
           already part of Dey00ts Network? log in instead
-        </Link>
+        </NextUILink>
       </div>
     </div>
   )

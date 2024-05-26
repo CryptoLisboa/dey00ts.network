@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Inter, Luckiest_Guy } from 'next/font/google'
 import { Providers } from '../providers/Providers.client'
 import { Rowdies } from 'next/font/google'
+import Navbar from '@/components/navbar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,6 +34,9 @@ export default function RootLayout({
     <html lang='en' className={`dark ${rowdies.variable} ${lucky.variable}`}>
       <body className={inter.className}>
         <Providers>
+          <header>
+            <Navbar />
+          </header>
           <>{children}</>
         </Providers>
       </body>

@@ -1,9 +1,20 @@
+'use client'
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
+import AuthContext from '@/providers/AuthContext'
 import { Progress, Textarea } from '@nextui-org/react'
+import { useContext } from 'react'
 
 export default function Bio() {
+  const { setSignupData, signupData } = useContext(AuthContext)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignupData({
+      ...signupData,
+      [e.target.name]: e.target.value,
+    })
+  }
   return (
     <main className='dark  overflow-hidden' id='bio'>
       <BackButton />
@@ -35,6 +46,9 @@ export default function Bio() {
             <Textarea
               key='bordered'
               variant='bordered'
+              name='bio'
+              value={signupData?.bio}
+              onChange={handleChange}
               placeholder='type here'
               className='text-[#D9D9D9] border-[#AFE5FF] h-full'
               size='lg'

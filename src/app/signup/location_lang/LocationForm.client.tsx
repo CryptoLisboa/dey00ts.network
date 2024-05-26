@@ -1,20 +1,20 @@
 'use client'
 
 import { languages, locations } from '@/constants/signup.constants'
-import { SignUpContext } from '@/providers/SignUpProvider'
+import AuthContext from '@/providers/AuthContext'
 import { Select, SelectItem } from '@nextui-org/react'
 import { useContext } from 'react'
-// import { useSignUp } from '../../../../providers/SignUpProvider'
 
 export const LocationForm = () => {
-  // const { userDetails, updateUserDetails, nextStep } = useSignUp()
-  const data = useContext(SignUpContext)
+  const { setSignupData, signupData } = useContext(AuthContext)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    debugger
-    data?.updateUserDetails({ [e.target.name]: e.target.value })
+    setSignupData({
+      ...signupData,
+      [e.target.name]: e.target.value,
+    })
   }
-  console.log({ data })
+
   return (
     <div className='grid gap-y-6 w-full px-4 items-center'>
       <div className='grid gap-y-2'>
@@ -24,7 +24,8 @@ export const LocationForm = () => {
           selectionMode='single'
           placeholder='Select Language'
           name='language'
-          value={data?.userDetails?.language}
+          // @ts-expect-error
+          selectedKeys={[signupData?.language]}
           classNames={{
             base: 'text-[#AFE5FF]',
             value: 'text-[#AFE5FF]',
@@ -32,7 +33,6 @@ export const LocationForm = () => {
             trigger: 'border-[#AFE5FF]',
           }}
           onChange={(e: any) => handleChange(e)}
-          // onSelect={(e) => handleChange(e)}
         >
           {languages.map((language) => (
             <SelectItem key={language.value} value={language.value}>
@@ -48,7 +48,8 @@ export const LocationForm = () => {
           selectionMode='single'
           placeholder='Select Location'
           name='location'
-          value={data?.userDetails?.location}
+          // @ts-expect-error
+          selectedKeys={[signupData?.location]}
           classNames={{
             base: 'text-[#AFE5FF]',
             value: 'text-[#AFE5FF]',
@@ -56,7 +57,6 @@ export const LocationForm = () => {
             trigger: 'border-[#AFE5FF]',
           }}
           onChange={(e: any) => handleChange(e)}
-          // onSelect={(e) => handleChange(e)}
         >
           {locations.map((location) => (
             <SelectItem key={location.value} value={location.value}>

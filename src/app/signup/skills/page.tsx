@@ -3,11 +3,19 @@ import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import { SKILLS } from '@/constants/app.constants'
+import AuthContext from '@/providers/AuthContext'
 import { Button, Progress } from '@nextui-org/react'
-import { useState } from 'react'
+import { useContext } from 'react'
 
 export default function Skills() {
-  const [skillsSelected, setSkillsSelected] = useState<String[]>([])
+  const { setSignupData, signupData } = useContext(AuthContext)
+
+  const handleChange = (newData: string[]) => {
+    setSignupData({
+      ...signupData,
+      skills: newData,
+    })
+  }
   return (
     <main className='dark  overflow-hidden' id='skills'>
       <BackButton />
@@ -44,15 +52,15 @@ export default function Skills() {
                   style={{
                     color,
                     borderColor: color,
-                    opacity: skillsSelected.includes(name) ? 1 : 0.66,
+                    opacity: signupData?.skills?.includes(name) ? 1 : 0.66,
                   }}
                   onClick={() => {
-                    if (skillsSelected.includes(name)) {
-                      setSkillsSelected(
-                        skillsSelected.filter((i) => i !== name)
+                    if (signupData?.skills?.includes(name)) {
+                      handleChange(
+                        signupData?.skills?.filter((i) => i !== name)
                       )
                     } else {
-                      setSkillsSelected([...skillsSelected, name])
+                      handleChange([...(signupData?.skills || []), name])
                     }
                   }}
                 >

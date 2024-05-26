@@ -10,14 +10,12 @@ import { useContext } from 'react'
 
 export default function GenderSignUp() {
   // const { userDetails, updateUserDetails, nextStep } = useSignUp()
-  const data = useContext(SignUpContext)
-  const { setSignupData } = useContext(AuthContext)
+  const { setSignupData, signupData } = useContext(AuthContext)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignupData({
       gender: e.target.value,
     })
-    data?.updateUserDetails({ [e.target.name]: e.target.value })
   }
   return (
     <main className='dark  overflow-hidden' id='gender'>
@@ -53,7 +51,7 @@ export default function GenderSignUp() {
               isRequired
               color='success'
               label='Gender'
-              value={data?.userDetails.gender}
+              value={signupData?.gender}
               name='gender'
               onChange={handleChange}
               classNames={{

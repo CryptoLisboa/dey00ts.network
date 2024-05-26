@@ -1,5 +1,5 @@
+'use client'
 import {
-  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,

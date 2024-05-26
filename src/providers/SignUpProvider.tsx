@@ -1,6 +1,6 @@
 'use client'
 import { SignUpContextType, UserDetails } from '@/types/app.types'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useState } from 'react'
 
 export const SignUpContext = createContext<SignUpContextType | undefined>(
   undefined

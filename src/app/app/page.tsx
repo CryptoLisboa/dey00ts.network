@@ -8,9 +8,9 @@ import NextImage from 'next/image'
 export default function AppHomePage() {
   return (
     <div className='dark' id='root'>
-      <header>
+      {/* <header>
         <Navbar />
-      </header>
+      </header> */}
       <main className='container pt-0 mx-auto p-4'>
         <div className='flex flex-col items-center mb-4 gap-3'>
           <h1 className='text-2xl font-bold text-white text-center'>

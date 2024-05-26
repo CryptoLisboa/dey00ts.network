@@ -17,6 +17,7 @@
     "@nextui-org/system": "^2.1.2",
     "@nextui-org/theme": "^2.2.3",
     "@prisma/client": "5.14.0",
+    "formik": "^2.4.6",
     "framer-motion": "^11.2.6",
     "next": "14.2.3",
     "ramda": "^0.30.0",
