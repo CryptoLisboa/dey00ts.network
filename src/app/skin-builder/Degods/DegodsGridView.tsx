@@ -61,17 +61,16 @@ export const DegodsGridView = ({
     }
 
     if (newValueIndex) {
-      const helperValue = keys(subTraits[subTraitKeys[newSubTraitIndex]])[
-        newValueIndex
-      ]
-      setSelectedTraits((prev: any) => ({
-        ...prev,
-        [trait]: {
-          value: helperValue,
-          key: subTraitKeys[newSubTraitIndex],
-        },
-      }))
-    }
+    const helperValue =
+      // @ts-ignore
+      keys(subTraits[subTraitKeys[newSubTraitIndex]])[newValueIndex]
+    setSelectedTraits((prev: any) => ({
+      ...prev,
+      [trait]: {
+        value: helperValue,
+        key: subTraitKeys[newSubTraitIndex],
+      },
+    }))
   }
   const {
     isOpen: isOpenSettings,
