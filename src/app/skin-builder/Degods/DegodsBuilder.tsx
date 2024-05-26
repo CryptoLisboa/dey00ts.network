@@ -75,6 +75,7 @@ export const DegodsBuilder = ({ gridView }: DegodsBuilderProps) => {
           if (selectedTraits[trait]) {
             const val = selectedTraits[trait].value
             const key = selectedTraits[trait].key
+            if (!val || !key) return null
             // @ts-expect-error
             return `${DEGODS_BASE_URL[trait]}/${key}/${val?.replace(
               /#/g,
