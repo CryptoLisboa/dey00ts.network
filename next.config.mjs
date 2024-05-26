@@ -5,10 +5,17 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname:
-          'bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link',
+          'bafybeidz4pvfdd6yyu4mx3xwfo2imxfjtwc3vugmcrgfeq5u7skgj36moy.ipfs.dweb.link',
         port: '',
         pathname: '/**',
       },
+      // {
+      //   protocol: 'https',
+      //   hostname:
+      //     'bafybeihu3veecxn5bscv3jrenittgviqkbe4epek6poggozbbdsx2vm6jy.ipfs.dweb.link',
+      //   port: '',
+      //   pathname: '/**',
+      // },
       {
         protocol: 'https',
         hostname:
