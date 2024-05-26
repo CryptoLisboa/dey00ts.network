@@ -22,7 +22,6 @@ export const DEGODSMAPPER = {
       '1': 'Backgrounds/Deep_Ocean_Blue/1.png',
       '2': 'Backgrounds/Deep_Ocean_Blue/2.png',
       '3': 'Backgrounds/Deep_Ocean_Blue/3.png',
-      '.DS_Store': 'Backgrounds/Deep_Ocean_Blue/.DS_Store',
       deep_ocean_blue: 'Backgrounds/Deep_Ocean_Blue/deep_ocean_blue.png',
     },
     Heaven: {
@@ -46,7 +45,6 @@ export const DEGODSMAPPER = {
       '1': 'Backgrounds/Olive_Green/1.png',
       '2': 'Backgrounds/Olive_Green/2.png',
       '3': 'Backgrounds/Olive_Green/3.png',
-      '.DS_Store': 'Backgrounds/Olive_Green/.DS_Store',
       olive_green: 'Backgrounds/Olive_Green/olive_green.png',
     },
     Purple: {
@@ -74,7 +72,6 @@ export const DEGODSMAPPER = {
   },
   Clothes: {
     Bleached_Tee: {
-      '.DS_Store': 'Clothes/Bleached_Tee/.DS_Store',
       'Bleached_Tee 1': 'Clothes/Bleached_Tee/Bleached_Tee 1.png',
       'Bleached_Tee 2': 'Clothes/Bleached_Tee/Bleached_Tee 2.png',
       'Bleached_Tee 3': 'Clothes/Bleached_Tee/Bleached_Tee 3.png',
@@ -84,7 +81,6 @@ export const DEGODSMAPPER = {
       'Bleached_Tee 7': 'Clothes/Bleached_Tee/Bleached_Tee 7.png',
     },
     Bloody_Beater: {
-      '.DS_Store': 'Clothes/Bloody_Beater/.DS_Store',
       'Bloody_Beater 1': 'Clothes/Bloody_Beater/Bloody_Beater 1.png',
       'Bloody_Beater 2': 'Clothes/Bloody_Beater/Bloody_Beater 2.png',
       'Bloody_Beater 3': 'Clothes/Bloody_Beater/Bloody_Beater 3.png',
@@ -93,7 +89,6 @@ export const DEGODSMAPPER = {
       'Bloody_Beater 6': 'Clothes/Bloody_Beater/Bloody_Beater 6.png',
     },
     Caesar_Tunic: {
-      '.DS_Store': 'Clothes/Caesar_Tunic/.DS_Store',
       'Caesar_Tunic 1': 'Clothes/Caesar_Tunic/Caesar_Tunic 1.png',
       'Caesar_Tunic 2': 'Clothes/Caesar_Tunic/Caesar_Tunic 2.png',
       'Caesar_Tunic 3': 'Clothes/Caesar_Tunic/Caesar_Tunic 3.png',
@@ -103,7 +98,6 @@ export const DEGODSMAPPER = {
       'Caesar_Tunic 7': 'Clothes/Caesar_Tunic/Caesar_Tunic 7.png',
     },
     DeDoctor_Coat: {
-      '.DS_Store': 'Clothes/DeDoctor_Coat/.DS_Store',
       'DeDoctor_Coat 1': 'Clothes/DeDoctor_Coat/DeDoctor_Coat 1.png',
       'DeDoctor_Coat 2': 'Clothes/DeDoctor_Coat/DeDoctor_Coat 2.png',
       'DeDoctor_Coat 3': 'Clothes/DeDoctor_Coat/DeDoctor_Coat 3.png',
@@ -112,7 +106,6 @@ export const DEGODSMAPPER = {
       'DeDoctor_Coat 6': 'Clothes/DeDoctor_Coat/DeDoctor_Coat 6.png',
     },
     DeGod_Cutoff: {
-      '.DS_Store': 'Clothes/DeGod_Cutoff/.DS_Store',
       'DeGod_Cutoff 1': 'Clothes/DeGod_Cutoff/DeGod_Cutoff 1.png',
       'DeGod_Cutoff 2': 'Clothes/DeGod_Cutoff/DeGod_Cutoff 2.png',
       'DeGod_Cutoff 3': 'Clothes/DeGod_Cutoff/DeGod_Cutoff 3.png',
@@ -124,7 +117,6 @@ export const DEGODSMAPPER = {
       'DeGod_Cutoff 9': 'Clothes/DeGod_Cutoff/DeGod_Cutoff 9.png',
     },
     Divine_Robe: {
-      '.DS_Store': 'Clothes/Divine_Robe/.DS_Store',
       'Divine_Robe 1': 'Clothes/Divine_Robe/Divine_Robe 1.png',
       'Divine_Robe 10': 'Clothes/Divine_Robe/Divine_Robe 10.png',
       'Divine_Robe 11': 'Clothes/Divine_Robe/Divine_Robe 11.png',
@@ -141,7 +133,6 @@ export const DEGODSMAPPER = {
       'Divine_Robe 9': 'Clothes/Divine_Robe/Divine_Robe 9.png',
     },
     Druglord_Suit: {
-      '.DS_Store': 'Clothes/Druglord_Suit/.DS_Store',
       'Druglord_Suit 1': 'Clothes/Druglord_Suit/Druglord_Suit 1.png',
       'Druglord_Suit 10': 'Clothes/Druglord_Suit/Druglord_Suit 10.png',
       'Druglord_Suit 11': 'Clothes/Druglord_Suit/Druglord_Suit 11.png',
@@ -155,7 +146,6 @@ export const DEGODSMAPPER = {
       'Druglord_Suit 9': 'Clothes/Druglord_Suit/Druglord_Suit 9.png',
     },
     FTX_Jersey: {
-      '.DS_Store': 'Clothes/FTX_Jersey/.DS_Store',
       'FTX_Jersey 1': 'Clothes/FTX_Jersey/FTX_Jersey 1.png',
       'FTX_Jersey 2': 'Clothes/FTX_Jersey/FTX_Jersey 2.png',
       'FTX_Jersey 3': 'Clothes/FTX_Jersey/FTX_Jersey 3.png',
@@ -165,7 +155,6 @@ export const DEGODSMAPPER = {
       'FTX_Jersey 7': 'Clothes/FTX_Jersey/FTX_Jersey 7.png',
     },
     God_Beater: {
-      '.DS_Store': 'Clothes/God_Beater/.DS_Store',
       'God_Beater 1': 'Clothes/God_Beater/God_Beater 1.png',
       'God_Beater 2': 'Clothes/God_Beater/God_Beater 2.png',
       'God_Beater 3': 'Clothes/God_Beater/God_Beater 3.png',
@@ -173,7 +162,6 @@ export const DEGODSMAPPER = {
       'God_Beater 5': 'Clothes/God_Beater/God_Beater 5.png',
     },
     God_Jersey: {
-      '.DS_Store': 'Clothes/God_Jersey/.DS_Store',
       'God_Jersey 1': 'Clothes/God_Jersey/God_Jersey 1.png',
       'God_Jersey 2': 'Clothes/God_Jersey/God_Jersey 2.png',
       'God_Jersey 3': 'Clothes/God_Jersey/God_Jersey 3.png',
@@ -181,7 +169,6 @@ export const DEGODSMAPPER = {
       'God_Jersey 5': 'Clothes/God_Jersey/God_Jersey 5.png',
     },
     God_Scout_Uniform: {
-      '.DS_Store': 'Clothes/God_Scout_Uniform/.DS_Store',
       'God_Scout_Uniform 1':
         'Clothes/God_Scout_Uniform/God_Scout_Uniform 1.png',
       'God_Scout_Uniform 10':
@@ -206,7 +193,6 @@ export const DEGODSMAPPER = {
         'Clothes/God_Scout_Uniform/God_Scout_Uniform 9.png',
     },
     Godchella_Hoodie: {
-      '.DS_Store': 'Clothes/Godchella_Hoodie/.DS_Store',
       'Godchella_Hoodie 1': 'Clothes/Godchella_Hoodie/Godchella_Hoodie 1.png',
       'Godchella_Hoodie 10': 'Clothes/Godchella_Hoodie/Godchella_Hoodie 10.png',
       'Godchella_Hoodie 2': 'Clothes/Godchella_Hoodie/Godchella_Hoodie 2.png',
@@ -219,7 +205,6 @@ export const DEGODSMAPPER = {
       'Godchella_Hoodie 9': 'Clothes/Godchella_Hoodie/Godchella_Hoodie 9.png',
     },
     Godly_Tunic: {
-      '.DS_Store': 'Clothes/Godly_Tunic/.DS_Store',
       'Godly_Tunic 1': 'Clothes/Godly_Tunic/Godly_Tunic 1.png',
       'Godly_Tunic 2': 'Clothes/Godly_Tunic/Godly_Tunic 2.png',
       'Godly_Tunic 3': 'Clothes/Godly_Tunic/Godly_Tunic 3.png',
@@ -229,7 +214,6 @@ export const DEGODSMAPPER = {
       'Godly_Tunic 7': 'Clothes/Godly_Tunic/Godly_Tunic 7.png',
     },
     Googod_Tee: {
-      '.DS_Store': 'Clothes/Googod_Tee/.DS_Store',
       'Googod_Tee 1': 'Clothes/Googod_Tee/Googod_Tee 1.png',
       'Googod_Tee 2': 'Clothes/Googod_Tee/Googod_Tee 2.png',
       'Googod_Tee 3': 'Clothes/Googod_Tee/Googod_Tee 3.png',
@@ -238,7 +222,6 @@ export const DEGODSMAPPER = {
       'Googod_Tee 6': 'Clothes/Googod_Tee/Googod_Tee 6.png',
     },
     Gym_Tee: {
-      '.DS_Store': 'Clothes/Gym_Tee/.DS_Store',
       'Gym_Tee 1': 'Clothes/Gym_Tee/Gym_Tee 1.png',
       'Gym_Tee 2': 'Clothes/Gym_Tee/Gym_Tee 2.png',
       'Gym_Tee 3': 'Clothes/Gym_Tee/Gym_Tee 3.png',
@@ -250,7 +233,6 @@ export const DEGODSMAPPER = {
       'Gym_Tee 9': 'Clothes/Gym_Tee/Gym_Tee 9.png',
     },
     Hawaiian_Shirt: {
-      '.DS_Store': 'Clothes/Hawaiian_Shirt/.DS_Store',
       'Hawaiian_Shirt 1': 'Clothes/Hawaiian_Shirt/Hawaiian_Shirt 1.png',
       'Hawaiian_Shirt 2': 'Clothes/Hawaiian_Shirt/Hawaiian_Shirt 2.png',
       'Hawaiian_Shirt 3': 'Clothes/Hawaiian_Shirt/Hawaiian_Shirt 3.png',
@@ -271,7 +253,6 @@ export const DEGODSMAPPER = {
       '9': 'Clothes/Hazmat_Suit/9.png',
     },
     Jean_Jacket: {
-      '.DS_Store': 'Clothes/Jean_Jacket/.DS_Store',
       'Jean_Jacket 1': 'Clothes/Jean_Jacket/Jean_Jacket 1.png',
       'Jean_Jacket 2': 'Clothes/Jean_Jacket/Jean_Jacket 2.png',
       'Jean_Jacket 3': 'Clothes/Jean_Jacket/Jean_Jacket 3.png',
@@ -283,7 +264,6 @@ export const DEGODSMAPPER = {
       'Jean_Jacket 9': 'Clothes/Jean_Jacket/Jean_Jacket 9.png',
     },
     Mickey_DeGods_Uniform: {
-      '.DS_Store': 'Clothes/Mickey_DeGods_Uniform/.DS_Store',
       'Mickey_DeGods_Uniform 1':
         'Clothes/Mickey_DeGods_Uniform/Mickey_DeGods_Uniform 1.png',
       'Mickey_DeGods_Uniform 2':
@@ -304,7 +284,6 @@ export const DEGODSMAPPER = {
         'Clothes/Mickey_DeGods_Uniform/Mickey_DeGods_Uniform 9.png',
     },
     Mythic_War_Armor: {
-      '.DS_Store': 'Clothes/Mythic_War_Armor/.DS_Store',
       'Mythic_War_Armor 1': 'Clothes/Mythic_War_Armor/Mythic_War_Armor 1.png',
       'Mythic_War_Armor 10': 'Clothes/Mythic_War_Armor/Mythic_War_Armor 10.png',
       'Mythic_War_Armor 11': 'Clothes/Mythic_War_Armor/Mythic_War_Armor 11.png',
@@ -321,7 +300,6 @@ export const DEGODSMAPPER = {
       'Mythic_War_Armor 9': 'Clothes/Mythic_War_Armor/Mythic_War_Armor 9.png',
     },
     Overalls: {
-      '.DS_Store': 'Clothes/Overalls/.DS_Store',
       'Overalls 1': 'Clothes/Overalls/Overalls 1.png',
       'Overalls 2': 'Clothes/Overalls/Overalls 2.png',
       'Overalls 3': 'Clothes/Overalls/Overalls 3.png',
@@ -332,7 +310,6 @@ export const DEGODSMAPPER = {
       'Overalls 8': 'Clothes/Overalls/Overalls 8.png',
     },
     Peasant_Blouse: {
-      '.DS_Store': 'Clothes/Peasant_Blouse/.DS_Store',
       'Peasant_Blouse 1': 'Clothes/Peasant_Blouse/Peasant_Blouse 1.png',
       'Peasant_Blouse 2': 'Clothes/Peasant_Blouse/Peasant_Blouse 2.png',
       'Peasant_Blouse 3': 'Clothes/Peasant_Blouse/Peasant_Blouse 3.png',
@@ -342,7 +319,6 @@ export const DEGODSMAPPER = {
       'Peasant_Blouse 7': 'Clothes/Peasant_Blouse/Peasant_Blouse 7.png',
     },
     Radioactive_Tee: {
-      '.DS_Store': 'Clothes/Radioactive_Tee/.DS_Store',
       'Radioactive_Tee 1': 'Clothes/Radioactive_Tee/Radioactive_Tee 1.png',
       'Radioactive_Tee 2': 'Clothes/Radioactive_Tee/Radioactive_Tee 2.png',
       'Radioactive_Tee 3': 'Clothes/Radioactive_Tee/Radioactive_Tee 3.png',
@@ -352,7 +328,6 @@ export const DEGODSMAPPER = {
       'Radioactive_Tee 7': 'Clothes/Radioactive_Tee/Radioactive_Tee 7.png',
     },
     Silk_Robe: {
-      '.DS_Store': 'Clothes/Silk_Robe/.DS_Store',
       'Silk_Robe 1': 'Clothes/Silk_Robe/Silk_Robe 1.png',
       'Silk_Robe 10': 'Clothes/Silk_Robe/Silk_Robe 10.png',
       'Silk_Robe 2': 'Clothes/Silk_Robe/Silk_Robe 2.png',
@@ -365,7 +340,6 @@ export const DEGODSMAPPER = {
       'Silk_Robe 9': 'Clothes/Silk_Robe/Silk_Robe 9.png',
     },
     Steve_Jobs_Turtleneck: {
-      '.DS_Store': 'Clothes/Steve_Jobs_Turtleneck/.DS_Store',
       'Steve_Jobs_Turtleneck 1':
         'Clothes/Steve_Jobs_Turtleneck/Steve_Jobs_Turtleneck 1.png',
       'Steve_Jobs_Turtleneck 2':
@@ -382,7 +356,6 @@ export const DEGODSMAPPER = {
         'Clothes/Steve_Jobs_Turtleneck/Steve_Jobs_Turtleneck 7.png',
     },
     Tattered_Tee: {
-      '.DS_Store': 'Clothes/Tattered_Tee/.DS_Store',
       'Tattered_Tee 1': 'Clothes/Tattered_Tee/Tattered_Tee 1.png',
       'Tattered_Tee 2': 'Clothes/Tattered_Tee/Tattered_Tee 2.png',
       'Tattered_Tee 3': 'Clothes/Tattered_Tee/Tattered_Tee 3.png',
@@ -392,7 +365,6 @@ export const DEGODSMAPPER = {
       'Tattered_Tee 7': 'Clothes/Tattered_Tee/Tattered_Tee 7.png',
     },
     Tech_God_Vest: {
-      '.DS_Store': 'Clothes/Tech_God_Vest/.DS_Store',
       'Tech_God_Vest 1': 'Clothes/Tech_God_Vest/Tech_God_Vest 1.png',
       'Tech_God_Vest 2': 'Clothes/Tech_God_Vest/Tech_God_Vest 2.png',
       'Tech_God_Vest 3': 'Clothes/Tech_God_Vest/Tech_God_Vest 3.png',
@@ -404,7 +376,6 @@ export const DEGODSMAPPER = {
       'Tech_God_Vest 9': 'Clothes/Tech_God_Vest/Tech_God_Vest 9.png',
     },
     Top_God_Jumper: {
-      '.DS_Store': 'Clothes/Top_God_Jumper/.DS_Store',
       'Top_God_Jumper 1': 'Clothes/Top_God_Jumper/Top_God_Jumper 1.png',
       'Top_God_Jumper 10': 'Clothes/Top_God_Jumper/Top_God_Jumper 10.png',
       'Top_God_Jumper 2': 'Clothes/Top_God_Jumper/Top_God_Jumper 2.png',
@@ -417,7 +388,6 @@ export const DEGODSMAPPER = {
       'Top_God_Jumper 9': 'Clothes/Top_God_Jumper/Top_God_Jumper 9.png',
     },
     Tourist_Tee: {
-      '.DS_Store': 'Clothes/Tourist_Tee/.DS_Store',
       'Tourist_Tee 1': 'Clothes/Tourist_Tee/Tourist_Tee 1.png',
       'Tourist_Tee 2': 'Clothes/Tourist_Tee/Tourist_Tee 2.png',
       'Tourist_Tee 3': 'Clothes/Tourist_Tee/Tourist_Tee 3.png',
@@ -429,7 +399,6 @@ export const DEGODSMAPPER = {
       'Tourist_Tee 9': 'Clothes/Tourist_Tee/Tourist_Tee 9.png',
     },
     Tracksuit: {
-      '.DS_Store': 'Clothes/Tracksuit/.DS_Store',
       'Tracksuit 1': 'Clothes/Tracksuit/Tracksuit 1.png',
       'Tracksuit 10': 'Clothes/Tracksuit/Tracksuit 10.png',
       'Tracksuit 11': 'Clothes/Tracksuit/Tracksuit 11.png',
@@ -443,7 +412,6 @@ export const DEGODSMAPPER = {
       'Tracksuit 9': 'Clothes/Tracksuit/Tracksuit 9.png',
     },
     War_Armor: {
-      '.DS_Store': 'Clothes/War_Armor/.DS_Store',
       'War_Armor 1': 'Clothes/War_Armor/War_Armor 1.png',
       'War_Armor 10': 'Clothes/War_Armor/War_Armor 10.png',
       'War_Armor 11': 'Clothes/War_Armor/War_Armor 11.png',
@@ -461,7 +429,6 @@ export const DEGODSMAPPER = {
       'War_Armor 9': 'Clothes/War_Armor/War_Armor 9.png',
     },
     World_Champion_Robe: {
-      '.DS_Store': 'Clothes/World_Champion_Robe/.DS_Store',
       'World_Champion_Robe 1':
         'Clothes/World_Champion_Robe/World_Champion_Robe 1.png',
       'World_Champion_Robe 2':
@@ -1263,7 +1230,6 @@ export const DEGODSMAPPER = {
   },
   Skins: {
     Acid: {
-      '.DS_Store': 'Skins/Acid/.DS_Store',
       'Acid 1': 'Skins/Acid/Acid 1.png',
       'Acid 2': 'Skins/Acid/Acid 2.png',
       'Acid 3': 'Skins/Acid/Acid 3.png',
@@ -1274,7 +1240,6 @@ export const DEGODSMAPPER = {
       'Acid 8': 'Skins/Acid/Acid 8.png',
     },
     Ape: {
-      '.DS_Store': 'Skins/Ape/.DS_Store',
       'Ape 1': 'Skins/Ape/Ape 1.png',
       'Ape 2': 'Skins/Ape/Ape 2.png',
       'Ape 3': 'Skins/Ape/Ape 3.png',
@@ -1286,7 +1251,6 @@ export const DEGODSMAPPER = {
       'Ape 9': 'Skins/Ape/Ape 9.png',
     },
     Blue_sky: {
-      '.DS_Store': 'Skins/Blue_sky/.DS_Store',
       'Blue Sky 1': 'Skins/Blue_sky/Blue Sky 1.png',
       'Blue Sky 2': 'Skins/Blue_sky/Blue Sky 2.png',
       'Blue Sky 3': 'Skins/Blue_sky/Blue Sky 3.png',
@@ -1297,7 +1261,6 @@ export const DEGODSMAPPER = {
       'Blue Sky 8': 'Skins/Blue_sky/Blue Sky 8.png',
     },
     Gold: {
-      '.DS_Store': 'Skins/Gold/.DS_Store',
       'Gold 1': 'Skins/Gold/Gold 1.png',
       'Gold 2': 'Skins/Gold/Gold 2.png',
       'Gold 3': 'Skins/Gold/Gold 3.png',
@@ -1307,7 +1270,6 @@ export const DEGODSMAPPER = {
       'Gold 7': 'Skins/Gold/Gold 7.png',
     },
     Ice: {
-      '.DS_Store': 'Skins/Ice/.DS_Store',
       'Ice 1': 'Skins/Ice/Ice 1.png',
       'Ice 10': 'Skins/Ice/Ice 10.png',
       'Ice 11': 'Skins/Ice/Ice 11.png',
@@ -1323,7 +1285,6 @@ export const DEGODSMAPPER = {
       'Ice 9': 'Skins/Ice/Ice 9.png',
     },
     Joker: {
-      '.DS_Store': 'Skins/Joker/.DS_Store',
       'Joker 1': 'Skins/Joker/Joker 1.png',
       'Joker 2': 'Skins/Joker/Joker 2.png',
       'Joker 3': 'Skins/Joker/Joker 3.png',
@@ -1333,7 +1294,6 @@ export const DEGODSMAPPER = {
       'Joker 7': 'Skins/Joker/Joker 7.png',
     },
     Lavender_stripe: {
-      '.DS_Store': 'Skins/Lavender_stripe/.DS_Store',
       'Lavender Stripe 1': 'Skins/Lavender_stripe/Lavender Stripe 1.png',
       'Lavender Stripe 2': 'Skins/Lavender_stripe/Lavender Stripe 2.png',
       'Lavender Stripe 3': 'Skins/Lavender_stripe/Lavender Stripe 3.png',
@@ -1343,7 +1303,6 @@ export const DEGODSMAPPER = {
       'Lavender Stripe 7': 'Skins/Lavender_stripe/Lavender Stripe 7.png',
     },
     Leopard: {
-      '.DS_Store': 'Skins/Leopard/.DS_Store',
       'Leopard 1': 'Skins/Leopard/Leopard 1.png',
       'Leopard 2': 'Skins/Leopard/Leopard 2.png',
       'Leopard 3': 'Skins/Leopard/Leopard 3.png',
@@ -1353,7 +1312,6 @@ export const DEGODSMAPPER = {
       'Leopard 7': 'Skins/Leopard/Leopard 7.png',
     },
     Marble: {
-      '.DS_Store': 'Skins/Marble/.DS_Store',
       'Marble 1': 'Skins/Marble/Marble 1.png',
       'Marble 2': 'Skins/Marble/Marble 2.png',
       'Marble 3': 'Skins/Marble/Marble 3.png',
@@ -1363,7 +1321,6 @@ export const DEGODSMAPPER = {
       'Marble 7': 'Skins/Marble/Marble 7.png',
     },
     Navi: {
-      '.DS_Store': 'Skins/Navi/.DS_Store',
       'Navi 1': 'Skins/Navi/Navi 1.png',
       'Navi 2': 'Skins/Navi/Navi 2.png',
       'Navi 3': 'Skins/Navi/Navi 3.png',
@@ -1375,7 +1332,6 @@ export const DEGODSMAPPER = {
       'Navi 9': 'Skins/Navi/Navi 9.png',
     },
     Nebula: {
-      '.DS_Store': 'Skins/Nebula/.DS_Store',
       'Nebula 1': 'Skins/Nebula/Nebula 1.png',
       'Nebula 10': 'Skins/Nebula/Nebula 10.png',
       'Nebula 11': 'Skins/Nebula/Nebula 11.png',
@@ -1392,7 +1348,6 @@ export const DEGODSMAPPER = {
       'Nebula 9': 'Skins/Nebula/Nebula 9.png',
     },
     Pastel: {
-      '.DS_Store': 'Skins/Pastel/.DS_Store',
       'Pastel 1': 'Skins/Pastel/Pastel 1.png',
       'Pastel 2': 'Skins/Pastel/Pastel 2.png',
       'Pastel 3': 'Skins/Pastel/Pastel 3.png',
@@ -1400,7 +1355,6 @@ export const DEGODSMAPPER = {
       'Pastel 5': 'Skins/Pastel/Pastel 5.png',
     },
     Pink_granite: {
-      '.DS_Store': 'Skins/Pink_granite/.DS_Store',
       'Pink Granite 1': 'Skins/Pink_granite/Pink Granite 1.png',
       'Pink Granite 2': 'Skins/Pink_granite/Pink Granite 2.png',
       'Pink Granite 3': 'Skins/Pink_granite/Pink Granite 3.png',
@@ -1409,14 +1363,12 @@ export const DEGODSMAPPER = {
       'Pink Granite 6': 'Skins/Pink_granite/Pink Granite 6.png',
     },
     Poker: {
-      '.DS_Store': 'Skins/Poker/.DS_Store',
       'Poker 1': 'Skins/Poker/Poker 1.png',
       'Poker 2': 'Skins/Poker/Poker 2.png',
       'Poker 3': 'Skins/Poker/Poker 3.png',
       'Poker 4': 'Skins/Poker/Poker 4.png',
     },
     Radioactive: {
-      '.DS_Store': 'Skins/Radioactive/.DS_Store',
       'Radioactiive 7': 'Skins/Radioactive/Radioactiive 7.png',
       'Radioactive 1': 'Skins/Radioactive/Radioactive 1.png',
       'Radioactive 10': 'Skins/Radioactive/Radioactive 10.png',
@@ -1430,7 +1382,6 @@ export const DEGODSMAPPER = {
       'Radioactive 9': 'Skins/Radioactive/Radioactive 9.png',
     },
     Solar_spiral: {
-      '.DS_Store': 'Skins/Solar_spiral/.DS_Store',
       'Solar Spiral 1': 'Skins/Solar_spiral/Solar Spiral 1.png',
       'Solar Spiral 2': 'Skins/Solar_spiral/Solar Spiral 2.png',
       'Solar Spiral 3': 'Skins/Solar_spiral/Solar Spiral 3.png',
@@ -1439,7 +1390,6 @@ export const DEGODSMAPPER = {
       'Solar Spiral 6': 'Skins/Solar_spiral/Solar Spiral 6.png',
     },
     Transcendent: {
-      '.DS_Store': 'Skins/Transcendent/.DS_Store',
       'Transcendent 1': 'Skins/Transcendent/Transcendent 1.png',
       'Transcendent 10': 'Skins/Transcendent/Transcendent 10.png',
       'Transcendent 11': 'Skins/Transcendent/Transcendent 11.png',
@@ -1456,7 +1406,6 @@ export const DEGODSMAPPER = {
       'Transcendent 9': 'Skins/Transcendent/Transcendent 9.png',
     },
     Turquoise: {
-      '.DS_Store': 'Skins/Turquoise/.DS_Store',
       'Turquoise 1': 'Skins/Turquoise/Turquoise 1.png',
       'Turquoise 2': 'Skins/Turquoise/Turquoise 2.png',
       'Turquoise 3': 'Skins/Turquoise/Turquoise 3.png',
@@ -1467,7 +1416,6 @@ export const DEGODSMAPPER = {
       'Turquoise 8': 'Skins/Turquoise/Turquoise 8.png',
     },
     'X-ray': {
-      '.DS_Store': 'Skins/X-ray/.DS_Store',
       'X-ray 1': 'Skins/X-ray/X-ray 1.png',
       'X-ray 2': 'Skins/X-ray/X-ray 2.png',
       'X-ray 3': 'Skins/X-ray/X-ray 3.png',
@@ -1476,7 +1424,6 @@ export const DEGODSMAPPER = {
       'X-ray 6': 'Skins/X-ray/X-ray 6.png',
     },
     Zebra: {
-      '.DS_Store': 'Skins/Zebra/.DS_Store',
       'Zebra 1': 'Skins/Zebra/Zebra 1.png',
       'Zebra 10': 'Skins/Zebra/Zebra 10.png',
       'Zebra 2': 'Skins/Zebra/Zebra 2.png',
@@ -1489,7 +1436,6 @@ export const DEGODSMAPPER = {
       'Zebra 9': 'Skins/Zebra/Zebra 9.png',
     },
     Zombie: {
-      '.DS_Store': 'Skins/Zombie/.DS_Store',
       'Zombie 1': 'Skins/Zombie/Zombie 1.png',
       'Zombie 2': 'Skins/Zombie/Zombie 2.png',
       'Zombie 3': 'Skins/Zombie/Zombie 3.png',
@@ -1587,14 +1533,19 @@ export const DEGODSMAPPER = {
 }
 
 export const DEGODS_BASE_URL = {
-  Backgrounds: 'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Backgrounds',
-  Clothes: 'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Clothes',
+  Backgrounds:
+    'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Backgrounds',
+  Clothes:
+    'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Clothes',
   Eyes: 'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Eyes',
   Head: 'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Head',
-  Mouth: 'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Mouth',
+  Mouth:
+    'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Mouth',
   Neck: 'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Neck',
-  Skins: 'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Skins',
-  Specialty: 'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Specialty',
+  Skins:
+    'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Skins',
+  Specialty:
+    'https://bafybeicpzukcczpybmfmlncstxoezyhgtx3thhfmgbzvrp43o6bdnaspum.ipfs.dweb.link/Specialty',
 }
 // export const DEGODS_BASE_URL = {
 //   Backgrounds:
