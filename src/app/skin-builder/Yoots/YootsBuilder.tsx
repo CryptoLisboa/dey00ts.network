@@ -1,11 +1,18 @@
 //  @ts-nocheck
 'use client'
-import { YOOTS_BASE_URL, YOOTSMAPPER } from '@/constants/yootsMapper'
+import {
+  YOOTS_BASE_URL,
+  YOOTSMAPPER,
+  yootsTraitOrder,
+} from '@/constants/yootsMapper'
 import { keys } from 'ramda'
 import { Key, useState } from 'react'
 import { NFTType } from '@/types/degods'
 import { useLocalStorage } from 'usehooks-ts'
 import dynamic from 'next/dynamic'
+import { downloadImage, loadImage } from '@/utils/image.utils'
+import { IMAGE_SIZE } from '@/constants/image.constants'
+import { formatDate } from '@/utils/date.utils'
 
 const DynamicSingleView = dynamic(() =>
   import('./YootsSingleView').then((mod) => mod.YootsSingleView)
@@ -13,8 +20,6 @@ const DynamicSingleView = dynamic(() =>
 const DynamicGridView = dynamic(() =>
   import('./YootsGridView').then((mod) => mod.YootsGridView)
 )
-
-const IMAGE_SIZE = 500
 
 export const YootsBuilder = ({ gridView }: { gridView: boolean }) => {
   const traits = keys(YOOTSMAPPER)
@@ -38,17 +43,6 @@ export const YootsBuilder = ({ gridView }: { gridView: boolean }) => {
     keys(YOOTSMAPPER[selectedTrait])[0]
   )
 
-  const formatDate = () => {
-    const now = new Date()
-    const year = now.getFullYear()
-    const month = String(now.getMonth() + 1).padStart(2, '0')
-    const day = String(now.getDate()).padStart(2, '0')
-    const hours = String(now.getHours()).padStart(2, '0')
-    const minutes = String(now.getMinutes()).padStart(2, '0')
-    const seconds = String(now.getSeconds()).padStart(2, '0')
-    return `${year}/${month}/${day}-${hours}:${minutes}:${seconds}`
-  }
-
   const handleDownload = () => {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
@@ -57,38 +51,16 @@ export const YootsBuilder = ({ gridView }: { gridView: boolean }) => {
     canvas.width = IMAGE_SIZE
     canvas.height = IMAGE_SIZE
 
-    const images = [
-      selectedTraits['Background']
-        ? `${YOOTS_BASE_URL}/Background/${selectedTraits['Background'].replace(
-            /#/g,
-            '%23'
-          )}.png`
-        : null,
-      selectedTraits['Skins']
-        ? `${YOOTS_BASE_URL}/Skins/${selectedTraits['Skins'].replace(
-            /#/g,
-            '%23'
-          )}.png`
-        : null,
-      selectedTraits['Eyes']
-        ? `${YOOTS_BASE_URL}/Eyes/${selectedTraits['Eyes'].replace(
-            /#/g,
-            '%23'
-          )}.png`
-        : null,
-      selectedTraits['Head']
-        ? `${YOOTS_BASE_URL}/Head/${selectedTraits['Head'].replace(
-            /#/g,
-            '%23'
-          )}.png`
-        : null,
-      selectedTraits['Clothes']
-        ? `${YOOTS_BASE_URL}/Clothes/${selectedTraits['Clothes'].replace(
-            /#/g,
-            '%23'
-          )}.png`
-        : null,
-    ].filter((src) => src !== null) as string[]
+    const images = yootsTraitOrder
+      .map((trait) =>
+        selectedTraits[trait]
+          ? `${YOOTS_BASE_URL}/${trait}/${selectedTraits[trait].replace(
+              /#/g,
+              '%23'
+            )}.png`
+          : null
+      )
+      .filter((src) => src !== null) as string[]
 
     Promise.all(images.map((src) => loadImage(src)))
       .then((loadedImages) => {
@@ -101,23 +73,6 @@ export const YootsBuilder = ({ gridView }: { gridView: boolean }) => {
       .catch((err) => {
         console.error('Failed to load images', err)
       })
-  }
-
-  const loadImage = (src: string): Promise<HTMLImageElement> => {
-    return new Promise((resolve, reject) => {
-      const img = new window.Image()
-      img.crossOrigin = 'anonymous' // to handle CORS issues
-      img.src = src
-      img.onload = () => resolve(img)
-      img.onerror = (err) => reject(err)
-    })
-  }
-
-  const downloadImage = (dataURL: string, filename: string) => {
-    const link = document.createElement('a')
-    link.href = dataURL
-    link.download = filename
-    link.click()
   }
 
   return (

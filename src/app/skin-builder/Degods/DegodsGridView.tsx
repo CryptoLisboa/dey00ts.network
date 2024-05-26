@@ -16,11 +16,13 @@ import { SettingsModal } from '../SettingsModal'
 type DegodsGridViewProps = {
   selectedTraits: any
   setSelectedTraits: (value: any) => void
+  handleDownload: () => void
 }
 
 export const DegodsGridView = ({
   selectedTraits,
   setSelectedTraits,
+  handleDownload,
 }: DegodsGridViewProps) => {
   const [animationParent] = useAutoAnimate()
 
@@ -60,7 +62,6 @@ export const DegodsGridView = ({
       }
     }
 
-    if (newValueIndex) {
     const helperValue =
       // @ts-ignore
       keys(subTraits[subTraitKeys[newSubTraitIndex]])[newValueIndex]
@@ -249,7 +250,11 @@ export const DegodsGridView = ({
             onRightClick={() => navigateGridTrait('right', 'Mouth')}
           />
         </div>
+        <Button onClick={handleDownload} className='mt-3'>
+          Download
+        </Button>
       </div>
+
       <TraitModal
         nftType={NFTType.DEGODS}
         isOpen={isOpen}

@@ -1,9 +1,16 @@
-import { DEGODSMAPPER } from '@/constants/degodsMapper'
+import {
+  DEGODS_BASE_URL,
+  DEGODSMAPPER,
+  degodsTraitOrder,
+} from '@/constants/degodsMapper'
 import { keys } from 'ramda'
 import { useState } from 'react'
 import { NFTType } from '@/types/degods'
 import { useLocalStorage } from 'usehooks-ts'
 import dynamic from 'next/dynamic'
+import { downloadImage, loadImage } from '@/utils/image.utils'
+import { IMAGE_SIZE } from '@/constants/image.constants'
+import { formatDate } from '@/utils/date.utils'
 
 const DynamicSingleView = dynamic(() =>
   import('./DegodsSingleView').then((mod) => mod.DegodsSingleView)
@@ -48,6 +55,48 @@ export const DegodsBuilder = ({ gridView }: DegodsBuilderProps) => {
       }, {})
     }
   )
+  const handleDownload = () => {
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+    if (!context) return
+    // const imageSize = 3000
+    canvas.width = IMAGE_SIZE
+    canvas.height = IMAGE_SIZE
+
+    const images =
+      // selectedTraits['Background']
+      //   ? `${YOOTS_BASE_URL}/Background/${selectedTraits['Background'].replace(
+      //       /#/g,
+      //       '%23'
+      //     )}.png`
+      //   : null
+      degodsTraitOrder
+        .map((trait) => {
+          if (selectedTraits[trait]) {
+            const val = selectedTraits[trait].value
+            const key = selectedTraits[trait].key
+            // @ts-expect-error
+            return `${DEGODS_BASE_URL[trait]}/${key}/${val?.replace(
+              /#/g,
+              '%23'
+            )}.png`
+          }
+          return null
+        })
+        .filter((src) => src !== null) as string[]
+
+    Promise.all(images.map((src) => loadImage(src)))
+      .then((loadedImages) => {
+        loadedImages.forEach((img) => {
+          context.drawImage(img, 0, 0, IMAGE_SIZE, IMAGE_SIZE)
+        })
+        const dataURL = canvas.toDataURL('image/png')
+        downloadImage(dataURL, 'DeGod - ' + formatDate() + '.png')
+      })
+      .catch((err) => {
+        console.error('Failed to load images', err)
+      })
+  }
 
   return (
     <>
@@ -55,6 +104,7 @@ export const DegodsBuilder = ({ gridView }: DegodsBuilderProps) => {
         <DynamicGridView
           selectedTraits={selectedTraits}
           setSelectedTraits={setSelectedTraits}
+          handleDownload={handleDownload}
         />
       )}
       {!gridView && (
@@ -64,6 +114,7 @@ export const DegodsBuilder = ({ gridView }: DegodsBuilderProps) => {
           selectedSubTraitValue={selectedSubTraitValue}
           selectedTrait={selectedTrait}
           selectedTraits={selectedTraits}
+          handleDownload={handleDownload}
           setSelectedTraits={setSelectedTraits}
           // @ts-expect-error
           setSelectedTrait={setSelectedTrait}

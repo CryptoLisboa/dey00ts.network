@@ -32,6 +32,7 @@ type DegodsSingleViewProps = {
   setSelectedTraits: (value: any) => void
   selectedSubTraitValue: string | number
   selectedTraits: any
+  handleDownload: () => void
 }
 export const DegodsSingleView = ({
   selectedTrait,
@@ -43,6 +44,7 @@ export const DegodsSingleView = ({
   setSelectedTraits,
   selectedSubTraitValue,
   selectedTraits,
+  handleDownload,
 }: DegodsSingleViewProps) => {
   const [animationParent] = useAutoAnimate()
 
@@ -282,6 +284,11 @@ export const DegodsSingleView = ({
                 )
               })}
             </div>
+          </div>
+          <div className='w-full'>
+            <Button onClick={handleDownload} className='mt-3 w-full'>
+              Download
+            </Button>
           </div>
         </div>
       </div>
