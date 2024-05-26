@@ -2,8 +2,9 @@
 
 import Navbar from '@/components/navbar'
 import { SKILLS } from '@/constants/app.constants'
-import { Avatar, Button, Image, Input } from '@nextui-org/react'
+import { Button, Image, Input } from '@nextui-org/react'
 import NextImage from 'next/image'
+
 export default function AppHomePage() {
   return (
     <div className='dark' id='root'>
@@ -52,13 +53,6 @@ export default function AppHomePage() {
                   borderColor: color,
                   //   opacity: skillsSelected.includes(name) ? 1 : 0.66,
                 }}
-                onClick={() => {
-                  //   if (skillsSelected.includes(name)) {
-                  //     setSkillsSelected(skillsSelected.filter((i) => i !== name))
-                  //   } else {
-                  //     setSkillsSelected([...skillsSelected, name])
-                  //   }
-                }}
               >
                 {name}
               </Button>
@@ -67,7 +61,7 @@ export default function AppHomePage() {
         </div>
         <div className='flex flex-col gap-3 w-full mb-4 '>
           {Array.from({ length: 10 }).map((_, i) => (
-            <div className='flex w-full items-center justify-between'>
+            <div key={i} className='flex w-full items-center justify-between'>
               <div className='flex items-center gap-1'>
                 <Image
                   as={NextImage}
@@ -75,6 +69,7 @@ export default function AppHomePage() {
                   src='/temp/avatar-square-image.png'
                   width={64}
                   height={64}
+                  alt='avatar'
                 />
 
                 <div className='flex flex-col'>

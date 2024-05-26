@@ -1,9 +1,24 @@
+'use client'
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
+import AuthContext from '@/providers/AuthContext'
+import { SignUpContext } from '@/providers/SignUpProvider'
 import { RadioGroup, Radio, Progress } from '@nextui-org/react'
+import { useContext } from 'react'
+// import { useSignUp } from '../../../../providers/SignUpProvider'
 
 export default function GenderSignUp() {
+  // const { userDetails, updateUserDetails, nextStep } = useSignUp()
+  const data = useContext(SignUpContext)
+  const { setSignupData } = useContext(AuthContext)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSignupData({
+      gender: e.target.value,
+    })
+    data?.updateUserDetails({ [e.target.name]: e.target.value })
+  }
   return (
     <main className='dark  overflow-hidden' id='gender'>
       <BackButton />
@@ -37,7 +52,10 @@ export default function GenderSignUp() {
             <RadioGroup
               isRequired
               color='success'
-              label=''
+              label='Gender'
+              value={data?.userDetails.gender}
+              name='gender'
+              onChange={handleChange}
               classNames={{
                 base: 'w-full',
                 wrapper: 'grid grid-cols-1 gap-y-5 px-10',

@@ -2,11 +2,9 @@ import { Button, Link } from '@nextui-org/react'
 
 export default function SignUpCard({
   children,
-  onClickNext,
   nextHref,
 }: {
   children?: React.ReactNode
-  onClickNext?: () => void
   nextHref?: string
 }) {
   return (
@@ -16,7 +14,6 @@ export default function SignUpCard({
         <Button
           className='bg-black w-full text-white text-sm md:text-3xl shadow-md shadow-white custom-shadow'
           variant='shadow'
-          onClick={onClickNext}
           as={Link}
           href={nextHref}
         >
