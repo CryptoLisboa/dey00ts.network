@@ -15,6 +15,7 @@ datasource db {
 
 model User {
   id            String          @id @default(cuid())
+  externalId    String          @unique
   email         String          @unique
   name          String?
   profile       Profile?
@@ -29,16 +30,21 @@ model User {
   followings    Connection[]    @relation(name: "followerConnection")
   contents      Content[]
   wallets       Wallet[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  socials       Socials?
+  collections   Collection[]
+  dust          Dust?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 }
 
 model Wallet {
   id      Int    @id @default(autoincrement())
   userId  String
-  address String // Store only wallet address
+  network String
+  address String @unique
   user    User   @relation(fields: [userId], references: [id])
+
+  @@index([userId], name: "idx_wallets_user")
 }
 
 model Profile {
@@ -153,4 +159,48 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+model Socials {
+  id               Int     @id @default(autoincrement())
+  userId           String  @unique
+  telegramId       String?
+  telegramUsername String?
+  discordId        String?
+  discordUsername  String?
+  twitterId        String?
+  twitterHandle    String?
+  twitterUsername  String?
+  user             User    @relation(fields: [userId], references: [id])
+
+  @@index([userId], name: "idx_socials_user")
+}
+
+model Token {
+  id           Int        @id @default(autoincrement())
+  wallet       String
+  tokenId      Int
+  staked       Boolean
+  collectionId Int
+  collection   Collection @relation(fields: [collectionId], references: [id])
+}
+
+model Collection {
+  id       Int     @id @default(autoincrement())
+  network  String
+  contract String
+  userId   String
+  tokens   Token[]
+  user     User    @relation(fields: [userId], references: [id])
+}
+
+model Dust {
+  id            Int    @id @default(autoincrement())
+  userId        String @unique
+  amount        Int
+  preciseAmount String
+  decimals      Int
+  user          User   @relation(fields: [userId], references: [id])
+
+  @@index([userId], name: "idx_dust_user")
 }

@@ -2,9 +2,20 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import Navbar from '@/components/navbar'
+import { Button } from '@nextui-org/button'
+import { signIn } from 'next-auth/react'
 
 export default function Home() {
+  const handleLogin = async () => {
+    await signIn(
+      'deid',
+      // {},
+      // {},
+      {
+        scope: 'wallets:read collections:read dust:read socials:read',
+      }
+    )
+  }
   return (
     <div className='dark' id='root'>
       {/* <header>
@@ -35,6 +46,7 @@ export default function Home() {
         <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
           <Link href='/signup/welcome'>Sign Up</Link>
           <Link href='/skin-builder'>Skin Builder</Link>
+          <Button onClick={handleLogin}>login</Button>
         </div>
       </main>
     </div>
