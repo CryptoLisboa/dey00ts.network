@@ -14,29 +14,36 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
-  name        String?
-  profile     Profile?
-  locations   Location[]
-  experiences Experience[]
-  // Lists of users that follow this user and users this user is following
-  followers   Connection[] @relation(name: "followingConnection")
-  followings  Connection[] @relation(name: "followerConnection")
-  contents    Content[]
-  wallets     Wallet[]
+  id            String          @id @default(cuid())
+  email         String          @unique
+  name          String?
+  profile       Profile?
+  locations     Location[]
+  experiences   Experience[]
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  Authenticator Authenticator[]
+  followers     Connection[]    @relation(name: "followingConnection")
+  followings    Connection[]    @relation(name: "followerConnection")
+  contents      Content[]
+  wallets       Wallet[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Wallet {
   id      Int    @id @default(autoincrement())
-  userId  Int
+  userId  String
   address String // Store only wallet address
   user    User   @relation(fields: [userId], references: [id])
 }
 
 model Profile {
   id        Int     @id @default(autoincrement())
-  userId    Int     @unique
+  userId    String  @unique
   bio       String?
   avatarUrl String?
   user      User    @relation(fields: [userId], references: [id])
@@ -49,7 +56,7 @@ model Location {
   latitude    Float?
   longitude   Float?
   User        User?   @relation(fields: [userId], references: [id])
-  userId      Int?
+  userId      String?
   Event       Event[]
 }
 
@@ -57,18 +64,18 @@ model Experience {
   id          Int     @id @default(autoincrement())
   title       String
   description String?
-  userId      Int
+  userId      String
   user        User    @relation(fields: [userId], references: [id])
 }
 
 model Connection {
-  id          Int  @id @default(autoincrement())
-  followerId  Int
-  followingId Int
+  id          Int    @id @default(autoincrement())
+  followerId  String
+  followingId String
   // This user is followed by the follower
-  follower    User @relation(name: "followingConnection", fields: [followerId], references: [id])
+  follower    User   @relation(name: "followingConnection", fields: [followerId], references: [id])
   // This user is following the following
-  following   User @relation(name: "followerConnection", fields: [followingId], references: [id])
+  following   User   @relation(name: "followerConnection", fields: [followingId], references: [id])
 }
 
 model Avatar {
@@ -81,7 +88,7 @@ model Content {
   id     Int     @id @default(autoincrement())
   title  String?
   body   String?
-  userId Int
+  userId String
   user   User    @relation(fields: [userId], references: [id])
 }
 
@@ -91,4 +98,59 @@ model Event {
   description String?
   locationId  Int
   location    Location @relation(fields: [locationId], references: [id])
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+// Optional for WebAuthn support
+model Authenticator {
+  credentialID         String  @unique
+  userId               String
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, credentialID])
 }
