@@ -31,14 +31,13 @@ export const SettingsModal = ({
           <>
             <ModalHeader className='flex flex-col gap-1'>Settings</ModalHeader>
             <ModalBody>
-              <div className='w-full border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100'>
-                <h1>Layering order?</h1>
+              <div className='w-full px-1 py-2 rounded-small'>
                 <Select
-                  label='Order the layers of the traits'
+                  label='Layering order'
                   selectionMode='multiple'
                   placeholder='Select an animal'
                   selectedKeys={order}
-                  className='max-w-xs'
+                  className='max-w-full'
                   // @ts-ignore
                   onChange={setOrder}
                 >
@@ -58,12 +57,18 @@ export const SettingsModal = ({
                     </SelectItem>
                   ))}
                 </Select>
-                <p className='text-small text-default-500'>
-                  Order:{' '}
+                <div className=''>
+                  <p className='text-small text-default-500'>Order:</p>
+                  <br />
                   {Array.from(order)
                     .map((value, index) => `${index + 1}: ${value}`)
-                    .join(', ')}
-                </p>
+                    .map((a) => (
+                      <>
+                        {a}
+                        <br />
+                      </>
+                    ))}
+                </div>
               </div>
             </ModalBody>
             <ModalFooter className='flex justify-between'>

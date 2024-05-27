@@ -21,9 +21,15 @@ const DynamicGridView = dynamic(() =>
 
 type DegodsBuilderProps = {
   gridView: boolean
+  isOpenSettings: boolean
+  onCloseSettings: () => void
 }
 
-export const DegodsBuilder = ({ gridView }: DegodsBuilderProps) => {
+export const DegodsBuilder = ({
+  gridView,
+  isOpenSettings,
+  onCloseSettings,
+}: DegodsBuilderProps) => {
   const traits = keys(DEGODSMAPPER)
   const [selectedTrait, setSelectedTrait] = useState(traits[0])
   const [selectedSubTrait, setSelectedSubTrait] = useState<string | number>(
@@ -106,6 +112,8 @@ export const DegodsBuilder = ({ gridView }: DegodsBuilderProps) => {
           selectedTraits={selectedTraits}
           setSelectedTraits={setSelectedTraits}
           handleDownload={handleDownload}
+          isOpenSettings={isOpenSettings}
+          onCloseSettings={onCloseSettings}
         />
       )}
       {!gridView && (
