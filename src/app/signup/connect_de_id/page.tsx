@@ -29,7 +29,7 @@ export default function GenderSignUp() {
           </p>
           {/* <div className='mx-16'> */}
           <Button
-            className='bg-black w-full text-white text-sm md:text-3xl shadow-md shadow-white custom-shadow'
+            className='bg-black w-full lg:h-11 text-white text-sm md:text-3xl shadow-md shadow-white custom-shadow'
             variant='shadow'
             size='sm'
           >

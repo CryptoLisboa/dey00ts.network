@@ -16,7 +16,7 @@ function ExperienceForm({
 }) {
   const { setSignupData, signupData } = useContext(AuthContext)
 
-  //   let formatter = useDateFormatter({ dateStyle: 'full' })
+  // let formatter = useDateFormatter({ dateStyle: 'full' })
   // const startDateFormatted =   formatter.format(value.toDate(getLocalTimeZone())) : "--"}
   return (
     <Formik
@@ -110,7 +110,7 @@ function ExperienceForm({
               classNames={{
                 label: 'text-left',
               }}
-              // isDisabled={signupData?.experiences?.current}
+              isDisabled={values.current}
             />
           </div>
 
