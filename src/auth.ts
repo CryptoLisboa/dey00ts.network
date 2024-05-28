@@ -2,6 +2,7 @@ import NextAuth from 'next-auth'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { prisma } from '@/utils/db.utils'
 import { IAuthUser } from './types/auth.types'
+import { image } from '@nextui-org/theme'
 
 function removeNullProperties<T>(obj: T): T {
   if (Array.isArray(obj)) {
@@ -40,20 +41,46 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.DEID_CLIENT_ID as string,
       clientSecret: process.env.DEID_CLIENT_SECRET as string,
       profile(response: { success: boolean; profile: IAuthUser }) {
-        const userObj = removeNullProperties({
+        const userObj = {
           ...response.profile,
           externalId: response.profile.id,
-        })
+          socials: {
+            create: {
+              ...response.profile.socials,
+            },
+          },
+          collections: {
+            create: [
+              ...response.profile.collections.map((collection) => {
+                return {
+                  ...collection,
+                  tokens: {
+                    create: [...collection.tokens],
+                  },
+                }
+              }),
+            ],
+          },
+          wallets: {
+            create: [...response.profile.wallets],
+          },
+          dust: {
+            create: {
+              ...response.profile.dust,
+            },
+          },
+          image: response.profile.imageUrl,
+          imageUrl: undefined,
+        }
 
         console.log('response de id auth obj processed', userObj)
 
-        return userObj
+        return removeNullProperties(userObj)
       },
     },
   ],
   callbacks: {
     authorized({ request, auth }: { request: any; auth: any }) {
-      debugger
       const { pathname } = request.nextUrl
       if (pathname === '/middleware-example') return !!auth
       return true

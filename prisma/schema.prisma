@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,36 +9,37 @@ datasource db {
 
 model User {
   id            String          @id @default(cuid())
-  externalId    String          @unique
   email         String          @unique
+  website       String?
   name          String?
-  profile       Profile?
-  locations     Location[]
-  experiences   Experience[]
+  createdAt     DateTime        @default(now())
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
-  Authenticator Authenticator[]
-  followers     Connection[]    @relation(name: "followingConnection")
-  followings    Connection[]    @relation(name: "followerConnection")
-  contents      Content[]
-  wallets       Wallet[]
-  socials       Socials?
-  collections   Collection[]
-  dust          Dust?
-  createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
+  externalId    String          @unique
+  accounts      Account[]
+  Authenticator Authenticator[]
+  collections   Collection[]
+  followers     Connection[]    @relation("followingConnection")
+  followings    Connection[]    @relation("followerConnection")
+  contents      Content[]
+  dust          Dust?
+  experiences   Experience[]
+  locations     Location[]
+  profile       Profile?
+  sessions      Session[]
+  socials       Socials?
+  wallets       Wallet[]
 }
 
 model Wallet {
   id      Int    @id @default(autoincrement())
   userId  String
-  network String
   address String @unique
+  network String
   user    User   @relation(fields: [userId], references: [id])
 
-  @@index([userId], name: "idx_wallets_user")
+  @@index([userId], map: "idx_wallets_user")
 }
 
 model Profile {
@@ -61,9 +56,9 @@ model Location {
   description String?
   latitude    Float?
   longitude   Float?
-  User        User?   @relation(fields: [userId], references: [id])
   userId      String?
   Event       Event[]
+  User        User?   @relation(fields: [userId], references: [id])
 }
 
 model Experience {
@@ -78,10 +73,8 @@ model Connection {
   id          Int    @id @default(autoincrement())
   followerId  String
   followingId String
-  // This user is followed by the follower
-  follower    User   @relation(name: "followingConnection", fields: [followerId], references: [id])
-  // This user is following the following
-  following   User   @relation(name: "followerConnection", fields: [followingId], references: [id])
+  follower    User   @relation("followingConnection", fields: [followerId], references: [id])
+  following   User   @relation("followerConnection", fields: [followingId], references: [id])
 }
 
 model Avatar {
@@ -118,11 +111,9 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
 }
@@ -131,10 +122,9 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model VerificationToken {
@@ -145,7 +135,6 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-// Optional for WebAuthn support
 model Authenticator {
   credentialID         String  @unique
   userId               String
@@ -155,8 +144,7 @@ model Authenticator {
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                 User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
 }
@@ -173,7 +161,7 @@ model Socials {
   twitterUsername  String?
   user             User    @relation(fields: [userId], references: [id])
 
-  @@index([userId], name: "idx_socials_user")
+  @@index([userId], map: "idx_socials_user")
 }
 
 model Token {
@@ -190,8 +178,8 @@ model Collection {
   network  String
   contract String
   userId   String
-  tokens   Token[]
   user     User    @relation(fields: [userId], references: [id])
+  tokens   Token[]
 }
 
 model Dust {
@@ -202,5 +190,5 @@ model Dust {
   decimals      Int
   user          User   @relation(fields: [userId], references: [id])
 
-  @@index([userId], name: "idx_dust_user")
+  @@index([userId], map: "idx_dust_user")
 }
