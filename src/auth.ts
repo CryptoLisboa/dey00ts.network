@@ -2,7 +2,6 @@ import NextAuth from 'next-auth'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { prisma } from '@/utils/db.utils'
 import { IAuthUser } from './types/auth.types'
-import { image } from '@nextui-org/theme'
 
 function removeNullProperties<T>(obj: T): T {
   if (Array.isArray(obj)) {
@@ -84,6 +83,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const { pathname } = request.nextUrl
       if (pathname === '/middleware-example') return !!auth
       return true
+    },
+    async redirect({ url, baseUrl }) {
+      //do other stuff or redirects here
+      const finalRedirect = baseUrl + '/profile'
+      return finalRedirect
     },
   },
 })
