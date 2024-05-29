@@ -9,12 +9,14 @@ export type Socials = {
 }
 
 export type Token = {
+  id: number
   wallet: string
   tokenId: number
   staked: boolean
 }
 
 export type Collection = {
+  id: number
   network: string
   contract: string
   tokens: Token[]
@@ -35,6 +37,7 @@ export type IAuthUser = {
   id: string
   name: string
   imageUrl: string
+  image: string
   description: string
   website: string
   socials: Socials

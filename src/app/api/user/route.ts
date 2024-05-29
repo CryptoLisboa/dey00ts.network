@@ -38,7 +38,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       wallets: true,
       followers: true,
       followings: true,
-      collections: true,
+      collections: { include: { tokens: true } },
     },
   })
 

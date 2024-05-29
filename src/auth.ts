@@ -72,7 +72,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           imageUrl: undefined,
         }
 
-        console.log('response de id auth obj processed', userObj)
+        console.log(
+          'response de id auth obj processed',
+          JSON.stringify(userObj, null, 2)
+        )
 
         return removeNullProperties(userObj)
       },
@@ -80,6 +83,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     authorized({ request, auth }: { request: any; auth: any }) {
+      console.log('authorized callback', request, auth)
       const { pathname } = request.nextUrl
       if (pathname === '/middleware-example') return !!auth
       return true
