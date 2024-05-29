@@ -4,6 +4,18 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'image-resizing.degods.workers.dev',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'pbs.twimg.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname:
           'bafybeidz4pvfdd6yyu4mx3xwfo2imxfjtwc3vugmcrgfeq5u7skgj36moy.ipfs.dweb.link',
         port: '',

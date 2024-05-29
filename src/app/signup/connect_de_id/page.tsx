@@ -1,9 +1,21 @@
+'use client'
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import { Button } from '@nextui-org/react'
+import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 
-export default function GenderSignUp() {
+export default function ConnectDeIDSignUp() {
+  const handleLogin = async () => {
+    await signIn(
+      'deid',
+      // {},
+      // {},
+      {
+        scope: 'wallets:read collections:read dust:read socials:read',
+      }
+    )
+  }
   return (
     <main className='dark h-screen overflow-hidden' id='gender'>
       <BackButton />
@@ -29,9 +41,10 @@ export default function GenderSignUp() {
           </p>
           {/* <div className='mx-16'> */}
           <Button
-            className='bg-black w-full text-white text-sm md:text-3xl shadow-md shadow-white custom-shadow'
+            className='bg-black w-full lg:h-11 text-white text-sm md:text-3xl shadow-md shadow-white custom-shadow'
             variant='shadow'
             size='sm'
+            onClick={handleLogin}
           >
             <p>Connect</p>
             <Image

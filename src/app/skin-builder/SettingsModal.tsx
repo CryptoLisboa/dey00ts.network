@@ -24,6 +24,14 @@ export const SettingsModal = ({
   order,
   setOrder,
 }: SettingsModalProps) => {
+  const orderedTraits = Array.from(order)
+    .map((value, index) => `${index + 1}: ${value}`)
+    .map((a) => (
+      <>
+        {a}
+        <br />
+      </>
+    ))
   return (
     <Modal backdrop='blur' isOpen={isOpen} onClose={onClose}>
       <ModalContent>
@@ -60,14 +68,7 @@ export const SettingsModal = ({
                 <div className=''>
                   <p className='text-small text-default-500'>Order:</p>
                   <br />
-                  {Array.from(order)
-                    .map((value, index) => `${index + 1}: ${value}`)
-                    .map((a) => (
-                      <>
-                        {a}
-                        <br />
-                      </>
-                    ))}
+                  {orderedTraits}
                 </div>
               </div>
             </ModalBody>
