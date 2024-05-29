@@ -9,12 +9,19 @@ import {
   generateDeGodsImageUrl,
   generateY00tsImageUrl,
 } from '@/utils/de[id]/image'
-import { isY00tCollectionAddress } from '@/utils/de[id]/collection'
+import {
+  hasDeGodsNFTs,
+  hasY00tsNFTs,
+  isY00tCollectionAddress,
+} from '@/utils/de[id]/collection'
+import { has } from 'ramda'
+
 const fetchProfile = async (setProfile: (arg0: any) => void) => {
   const response = await fetch('api/user')
   const data = await response.json()
   setProfile(data)
 }
+
 export default function Profile() {
   const [profile, setProfile] = useState<IAuthUser>()
 
@@ -111,10 +118,10 @@ export default function Profile() {
         </Button>
       </div>
 
-      <h3 className='mt-4 text-lg font-bold'>Community</h3>
+      <h3 className='mt-4 text-lg font-bold'>Communities</h3>
       <div className='flex flex-wrap gap-6'>
-        <p className='font-bold'>y00ts</p>
-        <p className='font-bold'>DeGods</p>
+        {hasY00tsNFTs(profile) && <p className='font-bold'>y00ts</p>}
+        {hasDeGodsNFTs(profile) && <p className='font-bold'>DeGods</p>}
       </div>
 
       <h3 className='mt-4 text-lg font-bold'>NFTs</h3>

@@ -1,3 +1,5 @@
+import { IAuthUser } from '@/types/auth.types'
+
 const Y00T_COLLECTION_ADDRESSES = [
   '4mKSoDDqApmF1DqXvVTSL6tu2zixrSSNjqMxUnwvVzy2',
   '0x670fd103b1a08628e9557cd66b87ded841115190',
@@ -6,4 +8,16 @@ const Y00T_COLLECTION_ADDRESSES = [
 
 export function isY00tCollectionAddress(address: string) {
   return Y00T_COLLECTION_ADDRESSES.includes(address)
+}
+
+export const hasY00tsNFTs = (profile: IAuthUser) => {
+  return profile.collections.some((collection) =>
+    isY00tCollectionAddress(collection.contract)
+  )
+}
+
+export const hasDeGodsNFTs = (profile: IAuthUser) => {
+  return profile.collections.some(
+    (collection) => !isY00tCollectionAddress(collection.contract)
+  )
 }
