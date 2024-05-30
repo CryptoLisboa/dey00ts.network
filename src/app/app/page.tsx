@@ -1,11 +1,12 @@
 'use client'
 
-import Navbar from '@/components/navbar'
-import { SKILLS } from '@/constants/app.constants'
+import { SKILLS, SkillNames } from '@/constants/app.constants'
 import { Button, Image, Input } from '@nextui-org/react'
 import NextImage from 'next/image'
+import { useState } from 'react'
 
 export default function AppHomePage() {
+  const [skillsSelected, setSkillsSelected] = useState<SkillNames[]>([])
   return (
     <div className='dark' id='root'>
       {/* <header>
@@ -46,12 +47,19 @@ export default function AppHomePage() {
             {SKILLS.map(({ name, color }) => (
               <Button
                 key={name}
-                className='p-2 text-lg'
+                className='p-2 text-lg opacity-60'
                 variant='bordered'
                 style={{
                   color,
                   borderColor: color,
-                  //   opacity: skillsSelected.includes(name) ? 1 : 0.66,
+                  opacity: skillsSelected.includes(name) ? 1 : 0.66,
+                }}
+                onClick={() => {
+                  setSkillsSelected((prev) =>
+                    prev.includes(name)
+                      ? prev.filter((skill) => skill !== name)
+                      : [...prev, name]
+                  )
                 }}
               >
                 {name}
