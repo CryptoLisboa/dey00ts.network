@@ -3,7 +3,6 @@ import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import AuthContext from '@/providers/AuthContext'
-import { SignUpContext } from '@/providers/SignUpProvider'
 import { RadioGroup, Radio, Progress } from '@nextui-org/react'
 import { useContext } from 'react'
 // import { useSignUp } from '../../../../providers/SignUpProvider'
@@ -67,6 +66,9 @@ export default function GenderSignUp() {
               </Radio>
               <Radio color='warning' value='other'>
                 <p className='text-white'>other</p>
+              </Radio>
+              <Radio color='warning' value='prefer not to say'>
+                <p className='text-white'>prefer not to say</p>
               </Radio>
             </RadioGroup>
           </div>
