@@ -32,6 +32,8 @@ model User {
   socials       Socials?
   wallets       Wallet[]
   skills        Skill[]         @relation("UserSkills")
+  genderId      Int?
+  gender        Gender?         @relation("UserToGender", fields: [genderId], references: [id], map: "UserToGenderFK")
 }
 
 model Wallet {
@@ -196,7 +198,13 @@ model Dust {
 }
 
 model Skill {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique
-  users User[]  @relation("UserSkills")
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[] @relation("UserSkills")
+}
+
+model Gender {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[] @relation("UserToGender", map: "GenderToUserFK")
 }
