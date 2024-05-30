@@ -19,3 +19,17 @@ export const SKILLS: Skill[] = [
 
 // define a type for the skill names
 export type SkillNames = (typeof SKILLS)[number]['name']
+
+export type Gender = {
+  name: string
+  id: number
+}
+
+export const GENDERS: Gender[] = [
+  { name: 'Male', id: 1 },
+  { name: 'Female', id: 2 },
+  { name: 'Other', id: 3 },
+  { name: 'Prefer not to say', id: 4 },
+]
+
+export type GenderNames = (typeof GENDERS)[number]['name']
