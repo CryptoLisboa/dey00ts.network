@@ -7,7 +7,6 @@ import { useState } from 'react'
 import ExperienceForm from '@/components/forms/ExperienceForm'
 
 export default function Experiences() {
-
   const [experiences, setExperiences] = useState<number>(1)
 
   const onAddExperience = () => {
@@ -61,6 +60,7 @@ export default function Experiences() {
                   <ExperienceForm
                     key={index}
                     onRemoveExperience={onRemoveExperience}
+                    index={index}
                   />
                 )
               )}

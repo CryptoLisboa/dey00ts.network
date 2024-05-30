@@ -27,6 +27,7 @@ export type Experience = {
   role: string
   startDate: Date
   endDate: Date
+  index: number
 }
 export type User = {
   id: string
