@@ -17,6 +17,7 @@ model User {
   image         String?
   updatedAt     DateTime        @updatedAt
   externalId    String          @unique
+  active        Boolean         @default(false)
   accounts      Account[]
   Authenticator Authenticator[]
   collections   Collection[]
