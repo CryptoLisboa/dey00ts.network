@@ -21,11 +21,11 @@ export const LocationForm = () => {
         <h4 className='text-white text-left'>Language</h4>
         <Select
           variant='bordered'
-          selectionMode='single'
+          selectionMode='multiple'
           placeholder='Select Language'
           name='language'
-          // @ts-expect-error
-          selectedKeys={[signupData?.language]}
+          // @ ts-expect-error
+          // selectedKeys={[signupData?.language]}
           classNames={{
             base: 'text-[#AFE5FF]',
             value: 'text-[#AFE5FF]',
@@ -41,6 +41,7 @@ export const LocationForm = () => {
           ))}
         </Select>
       </div>
+
       <div className='grid gap-y-2'>
         <h4 className='text-white text-left'>Location</h4>
         <Select
