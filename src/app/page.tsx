@@ -44,7 +44,7 @@ export default function Home() {
         </h2>
 
         <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
-          <Link href='/signup/welcome'>Sign Up</Link>
+          <Link href='/signup/connect_de_id'>Sign Up</Link>
           <Link href='/skin-builder'>Skin Builder</Link>
           <Button onClick={handleLogin}>login</Button>
         </div>
