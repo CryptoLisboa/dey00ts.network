@@ -49,8 +49,8 @@ export const LocationForm = () => {
           selectionMode='single'
           placeholder='Select Location'
           name='location'
-          // @ts-expect-error
-          selectedKeys={[signupData?.location]}
+          // @ ts-expect-error
+          // selectedKeys={[signupData?.location]}
           classNames={{
             base: 'text-[#AFE5FF]',
             value: 'text-[#AFE5FF]',
