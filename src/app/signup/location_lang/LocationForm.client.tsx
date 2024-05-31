@@ -33,8 +33,8 @@ export const LocationForm = () => {
           onChange={(e: any) => handleChange(e)}
         >
           {languages.map((language) => (
-            <SelectItem key={language.value} value={language.value}>
-              {language.label}
+            <SelectItem key={language.name} value={language.name}>
+              {language.name}
             </SelectItem>
           ))}
         </Select>
@@ -57,7 +57,7 @@ export const LocationForm = () => {
         >
           {locations.map((location) => (
             <SelectItem key={location.value} value={location.value}>
-              {location.label}
+              {location.name}
             </SelectItem>
           ))}
         </Select>
