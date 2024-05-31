@@ -26,8 +26,9 @@ model User {
   contents      Content[]
   dust          Dust?
   experiences   Experience[]
-  locations     Location[]
-  languages     Language[]
+  location      Location?       @relation(fields: [locationId], references: [id])
+  locationId    Int?
+  languages     Language[]      @relation("UserLanguages")
   profile       Profile?
   sessions      Session[]
   socials       Socials?
@@ -61,16 +62,14 @@ model Location {
   description String?
   latitude    Float?
   longitude   Float?
-  userId      String?
   Event       Event[]
-  User        User?   @relation(fields: [userId], references: [id])
+  User        User[]
 }
 
 model Language {
-  id     Int     @id @default(autoincrement())
-  name   String
-  userId String?
-  User   User?   @relation(fields: [userId], references: [id])
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[] @relation("UserLanguages")
 }
 
 model Experience {
