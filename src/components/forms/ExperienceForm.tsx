@@ -1,10 +1,18 @@
 'use client'
 import AuthContext from '@/providers/AuthContext'
 import { Experience } from '@/types/app.types'
-import { Button, DatePicker, Input, Switch } from '@nextui-org/react'
+import {
+  Button,
+  DatePicker,
+  Input,
+  Select,
+  SelectItem,
+  Switch,
+} from '@nextui-org/react'
 import { Formik, FormikHelpers } from 'formik'
 import { useContext } from 'react'
 import { parseDate, getLocalTimeZone } from '@internationalized/date'
+import { SKILLS } from '@/constants/app.constants'
 
 export default function ExperienceForm({
   onRemoveExperience,
@@ -15,21 +23,15 @@ export default function ExperienceForm({
 }) {
   const { setSignupData, signupData } = useContext(AuthContext)
 
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSignupData({
-  //     ...signupData,
-  //     [e.target.name]: e.target.value,
-  //   })
-  // }
-
   return (
     <Formik
       initialValues={{
+        projectName: '',
+        skill: '',
         role: '',
         startDate: new Date(),
         endDate: new Date(),
         current: false,
-        projectName: '',
         index,
       }}
       onSubmit={(
@@ -58,18 +60,7 @@ export default function ExperienceForm({
         setSubmitting(false)
       }}
     >
-      {({
-        values,
-        // errors,
-        // touched,
-        handleChange,
-        setFieldValue,
-        // handleBlur,
-        handleSubmit,
-        // isSubmitting,
-        /* and other goodies */
-        submitForm,
-      }) => {
+      {({ values, handleChange, setFieldValue, handleSubmit, submitForm }) => {
         return (
           <form className='grid gap-y-4 w-full' onSubmit={handleSubmit}>
             <Input
@@ -87,6 +78,27 @@ export default function ExperienceForm({
               labelPlacement='outside'
               label='Project name'
             />
+            <Select
+              key='Skill'
+              variant='bordered'
+              name='skill'
+              value={values.skill}
+              onChange={(...args) => {
+                handleChange(...args)
+                submitForm()
+              }}
+              placeholder='select a base skill'
+              className='text-[#D9D9D9] border-[#AFE5FF]'
+              size='lg'
+              labelPlacement='outside'
+              label='Skill'
+            >
+              {SKILLS.map(({ name, color, id }) => (
+                <SelectItem key={id} style={{ color: color }} value={id}>
+                  {name}
+                </SelectItem>
+              ))}
+            </Select>
             <Input
               key='Role'
               variant='bordered'
@@ -172,22 +184,6 @@ export default function ExperienceForm({
                     submitForm()
                   }}
                 />
-              </div>
-            </div>
-            <div className='w-full flex flex-row justify-between gap-x-4 content-center'>
-              <div className='w-full flex flex-row justify-between items-center mt-6'>
-                <button type='submit'>
-                  <div className='text-base text-left'>Save</div>
-                </button>
-                <Button
-                  className='text-center text-base'
-                  variant='solid'
-                  color='success'
-                  size='md'
-                  type='submit'
-                >
-                  +
-                </Button>
               </div>
             </div>
           </form>

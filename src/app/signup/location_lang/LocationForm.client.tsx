@@ -24,8 +24,6 @@ export const LocationForm = () => {
           selectionMode='multiple'
           placeholder='Select Language'
           name='language'
-          // @ ts-expect-error
-          // selectedKeys={[signupData?.language]}
           classNames={{
             base: 'text-[#AFE5FF]',
             value: 'text-[#AFE5FF]',
@@ -49,8 +47,6 @@ export const LocationForm = () => {
           selectionMode='single'
           placeholder='Select Location'
           name='location'
-          // @ ts-expect-error
-          // selectedKeys={[signupData?.location]}
           classNames={{
             base: 'text-[#AFE5FF]',
             value: 'text-[#AFE5FF]',

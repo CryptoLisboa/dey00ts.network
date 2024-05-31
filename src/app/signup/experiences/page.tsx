@@ -3,11 +3,18 @@ import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import { Button, Progress } from '@nextui-org/react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import ExperienceForm from '@/components/forms/ExperienceForm'
+import AuthContext from '@/providers/AuthContext'
+
+const prepareData = (data: any) => {
+  console.log('data for submission', JSON.stringify(data, null, 2))
+  return data
+}
 
 export default function Experiences() {
   const [experiences, setExperiences] = useState<number>(1)
+  const { signupData } = useContext(AuthContext)
 
   const onAddExperience = () => {
     setExperiences(experiences + 1)
@@ -15,6 +22,28 @@ export default function Experiences() {
 
   const onRemoveExperience = () => {
     setExperiences(experiences - 1)
+  }
+
+  const onNext = async () => {
+    // get signup data from context
+    // prepare data for submission to backend
+    const data = prepareData(signupData)
+    // call api to submit data
+
+    // const response = await fetch('/api/user/create', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(data),
+    // })
+
+    // deal with response
+    // if (response.ok) {
+    //   // navigate to next page
+    // } else {
+    //   // handle error
+    // }
   }
 
   return (
@@ -26,7 +55,7 @@ export default function Experiences() {
         className='absolute'
       />
       <div className='container mx-auto h-full sm:px-24 md:px-32 lg:px-96'>
-        <SignUpCard nextHref='/signup/connect_de_id'>
+        <SignUpCard onClick={onNext}>
           <div className='text-center grid justify-items-center gap-y-10'>
             <Progress
               size='sm'
@@ -38,20 +67,22 @@ export default function Experiences() {
               value={(100 / 6) * 5}
             />
             <h1 className='text-3xl font-bold text-white text-center'>
-              Share your experience
+              share your experience
             </h1>
             <p className='text-base lg:text-xl text-white'>
-              This helps us find more relevant content.
+              this helps us connect you with relevant opportunities.
             </p>
             <div className='w-full flex flex-row justify-between items-center mt-6'>
               <div className='text-base text-left'>Add Experience</div>
               <Button
-                className='bg-[#212121] text-white text-center text-2xl md:text-3xl shadow-md shadow-white w-4 h-8 grid justify-center items-center'
                 variant='shadow'
                 size='sm'
+                className='bg-[#212121] shadow-md shadow-white'
                 onClick={onAddExperience}
               >
-                +
+                <div className='text-white text-2xl md:text-3xl  flex justify-center items-center text-center leading-none'>
+                  +
+                </div>
               </Button>
             </div>
             <div className='grid gap-y-12 w-full'>

@@ -24,6 +24,7 @@ export type UserDetails = {
 export type Experience = {
   current: boolean
   projectName: string
+  skill: string
   role: string
   startDate: Date
   endDate: Date
