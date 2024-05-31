@@ -27,6 +27,7 @@ model User {
   dust          Dust?
   experiences   Experience[]
   locations     Location[]
+  languages     Language[]
   profile       Profile?
   sessions      Session[]
   socials       Socials?
@@ -63,6 +64,13 @@ model Location {
   userId      String?
   Event       Event[]
   User        User?   @relation(fields: [userId], references: [id])
+}
+
+model Language {
+  id     Int     @id @default(autoincrement())
+  name   String
+  userId String?
+  User   User?   @relation(fields: [userId], references: [id])
 }
 
 model Experience {
