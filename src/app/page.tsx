@@ -48,6 +48,7 @@ export default function Home() {
         <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
           <Link href='/signup/connect_de_id'>Sign Up</Link>
           <Link href='/skin-builder'>Skin Builder</Link>
+          {isAuthenticated && <Link href='/app'>App</Link>}
           {!isAuthenticated && <Button onClick={handleLogin}>login</Button>}
         </div>
       </main>
