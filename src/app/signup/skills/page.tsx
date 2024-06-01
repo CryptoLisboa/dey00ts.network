@@ -40,8 +40,7 @@ export default function Skills() {
               What are your skills?
             </h1>
             <p className='text-base lg:text-xl text-white'>
-              Pick up 5, this will customize your content created by La Creme De
-              La Creme of Y00ts & DeGods community!
+              Pick up to 5 skills, this will help other to find you and helps us connecting you with Y00ts & DeGods with similar interests and skills.
             </p>
             <div className='flex flex-wrap justify-center gap-4 w-full'>
               {SKILLS.map(({ name, color }) => (

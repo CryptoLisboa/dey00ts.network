@@ -31,8 +31,7 @@ export default function LocationSignUp() {
             </h1>
 
             <p className='text-base lg:text-xl text-white'>
-              This helps us find cool people around you to get some connections
-              and easily communicate.
+              This enables us to help you find community members around the world.
             </p>
 
             <LocationForm />

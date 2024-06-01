@@ -42,7 +42,7 @@ export default function GenderSignUp() {
             </h1>
 
             <p className='text-base lg:text-xl text-white'>
-              this helps us find more relevant content. we won&apos;t show it on
+              this helps us understand our community better. we won&apos;t show it on
               your profile.
             </p>
 

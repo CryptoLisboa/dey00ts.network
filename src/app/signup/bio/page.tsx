@@ -36,7 +36,8 @@ export default function Bio() {
               value={(100 / 6) * 4}
             />
             <h1 className='text-3xl font-bold text-white text-center'>
-              Tell about yourself
+              Pitch yourself to the community and/or share a short
+              bio.
             </h1>
             <p className='text-base lg:text-xl text-white'>
               {
