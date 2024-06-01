@@ -26,18 +26,17 @@ export default async function AppHomePage(ctx: AppHomePageProps) {
   const users = await prisma.user.findMany({
     where: {
       active: true,
-      userExperiences: {
-        some: {
-          experience:
-            skills?.length > 0
-              ? {
-                  skillId: {
-                    in: skills,
-                  },
-                }
-              : undefined,
-        },
-      },
+      ...(skills && skills.length > 0
+        ? {
+            skills: {
+              some: {
+                id: {
+                  in: skills,
+                },
+              },
+            },
+          }
+        : {}),
     },
     orderBy: { createdAt: 'desc' },
     take: 10,
