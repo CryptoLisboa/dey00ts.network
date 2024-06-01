@@ -4,6 +4,7 @@ import Link from 'next/link'
 import MenuNavbar from '@/components/navbar/Menu.Navbar'
 import { auth } from '@/auth'
 import { prisma } from '@/utils/db.utils'
+import LoginButton from '../buttons/LoginButton'
 
 export const Navbar = async () => {
   const session = await auth()
@@ -27,7 +28,7 @@ export const Navbar = async () => {
         />
       </Link>
 
-      {session && <MenuNavbar session={session} user={user} />}
+      {session ? <MenuNavbar session={session} user={user} /> : <LoginButton />}
     </nav>
   )
 }

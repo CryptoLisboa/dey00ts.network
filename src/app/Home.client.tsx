@@ -3,15 +3,15 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@nextui-org/button'
-import { signIn } from 'next-auth/react'
+import LoginButton from '@/components/buttons/LoginButton'
 
 export const Home = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
-  const handleLogin = async () =>
-    await signIn('deid', {
-      redirect: true,
-      callbackUrl: '/app',
-      scope: 'wallets:read collections:read dust:read socials:read',
-    })
+  // const handleLogin = async () =>
+  //   await signIn('deid', {
+  //     redirect: true,
+  //     callbackUrl: '/app',
+  //     scope: 'wallets:read collections:read dust:read socials:read',
+  //   })
 
   return (
     <main className='flex flex-col items-center justify-center h-[85vh]'>
@@ -44,7 +44,7 @@ export const Home = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
         <Button as={Link} href='/skin-builder' color='warning'>
           Skin Builder
         </Button>
-        {!isAuthenticated && <Button onClick={handleLogin} color='secondary'>Login</Button>}
+        {!isAuthenticated && <LoginButton />}
       </div>
     </main>
   )
