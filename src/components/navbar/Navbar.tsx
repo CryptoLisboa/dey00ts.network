@@ -3,9 +3,14 @@ import NextImage from 'next/image'
 import Link from 'next/link'
 import MenuNavbar from '@/components/navbar/Menu.Navbar'
 import { auth } from '@/auth'
+import { prisma } from '@/utils/db.utils'
 
 export const Navbar = async () => {
   const session = await auth()
+  const user = await prisma.user.findUnique({
+    where: { id: session?.user?.id },
+    include: { socials: true },
+  })
   return (
     <nav className='flex items-center justify-between p-3 md:p-6'>
       <Link href={'/'}>
@@ -19,7 +24,7 @@ export const Navbar = async () => {
         />
       </Link>
 
-      {session && <MenuNavbar />}
+      {session && <MenuNavbar session={session} user={user} />}
     </nav>
   )
 }

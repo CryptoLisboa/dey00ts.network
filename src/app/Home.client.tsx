@@ -37,10 +37,14 @@ export const Home = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
       </h2>
 
       <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
-        {!isAuthenticated && <Link href='/signup/connect_de_id'>Sign Up</Link>}
-        <Link href='/skin-builder'>Skin Builder</Link>
-        <Link href='/app'>App</Link>
-        {!isAuthenticated && <Button onClick={handleLogin}>Login</Button>}
+        {/* {!isAuthenticated && <Link href='/signup/connect_de_id'>Sign Up</Link>} */}
+        <Button as={Link} href='/app' color='primary'>
+          App
+        </Button>
+        <Button as={Link} href='/skin-builder' color='warning'>
+          Skin Builder
+        </Button>
+        {!isAuthenticated && <Button onClick={handleLogin} color='secondary'>Login</Button>}
       </div>
     </main>
   )

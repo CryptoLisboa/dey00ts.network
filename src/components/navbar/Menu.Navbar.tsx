@@ -1,5 +1,4 @@
 'use client'
-import { UserCreated } from '@/types/app.types'
 import {
   Dropdown,
   DropdownItem,
@@ -7,30 +6,23 @@ import {
   DropdownTrigger,
   Image,
 } from '@nextui-org/react'
+import { Session } from 'next-auth'
 import { signOut } from 'next-auth/react'
 import NextImage from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
-export default function MenuNavbar() {
-  const [user, setUser] = useState<UserCreated | null>(null)
-  useEffect(() => {
-    fetch(`/api/user`, { next: { revalidate: 600 } })
-      .then((res) => res.json())
-      .then((user) => {
-        setUser(user)
-      })
-      .catch((error) => {
-        console.error('Failed to fetch user profile:', error)
-      })
-  }, [])
+interface MenuNavbarProps {
+  session: Session
+  user: any
+}
 
+export default function MenuNavbar({ session, user }: MenuNavbarProps) {
   return (
     <Dropdown>
       <DropdownTrigger>
         <Image
           as={NextImage}
-          src={user?.image || '/temp/avatar.png'}
+          src={session?.user?.image || '/temp/avatar.png'}
           className='cursor-pointer rounded-full border-2 border-primary-500'
           alt='Logo'
           width={42}
@@ -38,7 +30,11 @@ export default function MenuNavbar() {
         />
       </DropdownTrigger>
       <DropdownMenu aria-label='Avatar menu'>
-        <DropdownItem key='my-profile' as={Link} href='/profile'>
+        <DropdownItem
+          key='my-profile'
+          as={Link}
+          href={`/${user?.socials?.twitterHandle}`}
+        >
           <div className='flex flex-row items-center gap-3'>
             <svg
               xmlns='http://www.w3.org/2000/svg'

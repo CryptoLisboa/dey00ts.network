@@ -13,6 +13,8 @@ interface AppHomePageProps {
 export default async function AppHomePage(ctx: AppHomePageProps) {
   const session = await auth()
 
+  console.log('session 123', JSON.stringify(session, null, 2))
+
   if (session && !session?.user?.active) redirect('/signup/welcome')
 
   const skills =
