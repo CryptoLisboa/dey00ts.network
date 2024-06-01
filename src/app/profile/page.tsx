@@ -25,6 +25,7 @@ const fetchProfile = async (): Promise<UserCreated> => {
       include: {
         profile: true,
         location: true,
+        languages: true,
         contents: true,
         userExperiences: {
           include: {
@@ -104,30 +105,43 @@ export default async function Profile() {
             width={24}
             height={24}
           />
-          {/* {profile.} */}
-          <p>English</p>
-          <p>Portuguese</p>
-          <p>Criol</p>
-          <p>Spanish</p>
+          {user?.languages?.map((language) => (
+            <p key={language.id}>{language.name}</p>
+          ))}
         </div>
       </div>
 
       <h3 className='mt-4 text-lg font-bold'>Bio</h3>
-      <p className='text-sm '>
-        cpu janitor. tech aficionado & truth seeker. culture explorer. turning
-        thoughts into code poetry since 2015.
-      </p>
+      <p className='text-sm '>{user.profile?.bio || 'No bio available'}</p>
 
       <h3 className='mt-4 text-lg font-bold'>Experiences</h3>
       {user.userExperiences.map((experience) => (
         <div key={experience.experience.id} className='flex flex-col gap-1'>
-          <p className=''>{experience.experience.description}</p>
-          <p className='text-sm'>{experience.experience.skill.name}</p>
+          <div className='flex flex-row flex-wrap'>
+            <p className='font-bold'>{experience.experience.company}</p>
+            <p className=''>{`: ${experience.experience.role}`}</p>
+          </div>
+          <p className=''>{`description: ${experience.experience.description}`}</p>
+          <p className='text-sm'>{`base skill: ${experience.experience.skill.name}`}</p>
           <p className='text-sm'>
-            {String(experience.experience.startDate)} -{' '}
+            {new Date(experience.experience.startDate).toLocaleDateString(
+              'en-US',
+              {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+              }
+            )}{' '}
+            -{' '}
             {experience.experience.current
               ? 'current'
-              : String(experience.experience.endDate)}
+              : new Date(
+                  experience.experience?.endDate as Date
+                ).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                })}
           </p>
         </div>
       ))}
@@ -228,68 +242,3 @@ export default async function Profile() {
     </main>
   )
 }
-
-/*
-fetching profile {
-  "id": "clwq6zj1e0002k9zyn4qfot8b",
-  "email": "wains-perk0c@icloud.com",
-  "name": "Ben",
-  "bio": null,
-  "createdAt": "2024-05-28T09:25:36.674Z",
-  "emailVerified": null,
-  "updatedAt": "2024-06-01T08:00:57.117Z",
-  "externalId": "ad5b1e5f-b296-4df6-9a91-7d4441aa0f17",
-  "website": null,
-  "image": "https://pbs.twimg.com/profile_images/1791145190616363013/SltNT6u-.jpg",
-  "active": true,
-  "genderId": 1,
-  "locationId": 53,
-  "profile": {
-    "id": 1,
-    "userId": "clwq6zj1e0002k9zyn4qfot8b",
-    "bio": "software engineer // web3 degen @lisbonlabs\n@dealphaxyz operations\n\nDM 💌 for dev work https://github.com/CryptoLisboa",
-    "avatarUrl": null
-  },
-  "location": {
-    "id": 53,
-    "name": "Portugal",
-    "description": null,
-    "latitude": null,
-    "longitude": null,
-    "value": "pt"
-  },
-  "contents": [],
-  "userExperiences": [
-    {
-      "userId": "clwq6zj1e0002k9zyn4qfot8b",
-      "experienceId": 3
-    }
-  ],
-  "dust": {
-    "id": 1,
-    "userId": "clwq6zj1e0002k9zyn4qfot8b",
-    "amount": 26,
-    "preciseAmount": "26907897293",
-    "decimals": 9
-  },
-  "socials": {
-    "id": 1,
-    "userId": "clwq6zj1e0002k9zyn4qfot8b",
-    "telegramId": null,
-    "telegramUsername": null,
-    "discordId": "613126953829924896",
-    "discordUsername": "Ben.Eth.Miner#0001",
-    "twitterId": "942220335264550912",
-    "twitterHandle": "CryptoLisboa",
-    "twitterUsername": null
-  },
-  "wallets": [
-   ...
-  ],
-  "followers": [],
-  "followings": [],
-  "collections": [
-    ...
-  ]
-}
-*/
