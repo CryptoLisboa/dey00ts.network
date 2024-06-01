@@ -10,14 +10,17 @@ datasource db {
 model User {
   id              String           @id @default(cuid())
   email           String           @unique
-  website         String?
   name            String?
+  bio             String?
   createdAt       DateTime         @default(now())
   emailVerified   DateTime?
-  image           String?
   updatedAt       DateTime         @updatedAt
   externalId      String           @unique
+  website         String?
+  image           String?
   active          Boolean          @default(false)
+  genderId        Int?
+  locationId      Int?
   accounts        Account[]
   Authenticator   Authenticator[]
   collections     Collection[]
@@ -25,17 +28,15 @@ model User {
   followings      Connection[]     @relation("followerConnection")
   contents        Content[]
   dust            Dust?
-  location        Location?        @relation(fields: [locationId], references: [id])
-  locationId      Int?
-  languages       Language[]       @relation("UserLanguages")
   profile         Profile?
   sessions        Session[]
   socials         Socials?
-  wallets         Wallet[]
-  skills          Skill[]          @relation("UserSkills")
-  genderId        Int?
   gender          Gender?          @relation("UserToGender", fields: [genderId], references: [id], map: "UserToGenderFK")
-  userExperiences UserExperience[] // Link to the relation table
+  location        Location?        @relation(fields: [locationId], references: [id])
+  userExperiences UserExperience[]
+  wallets         Wallet[]
+  languages       Language[]       @relation("UserLanguages")
+  skills          Skill[]          @relation("UserSkills")
 }
 
 model Wallet {
@@ -59,10 +60,10 @@ model Profile {
 model Location {
   id          Int     @id @default(autoincrement())
   name        String
-  value       String
   description String?
   latitude    Float?
   longitude   Float?
+  value       String
   Event       Event[]
   User        User[]
 }
@@ -74,22 +75,21 @@ model Language {
 }
 
 model Experience {
-  id          Int              @id @default(autoincrement())
-  description String?
-  startDate   DateTime
-  endDate     DateTime?
-  current     Boolean?
-  users       UserExperience[] // Relation table for users
-  skillId     Int
-  skill       Skill            @relation(fields: [skillId], references: [id])
+  id              Int              @id @default(autoincrement())
+  description     String?
+  current         Boolean?
+  endDate         DateTime?
+  skillId         Int
+  startDate       DateTime
+  skill           Skill            @relation(fields: [skillId], references: [id])
+  userExperiences UserExperience[]
 }
 
-// Relation table for linking Users and Experiences
 model UserExperience {
-  user         User       @relation(fields: [userId], references: [id])
-  userId       String     @unique
+  userId       String
+  experienceId Int
   experience   Experience @relation(fields: [experienceId], references: [id])
-  experienceId Int        @unique
+  user         User       @relation(fields: [userId], references: [id])
 
   @@id([userId, experienceId])
 }
@@ -221,12 +221,12 @@ model Dust {
 model Skill {
   id          Int          @id @default(autoincrement())
   name        String       @unique
+  experiences Experience[]
   users       User[]       @relation("UserSkills")
-  experiences Experience[] // Directly reference experiences that require this skill
 }
 
 model Gender {
   id    Int    @id @default(autoincrement())
   name  String @unique
-  users User[] @relation("UserToGender", map: "GenderToUserFK")
+  users User[] @relation("UserToGender")
 }
