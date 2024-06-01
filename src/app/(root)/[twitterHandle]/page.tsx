@@ -69,7 +69,11 @@ export default async function HomePage(ctx: any) {
             {user?.socials?.twitterHandle}
           </p>
         </div>
-        <h3 className='mt-4 text-lg text-full-stack font-bold'>Full Stack</h3>
+        <h3 className='mt-4 text-lg text-full-stack font-bold'>
+          {user?.skills?.length > 0
+            ? user?.skills[0]?.name
+            : `degens don't like to be labeled`}
+        </h3>
         <div className='flex flex-col gap-1'>
           <div className='flex p-1 gap-3'>
             <Image
