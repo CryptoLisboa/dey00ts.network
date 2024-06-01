@@ -9,6 +9,7 @@ import AuthContext from '@/providers/AuthContext'
 import { GENDERS, SKILLS } from '@/constants/app.constants'
 import { languages, locations } from '@/constants/signup.constants'
 import { SignupData } from '@/types/app.types'
+import { useRouter } from 'next/navigation'
 
 // const exampleData = {
 //   user: {},
@@ -57,6 +58,7 @@ const prepareData = (signupData: Partial<SignupData>) => {
 }
 
 export default function Experiences() {
+  const router = useRouter()
   const [experiences, setExperiences] = useState<number>(1)
   const { signupData } = useContext(AuthContext)
 
@@ -69,10 +71,7 @@ export default function Experiences() {
   }
 
   const onNext = async () => {
-    // get signup data from context
-    // prepare data for submission to backend
     const data = prepareData(signupData as Partial<SignupData>)
-    // call api to submit data
 
     const response = await fetch('/api/user/create', {
       method: 'POST',
@@ -82,9 +81,10 @@ export default function Experiences() {
       body: JSON.stringify(data),
     })
 
-    // deal with response
+    debugger
+
     if (response.ok) {
-      // navigate to next page
+      router.push('/app')
     } else {
       // handle error
     }
