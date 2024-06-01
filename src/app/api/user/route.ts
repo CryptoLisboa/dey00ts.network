@@ -30,9 +30,17 @@ export async function GET(req: NextRequest, res: NextResponse) {
     },
     include: {
       profile: true,
-      locations: true,
+      location: true,
       contents: true,
-      experiences: true,
+      userExperiences: {
+        include: {
+          experience: {
+            include: {
+              skill: true,
+            },
+          },
+        },
+      },
       dust: true,
       socials: true,
       wallets: true,

@@ -90,7 +90,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async redirect({ url, baseUrl }) {
       //do other stuff or redirects here
-      const finalRedirect = baseUrl + '/profile'
+      const finalRedirect = baseUrl + '/app'
       return finalRedirect
     },
   },

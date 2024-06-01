@@ -8,28 +8,35 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(cuid())
-  email         String          @unique
-  website       String?
-  name          String?
-  createdAt     DateTime        @default(now())
-  emailVerified DateTime?
-  image         String?
-  updatedAt     DateTime        @updatedAt
-  externalId    String          @unique
-  accounts      Account[]
-  Authenticator Authenticator[]
-  collections   Collection[]
-  followers     Connection[]    @relation("followingConnection")
-  followings    Connection[]    @relation("followerConnection")
-  contents      Content[]
-  dust          Dust?
-  experiences   Experience[]
-  locations     Location[]
-  profile       Profile?
-  sessions      Session[]
-  socials       Socials?
-  wallets       Wallet[]
+  id              String           @id @default(cuid())
+  email           String           @unique
+  name            String?
+  bio             String?
+  createdAt       DateTime         @default(now())
+  emailVerified   DateTime?
+  updatedAt       DateTime         @updatedAt
+  externalId      String           @unique
+  website         String?
+  image           String?
+  active          Boolean          @default(false)
+  genderId        Int?
+  locationId      Int?
+  accounts        Account[]
+  Authenticator   Authenticator[]
+  collections     Collection[]
+  followers       Connection[]     @relation("followingConnection")
+  followings      Connection[]     @relation("followerConnection")
+  contents        Content[]
+  dust            Dust?
+  profile         Profile?
+  sessions        Session[]
+  socials         Socials?
+  gender          Gender?          @relation("UserToGender", fields: [genderId], references: [id], map: "UserToGenderFK")
+  location        Location?        @relation(fields: [locationId], references: [id])
+  userExperiences UserExperience[]
+  wallets         Wallet[]
+  languages       Language[]       @relation("UserLanguages")
+  skills          Skill[]          @relation("UserSkills")
 }
 
 model Wallet {
@@ -56,17 +63,37 @@ model Location {
   description String?
   latitude    Float?
   longitude   Float?
-  userId      String?
+  value       String
   Event       Event[]
-  User        User?   @relation(fields: [userId], references: [id])
+  User        User[]
+}
+
+model Language {
+  id    Int    @id @default(autoincrement())
+  name  String
+  users User[] @relation("UserLanguages")
 }
 
 model Experience {
-  id          Int     @id @default(autoincrement())
-  title       String
-  description String?
-  userId      String
-  user        User    @relation(fields: [userId], references: [id])
+  id              Int              @id @default(autoincrement())
+  company         String?
+  role            String?
+  description     String?
+  current         Boolean?
+  endDate         DateTime?
+  skillId         Int
+  startDate       DateTime
+  skill           Skill            @relation(fields: [skillId], references: [id])
+  userExperiences UserExperience[]
+}
+
+model UserExperience {
+  userId       String
+  experienceId Int
+  experience   Experience @relation(fields: [experienceId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
+
+  @@id([userId, experienceId])
 }
 
 model Connection {
@@ -191,4 +218,17 @@ model Dust {
   user          User   @relation(fields: [userId], references: [id])
 
   @@index([userId], map: "idx_dust_user")
+}
+
+model Skill {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  experiences Experience[]
+  users       User[]       @relation("UserSkills")
+}
+
+model Gender {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[] @relation("UserToGender")
 }

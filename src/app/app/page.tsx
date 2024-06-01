@@ -1,16 +1,30 @@
 'use client'
 
-import Navbar from '@/components/navbar'
-import { SKILLS } from '@/constants/app.constants'
+import { SKILLS, SkillNames } from '@/constants/app.constants'
 import { Button, Image, Input } from '@nextui-org/react'
 import NextImage from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function AppHomePage() {
+  const [skillsSelected, setSkillsSelected] = useState<SkillNames[]>([])
+  const router = useRouter()
+  useEffect(() => {
+    fetch(`/api/user`, { next: { revalidate: 600 } })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('profile data on app', JSON.stringify(data, null, 2))
+        const userIsActive = data.active
+        if (!userIsActive) {
+          router.push('/signup/welcome')
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }, [])
   return (
     <div className='dark' id='root'>
-      {/* <header>
-        <Navbar />
-      </header> */}
       <main className='container pt-0 mx-auto p-4'>
         <div className='flex flex-col items-center mb-4 gap-3'>
           <h1 className='text-2xl font-bold text-white text-center'>
@@ -46,12 +60,19 @@ export default function AppHomePage() {
             {SKILLS.map(({ name, color }) => (
               <Button
                 key={name}
-                className='p-2 text-lg'
+                className='p-2 text-lg opacity-60'
                 variant='bordered'
                 style={{
                   color,
                   borderColor: color,
-                  //   opacity: skillsSelected.includes(name) ? 1 : 0.66,
+                  opacity: skillsSelected.includes(name) ? 1 : 0.66,
+                }}
+                onClick={() => {
+                  setSkillsSelected((prev) =>
+                    prev.includes(name)
+                      ? prev.filter((skill) => skill !== name)
+                      : [...prev, name]
+                  )
                 }}
               >
                 {name}

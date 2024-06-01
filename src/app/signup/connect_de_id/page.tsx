@@ -5,17 +5,16 @@ import { Button } from '@nextui-org/react'
 import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 
+const handleLogin = async () => {
+  await signIn(
+    'deid',
+    {
+      scope: 'wallets:read collections:read dust:read socials:read',
+    }
+  )
+}
+
 export default function ConnectDeIDSignUp() {
-  const handleLogin = async () => {
-    await signIn(
-      'deid',
-      // {},
-      // {},
-      {
-        scope: 'wallets:read collections:read dust:read socials:read',
-      }
-    )
-  }
   return (
     <main className='dark h-screen overflow-hidden' id='gender'>
       <BackButton />
