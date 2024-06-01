@@ -9,11 +9,11 @@ import { useState } from 'react'
 export default function AppHomePage() {
   const [skillsSelected, setSkillsSelected] = useState<SkillNames[]>([])
   const router = useRouter()
-  const dynamicData = fetch(`/api/user`, { cache: 'no-store' })
+  fetch(`/api/user`, { cache: 'no-store' })
     .then((res) => res.json())
     .then((data) => {
       console.log('profile data on app', JSON.stringify(data, null, 2))
-      const userIsActive = data.isActive
+      const userIsActive = data.active
       if (!userIsActive) {
         router.push('/signup/welcome')
       }
