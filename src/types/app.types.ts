@@ -21,7 +21,7 @@ export type UserDetails = {
 
 export type Experience = {
   current: boolean
-  projectName: string
+  company: string
   skill: string
   role: string
   description: string
@@ -57,4 +57,89 @@ export type Auth = {
   setSignupData: (data: SignupData) => void
   user?: Partial<User>
   signupData?: Partial<SignupData>
+}
+
+export type UserCreated = {
+  id: string
+  email?: string
+  name?: string
+  bio?: string | null
+  createdAt: Date
+  emailVerified?: Date | null
+  updatedAt: Date
+  externalId?: string
+  website?: string | null
+  image?: string
+  active?: boolean
+  genderId?: number
+  locationId?: number
+  profile?: {
+    id: number
+    userId: string
+    bio?: string | null
+    avatarUrl?: string | null
+  }
+  location?: {
+    id: number
+    name: string
+    description?: string | null
+    latitude?: number | null
+    longitude?: number | null
+    value: string
+  }
+  contents: any[] // Specify more detailed type if available
+  userExperiences: {
+    userId: string
+    experienceId: number
+    experience: {
+      id: number
+      description?: string
+      current?: boolean
+      startDate: Date
+      endDate?: Date
+      skill: {
+        id: number
+        name: string
+      }
+    }
+  }[]
+  dust?: {
+    id: number
+    userId: string
+    amount: number
+    preciseAmount: string
+    decimals: number
+  }
+  socials?: {
+    id: number
+    userId: string
+    telegramId?: string | null
+    telegramUsername?: string | null
+    discordId?: string
+    discordUsername?: string
+    twitterId?: string
+    twitterHandle?: string
+    twitterUsername?: string | null
+  }
+  wallets: {
+    id: number
+    userId: string
+    address: string
+    network: string
+  }[]
+  followers: any[] // Specify more detailed type if available
+  followings: any[] // Specify more detailed type if available
+  collections: {
+    id: number
+    network: string
+    contract: string
+    userId: string
+    tokens: {
+      id: number
+      wallet: string
+      tokenId: number
+      staked: boolean
+      collectionId: number
+    }[]
+  }[]
 }

@@ -102,12 +102,14 @@ export async function POST(req: NextRequest) {
       create: data.experiences?.map((exp) => ({
         experience: {
           create: {
-            description: exp.role,
+            role: exp.role,
+            description: exp.description,
             startDate: new Date(exp.startDate),
             endDate: exp.endDate ?? new Date(exp.endDate),
             current: exp.current,
             // Ensuring ID is passed as a number if your schema expects it
             skill: { connect: { id: parseInt(exp.skill) } },
+            company: exp.company,
           },
         },
       })),

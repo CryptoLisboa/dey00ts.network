@@ -1,3 +1,4 @@
+import { UserCreated } from '@/types/app.types'
 import { IAuthUser } from '@/types/auth.types'
 
 const Y00T_COLLECTION_ADDRESSES = [
@@ -10,13 +11,13 @@ export function isY00tCollectionAddress(address: string) {
   return Y00T_COLLECTION_ADDRESSES.includes(address)
 }
 
-export const hasY00tsNFTs = (profile: IAuthUser) => {
+export const hasY00tsNFTs = (profile: UserCreated) => {
   return profile.collections.some((collection) =>
     isY00tCollectionAddress(collection.contract)
   )
 }
 
-export const hasDeGodsNFTs = (profile: IAuthUser) => {
+export const hasDeGodsNFTs = (profile: UserCreated) => {
   return profile.collections.some(
     (collection) => !isY00tCollectionAddress(collection.contract)
   )

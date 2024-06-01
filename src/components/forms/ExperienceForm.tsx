@@ -26,7 +26,7 @@ export default function ExperienceForm({
   return (
     <Formik
       initialValues={{
-        projectName: '',
+        company: '',
         skill: '',
         role: '',
         description: '',
@@ -67,8 +67,8 @@ export default function ExperienceForm({
             <Input
               key='Project name'
               variant='bordered'
-              name='projectName'
-              value={values.projectName}
+              name='company'
+              value={values.company}
               onChange={(...args) => {
                 handleChange(...args)
                 submitForm()
@@ -118,7 +118,7 @@ export default function ExperienceForm({
             <Input
               key='Description'
               variant='bordered'
-              value={values.role}
+              value={values.description}
               onChange={(...args) => {
                 handleChange(...args)
                 submitForm()

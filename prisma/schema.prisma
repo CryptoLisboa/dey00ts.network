@@ -76,6 +76,8 @@ model Language {
 
 model Experience {
   id              Int              @id @default(autoincrement())
+  company         String?
+  role            String?
   description     String?
   current         Boolean?
   endDate         DateTime?
