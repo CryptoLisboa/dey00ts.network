@@ -1,13 +1,11 @@
-'use client'
 import { Image } from '@nextui-org/react'
-import { useSession } from 'next-auth/react'
 import NextImage from 'next/image'
 import Link from 'next/link'
 import MenuNavbar from '@/components/navbar/Menu.Navbar'
+import { auth } from '@/auth'
 
-export const Navbar = () => {
-  const { status } = useSession()
-  const isAuthenticated = status === 'authenticated'
+export const Navbar = async () => {
+  const session = await auth()
   return (
     <nav className='flex items-center justify-between p-3 md:p-6'>
       <Link href={'/'}>
@@ -21,7 +19,7 @@ export const Navbar = () => {
         />
       </Link>
 
-      {isAuthenticated && <MenuNavbar />}
+      {session && <MenuNavbar />}
     </nav>
   )
 }
