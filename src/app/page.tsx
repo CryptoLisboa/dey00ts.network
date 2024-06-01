@@ -3,9 +3,13 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@nextui-org/button'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 
 export default function Home() {
+  const { data: session, status: sessionStatus } = useSession()
+
+  console.log('session', session)
+
   const handleLogin = async () => {
     await signIn(
       'deid',
@@ -16,11 +20,9 @@ export default function Home() {
       }
     )
   }
+  const isAuthenticated = sessionStatus === 'authenticated'
   return (
     <div className='dark' id='root'>
-      {/* <header>
-        <Navbar />
-      </header> */}
       <main className='flex flex-col items-center justify-center h-[85vh]'>
         <h1 className='font-rowdies text-4xl md:text-6xl'>DeY00ts.Network</h1>
         <h2 className='font-rowdies text-2xl md:text-4xl'>
@@ -46,7 +48,7 @@ export default function Home() {
         <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
           <Link href='/signup/connect_de_id'>Sign Up</Link>
           <Link href='/skin-builder'>Skin Builder</Link>
-          <Button onClick={handleLogin}>login</Button>
+          {!isAuthenticated && <Button onClick={handleLogin}>login</Button>}
         </div>
       </main>
     </div>
