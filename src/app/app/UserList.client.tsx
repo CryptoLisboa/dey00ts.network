@@ -38,6 +38,7 @@ export const UserList = ({ users, skills }: IUserListProps) => {
 
         <div className='flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4'>
           <Input
+            disabled
             type='location'
             placeholder='Search by: Interest, location, language'
             labelPlacement='outside'
