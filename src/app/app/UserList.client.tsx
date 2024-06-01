@@ -1,6 +1,6 @@
 'use client'
 
-import { SkillNames, SKILLS } from '@/constants/app.constants'
+import { SkillIds, SkillNames, SKILLS } from '@/constants/app.constants'
 import { Button, Image, Input } from '@nextui-org/react'
 import NextImage from 'next/image'
 import Link from 'next/link'
@@ -21,7 +21,7 @@ type IUserListProps = {
   users: any //User[]
 }
 export const UserList = ({ users }: IUserListProps) => {
-  const [skillsSelected, setSkillsSelected] = useState<SkillNames[]>([])
+  const [skillsSelected, setSkillsSelected] = useState<SkillIds[]>([])
 
   console.log(users)
   return (
@@ -57,21 +57,21 @@ export const UserList = ({ users }: IUserListProps) => {
       </div>
       <div className='flex items-center mb-4 overflow-x-auto'>
         <div className='flex flex-wrap justify-center gap-4 w-full'>
-          {SKILLS.map(({ name, color }) => (
+          {SKILLS.map(({ name, color, id }) => (
             <Button
-              key={name}
+              key={id}
               className='p-2 text-lg opacity-60'
               variant='bordered'
               style={{
                 color,
                 borderColor: color,
-                opacity: skillsSelected.includes(name) ? 1 : 0.66,
+                opacity: skillsSelected.includes(id) ? 1 : 0.66,
               }}
               onClick={() => {
-                setSkillsSelected((prev) =>
-                  prev.includes(name)
-                    ? prev.filter((skill) => skill !== name)
-                    : [...prev, name]
+                setSkillsSelected((prevState) =>
+                  prevState.includes(id)
+                    ? prevState.filter((skillId) => skillId !== id)
+                    : [...prevState, id]
                 )
               }}
             >
