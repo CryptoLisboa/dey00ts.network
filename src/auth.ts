@@ -93,5 +93,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const finalRedirect = baseUrl + '/app'
       return finalRedirect
     },
+    async session({
+      session,
+      // , token, user
+    }) {
+      return session
+    },
   },
 })
