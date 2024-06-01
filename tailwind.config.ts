@@ -1,6 +1,12 @@
 import type { Config } from 'tailwindcss'
 import { nextui } from '@nextui-org/theme'
 
+/*
+--color-artist: #8ac926;
+    --color-ui-ux-designer: #f4a261;
+    --color-video-editing: #6a4c93;
+    --color-graphic-design: #ffca3a;
+*/
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -34,6 +40,18 @@ const config: Config = {
         },
         ['sol-dev']: {
           DEFAULT: 'var(--color-sol-dev)',
+        },
+        ['video-editing']: {
+          DEFAULT: 'var(--color-video-editing)',
+        },
+        ['graphic-design']: {
+          DEFAULT: 'var(--color-graphic-design)',
+        },
+        ['artist']: {
+          DEFAULT: 'var(--color-artist)',
+        },
+        ['ui-ux-designer']: {
+          DEFAULT: 'var(--color-ui-ux-designer)',
         },
       },
       backgroundImage: {

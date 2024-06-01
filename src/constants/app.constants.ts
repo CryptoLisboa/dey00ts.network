@@ -15,6 +15,10 @@ export const SKILLS: Skill[] = [
   { name: 'EVM Dev', color: '#FFFF75', id: 6 },
   { name: 'Full Stack', color: '#FFA500', id: 7 },
   { name: 'Space Host', color: '#3792FF', id: 8 },
+  { name: 'Video Editing', color: '#6a4c93', id: 9 },
+  { name: 'Graphic Design', color: '#ffca3a', id: 10 },
+  { name: 'Artist', color: '#8ac926', id: 11 },
+  { name: 'UX/UI Designer', color: '#f4a261', id: 12 },
 ]
 
 // define a type for the skill names

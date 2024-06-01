@@ -12,6 +12,10 @@
     --color-full-stack: #ffa500;
     --color-evm-dev: #ffff75;
     --color-sol-dev: #ffc9df;
+    --color-video-editing: #6a4c93;
+    --color-graphic-design: #ffca3a;
+    --color-artist: #8ac926;
+    --color-ux-ui-designer: #f4a261;
   }
 
   .dark {
@@ -23,6 +27,10 @@
     --color-full-stack: #ffa500;
     --color-evm-dev: #ffff75;
     --color-sol-dev: #ffc9df;
+    --color-video-editing: #6a4c93;
+    --color-graphic-design: #ffca3a;
+    --color-artist: #8ac926;
+    --color-ux-ui-designer: #f4a261;
   }
 }
 
