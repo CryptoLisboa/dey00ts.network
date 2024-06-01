@@ -148,6 +148,8 @@ export default async function HomePage(ctx: any) {
                   .toLowerCase()
                   .replace(/ /g, '-')})`,
               }}
+              as={Link}
+              href={`/app?skills=${skill.id}`}
             >
               {skill.name}
             </Button>
