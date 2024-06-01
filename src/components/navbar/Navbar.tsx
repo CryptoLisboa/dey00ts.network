@@ -5,6 +5,7 @@ import MenuNavbar from '@/components/navbar/Menu.Navbar'
 import { auth } from '@/auth'
 import { prisma } from '@/utils/db.utils'
 import LoginButton from '../buttons/LoginButton'
+import CenterNavbar from './Center.Navbar'
 
 export const Navbar = async () => {
   const session = await auth()
@@ -27,6 +28,8 @@ export const Navbar = async () => {
           height={84}
         />
       </Link>
+
+      <CenterNavbar className='hidden md:flex gap-x-8 font-lucky' />
 
       {session ? <MenuNavbar session={session} user={user} /> : <LoginButton />}
     </nav>
