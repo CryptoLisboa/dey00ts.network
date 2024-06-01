@@ -87,6 +87,10 @@ export type UserCreated = {
     longitude?: number | null
     value: string
   }
+  languages?: {
+    id: number
+    name: string
+  }[]
   contents: any[] // Specify more detailed type if available
   userExperiences: {
     userId: string
@@ -94,6 +98,8 @@ export type UserCreated = {
     experience: {
       id: number
       description?: string
+      role?: string
+      company?: string
       current?: boolean
       startDate: Date
       endDate?: Date
