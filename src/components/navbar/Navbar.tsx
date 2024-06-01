@@ -7,10 +7,13 @@ import { prisma } from '@/utils/db.utils'
 
 export const Navbar = async () => {
   const session = await auth()
-  const user = await prisma.user.findUnique({
-    where: { id: session?.user?.id },
-    include: { socials: true },
-  })
+  let user
+  if (session) {
+    user = await prisma.user.findUnique({
+      where: { id: session?.user?.id },
+      include: { socials: true },
+    })
+  }
   return (
     <nav className='flex items-center justify-between p-3 md:p-6'>
       <Link href={'/'}>
