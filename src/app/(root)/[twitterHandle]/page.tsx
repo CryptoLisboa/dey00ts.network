@@ -14,7 +14,7 @@ import {
   generateY00tsImageUrl,
 } from '@/utils/de[id]/image'
 
-export default async function HomePage(ctx) {
+export default async function HomePage(ctx: any) {
   const twitterHandle = ctx.params.twitterHandle
 
   const user = await prisma.user.findFirst({
