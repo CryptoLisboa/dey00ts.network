@@ -3,13 +3,40 @@ import { UserList } from './UserList.client'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/utils/db.utils'
 
-export default async function AppHomePage() {
+interface AppHomePageProps {
+  params: any
+  searchParams: {
+    skills: string
+  }
+}
+
+export default async function AppHomePage(ctx: AppHomePageProps) {
   const session = await auth()
 
   if (session && !session?.user?.active) redirect('/signup/welcome')
 
+  const skills =
+    ctx.searchParams.skills
+      ?.split(',')
+      .map((id) => parseInt(id, 10))
+      .filter((id) => !isNaN(Number(id))) || []
+
   const users = await prisma.user.findMany({
-    where: { active: true },
+    where: {
+      active: true,
+      userExperiences: {
+        some: {
+          experience:
+            skills?.length > 0
+              ? {
+                  skillId: {
+                    in: skills,
+                  },
+                }
+              : undefined,
+        },
+      },
+    },
     orderBy: { createdAt: 'desc' },
     take: 10,
     skip: 0,
@@ -38,7 +65,7 @@ export default async function AppHomePage() {
   })
   return (
     <div className='dark' id='root'>
-      <UserList users={users} />
+      <UserList users={users} skills={skills} />
     </div>
   )
 }

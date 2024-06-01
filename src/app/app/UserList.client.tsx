@@ -1,9 +1,10 @@
 'use client'
 
-import { SkillIds, SkillNames, SKILLS } from '@/constants/app.constants'
+import { SkillIds, SKILLS } from '@/constants/app.constants'
 import { Button, Image, Input } from '@nextui-org/react'
 import NextImage from 'next/image'
 import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 type User = {
@@ -19,9 +20,13 @@ type User = {
 }
 type IUserListProps = {
   users: any //User[]
+  skills: SkillIds[]
 }
-export const UserList = ({ users }: IUserListProps) => {
+export const UserList = ({ users, skills }: IUserListProps) => {
   const [skillsSelected, setSkillsSelected] = useState<SkillIds[]>([])
+
+  const pathname = usePathname()
+  const router = useRouter()
 
   console.log(users)
   return (
@@ -65,14 +70,15 @@ export const UserList = ({ users }: IUserListProps) => {
               style={{
                 color,
                 borderColor: color,
-                opacity: skillsSelected.includes(id) ? 1 : 0.66,
+                opacity: skills.includes(id) ? 1 : 0.66,
               }}
               onClick={() => {
-                setSkillsSelected((prevState) =>
-                  prevState.includes(id)
-                    ? prevState.filter((skillId) => skillId !== id)
-                    : [...prevState, id]
-                )
+                const newSkillsParams = (
+                  skills?.includes(id)
+                    ? skills.filter((skillId) => skillId !== id)
+                    : [...skills, id]
+                ).sort((a, b) => a - b)
+                router.push(pathname + '?skills=' + newSkillsParams.join(','))
               }}
             >
               {name}
