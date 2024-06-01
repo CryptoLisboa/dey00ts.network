@@ -5,10 +5,12 @@ export default function SignUpCard({
   children,
   nextHref,
   onClick,
+  disabled,
 }: {
   children?: React.ReactNode
   nextHref?: string
   onClick?: () => void
+  disabled?: boolean
 }) {
   return (
     <div className='grid grid-rows-12 gap-y-10 md:h-5/6 px-5 md:px-10 pt-12 content-center justify-center'>
@@ -19,6 +21,7 @@ export default function SignUpCard({
             className='bg-black w-full text-white text-sm md:text-3xl shadow-md shadow-white custom-shadow'
             variant='shadow'
             onClick={onClick}
+            disabled={disabled}
           >
             Next
           </Button>
@@ -28,6 +31,7 @@ export default function SignUpCard({
             variant='shadow'
             as={Link}
             href={nextHref}
+            disabled={disabled}
           >
             Next
           </Button>

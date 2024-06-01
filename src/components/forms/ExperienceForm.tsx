@@ -17,9 +17,11 @@ import { SKILLS } from '@/constants/app.constants'
 export default function ExperienceForm({
   onRemoveExperience,
   index,
+  disabled,
 }: {
   onRemoveExperience: () => void
   index: number
+  disabled?: boolean
 }) {
   const { setSignupData, signupData } = useContext(AuthContext)
 
@@ -78,6 +80,7 @@ export default function ExperienceForm({
               size='lg'
               labelPlacement='outside'
               label='Project name'
+              disabled={disabled}
             />
             <Select
               key='Skill'
@@ -93,6 +96,7 @@ export default function ExperienceForm({
               size='lg'
               labelPlacement='outside'
               label='Skill'
+              isDisabled={disabled}
             >
               {SKILLS.map(({ name, color, id }) => (
                 <SelectItem key={id} style={{ color: color }} value={id}>
@@ -114,6 +118,7 @@ export default function ExperienceForm({
               size='lg'
               labelPlacement='outside'
               label='Role'
+              disabled={disabled}
             />
             <Input
               key='Description'
@@ -129,6 +134,7 @@ export default function ExperienceForm({
               size='lg'
               labelPlacement='outside'
               label='Description'
+              disabled={disabled}
             />
             <div className='grid grid-cols-2 gap-x-6'>
               <DatePicker
@@ -146,6 +152,7 @@ export default function ExperienceForm({
                 classNames={{
                   label: 'text-left',
                 }}
+                isDisabled={disabled}
               />
               <DatePicker
                 labelPlacement='outside'
@@ -162,7 +169,7 @@ export default function ExperienceForm({
                 classNames={{
                   label: 'text-left',
                 }}
-                isDisabled={values.current}
+                isDisabled={values.current || disabled}
               />
             </div>
 
@@ -173,6 +180,7 @@ export default function ExperienceForm({
                 color='danger'
                 size='sm'
                 onClick={onRemoveExperience}
+                disabled={disabled}
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -199,6 +207,7 @@ export default function ExperienceForm({
                     handleChange(...args)
                     submitForm()
                   }}
+                  isDisabled={disabled}
                 />
               </div>
             </div>
