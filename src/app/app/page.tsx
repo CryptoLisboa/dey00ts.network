@@ -2,6 +2,7 @@
 
 import { SKILLS, SkillNames } from '@/constants/app.constants'
 import { Button, Image, Input } from '@nextui-org/react'
+import { useSession } from 'next-auth/react'
 import NextImage from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -9,20 +10,19 @@ import { useEffect, useState } from 'react'
 export default function AppHomePage() {
   const [skillsSelected, setSkillsSelected] = useState<SkillNames[]>([])
   const router = useRouter()
+  const session = useSession()
+
   useEffect(() => {
-    fetch(`/api/user`, { next: { revalidate: 600 } })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('profile data on app', JSON.stringify(data, null, 2))
-        const userIsActive = data.active
-        if (!userIsActive) {
-          router.push('/signup/welcome')
-        }
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }, [])
+    if (session.status === 'loading' || session.status === 'unauthenticated')
+      return
+    if (session.status === 'authenticated') {
+      const userIsActive = session?.data?.user.active
+      if (!userIsActive) {
+        router.push('/signup/welcome')
+      }
+    }
+  }, [router, session])
+
   return (
     <div className='dark' id='root'>
       <main className='container pt-0 mx-auto p-4'>

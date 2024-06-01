@@ -8,19 +8,15 @@ import { signIn, useSession } from 'next-auth/react'
 export default function Home() {
   const { data: session, status: sessionStatus } = useSession()
 
-  console.log('session', session)
+  const handleLogin = async () =>
+    await signIn('deid', {
+      scope: 'wallets:read collections:read dust:read socials:read',
+    })
 
-  const handleLogin = async () => {
-    await signIn(
-      'deid',
-      // {},
-      // {},
-      {
-        scope: 'wallets:read collections:read dust:read socials:read',
-      }
-    )
-  }
-  const isAuthenticated = sessionStatus === 'authenticated'
+  const isAuthenticated =
+    sessionStatus === 'authenticated' || sessionStatus === 'loading'
+
+  console.log('session', sessionStatus)
   return (
     <div className='dark' id='root'>
       <main className='flex flex-col items-center justify-center h-[85vh]'>
