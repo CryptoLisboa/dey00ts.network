@@ -61,8 +61,6 @@ export default function Experiences() {
 
     if (response.ok) {
       router.push('/app')
-    } else {
-      // handle error
     }
   }
 
