@@ -19,6 +19,7 @@ export const SKILLS: Skill[] = [
 
 // define a type for the skill names
 export type SkillNames = (typeof SKILLS)[number]['name']
+export type SkillIds = (typeof SKILLS)[number]['id']
 
 export type Gender = {
   name: string

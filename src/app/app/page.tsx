@@ -1,6 +1,6 @@
 'use client'
 
-import { SKILLS, SkillNames } from '@/constants/app.constants'
+import { SKILLS, SkillIds } from '@/constants/app.constants'
 import { Button, Image, Input } from '@nextui-org/react'
 import { useSession } from 'next-auth/react'
 import NextImage from 'next/image'
@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function AppHomePage() {
-  const [skillsSelected, setSkillsSelected] = useState<SkillNames[]>([])
+  const [skillsSelected, setSkillsSelected] = useState<SkillIds[]>([])
   const router = useRouter()
   const session = useSession()
 
@@ -57,9 +57,9 @@ export default function AppHomePage() {
         </div>
         <div className='flex items-center mb-4 overflow-x-auto'>
           <div className='flex flex-wrap justify-center gap-4 w-full'>
-            {SKILLS.map(({ name, color }) => (
+            {SKILLS.map(({ name, color, id }) => (
               <Button
-                key={name}
+                key={id}
                 className='p-2 text-lg opacity-60'
                 variant='bordered'
                 style={{
@@ -68,10 +68,10 @@ export default function AppHomePage() {
                   opacity: skillsSelected.includes(name) ? 1 : 0.66,
                 }}
                 onClick={() => {
-                  setSkillsSelected((prev) =>
-                    prev.includes(name)
-                      ? prev.filter((skill) => skill !== name)
-                      : [...prev, name]
+                  setSkillsSelected((prevState) =>
+                    prevState.includes(id)
+                      ? prevState.filter((skillId) => skillId !== id)
+                      : [...prevState, id]
                   )
                 }}
               >
