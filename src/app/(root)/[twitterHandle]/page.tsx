@@ -15,13 +15,16 @@ import {
 } from '@/utils/de[id]/image'
 
 export default async function HomePage(ctx) {
-  // const session = await auth()
-
   const twitterHandle = ctx.params.twitterHandle
 
   const user = await prisma.user.findFirst({
     where: {
-      socials: { twitterHandle: twitterHandle },
+      socials: {
+        twitterHandle: {
+          mode: 'insensitive',
+          equals: twitterHandle,
+        },
+      },
     },
     include: {
       socials: true,
@@ -49,7 +52,6 @@ export default async function HomePage(ctx) {
     notFound()
   }
 
-  console.log({ ctx, user })
   return (
     <div className='dark' id='root'>
       <main className='container pt-0 mx-auto p-4'>
