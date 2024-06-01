@@ -75,7 +75,6 @@ model Language {
 
 model Experience {
   id          Int              @id @default(autoincrement())
-  title       String
   description String?
   startDate   DateTime
   endDate     DateTime?
