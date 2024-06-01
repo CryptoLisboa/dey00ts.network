@@ -16,7 +16,7 @@ const lucky = Luckiest_Guy({
 
 export const metadata: Metadata = {
   title: 'dey00ts network',
-  description: 'helping ',
+  description: 'FIND YOUR fRIENDS FROM THE DeGods AND y00ts COMMUNITY',
 }
 
 const rowdies = Rowdies({
