@@ -15,9 +15,6 @@ import {
 } from '@/utils/de[id]/image'
 
 export default async function HomePage(ctx) {
-  console.log({ ctx })
-  // const session = await auth()
-
   const twitterHandle = ctx.params.twitterHandle
 
   const user = await prisma.user.findFirst({
@@ -55,7 +52,6 @@ export default async function HomePage(ctx) {
     notFound()
   }
 
-  console.log({ ctx, user })
   return (
     <div className='dark' id='root'>
       <main className='container pt-0 mx-auto p-4'>
