@@ -27,10 +27,11 @@ export default async function HomePage(ctx: any) {
       },
     },
     include: {
-      socials: true,
       profile: true,
-      location: true,
       languages: true,
+      location: true,
+      skills: true,
+      socials: true,
       userExperiences: {
         include: {
           experience: {
@@ -131,21 +132,22 @@ export default async function HomePage(ctx: any) {
 
         <h3 className='mt-4 text-lg font-bold'>Skills</h3>
         <div className='flex flex-wrap gap-6'>
-          <Button className='bg-transparent border-1 border-full-stack text-full-stack'>
-            Full Stack
-          </Button>
-          <Button className='bg-transparent border-1 border-evm-dev text-evm-dev'>
-            EVM Dev
-          </Button>
-          <Button className='bg-transparent border-1 border-space-host text-space-host'>
-            Space Host
-          </Button>
-          <Button className='bg-transparent border-1 border-community-builder text-community-builder'>
-            Community Builder
-          </Button>
-          <Button className='bg-transparent border-1 border-alpha-caller text-alpha-caller'>
-            Alpha Caller
-          </Button>
+          {user.skills.map((skill: { id: number; name: string }) => (
+            <Button
+              key={skill.id}
+              className='bg-transparent border-1 border-full-stack'
+              style={{
+                color: `var(--color-${skill.name
+                  .toLowerCase()
+                  .replace(/ /g, '-')})`,
+                borderColor: `var(--color-${skill.name
+                  .toLowerCase()
+                  .replace(/ /g, '-')})`,
+              }}
+            >
+              {skill.name}
+            </Button>
+          ))}
         </div>
 
         <h3 className='mt-4 text-lg font-bold'>Communities</h3>

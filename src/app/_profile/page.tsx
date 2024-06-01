@@ -14,7 +14,7 @@ import { UserCreated } from '@/types/app.types'
 import { prisma } from '@/utils/db.utils'
 import { auth } from '@/auth'
 
-const fetchProfile = async (): Promise<UserCreated> => {
+const fetchProfile = async (): Promise<Partial<UserCreated>> => {
   try {
     const session = await auth()
 
@@ -26,7 +26,8 @@ const fetchProfile = async (): Promise<UserCreated> => {
         profile: true,
         location: true,
         languages: true,
-        contents: true,
+        skills: true,
+        socials: true,
         userExperiences: {
           include: {
             experience: {
@@ -34,19 +35,6 @@ const fetchProfile = async (): Promise<UserCreated> => {
                 skill: true,
               },
             },
-          },
-        },
-        dust: true,
-        socials: true,
-        wallets: true,
-        followers: {
-          include: {
-            follower: true,
-          },
-        },
-        followings: {
-          include: {
-            following: true,
           },
         },
         collections: {
@@ -57,7 +45,7 @@ const fetchProfile = async (): Promise<UserCreated> => {
       },
     })
 
-    const data = user as UserCreated
+    const data = user as Partial<UserCreated>
     return data
   } catch (error) {
     console.error('Failed to fetch user profile:', error)
@@ -66,7 +54,7 @@ const fetchProfile = async (): Promise<UserCreated> => {
 }
 
 export default async function Profile() {
-  const user = (await fetchProfile()) as UserCreated
+  const user = (await fetchProfile()) as Partial<UserCreated>
 
   console.log('fetching profile', JSON.stringify(user, null, 2))
 
@@ -85,7 +73,7 @@ export default async function Profile() {
           {user?.socials?.twitterHandle}
         </p>
       </div>
-      <h3 className='mt-4 text-lg text-full-stack font-bold'>Full Stack</h3>
+      <h3 className='mt-4 text-lg text-full-stack font-bold'>"Full stack"</h3>
       <div className='flex flex-col gap-1'>
         <div className='flex p-1 gap-3'>
           <Image
@@ -115,7 +103,7 @@ export default async function Profile() {
       <p className='text-sm '>{user.profile?.bio || 'No bio available'}</p>
 
       <h3 className='mt-4 text-lg font-bold'>Experiences</h3>
-      {user.userExperiences.map((experience) => (
+      {user?.userExperiences?.map((experience) => (
         <div key={experience.experience.id} className='flex flex-col gap-1'>
           <div className='flex flex-row flex-wrap'>
             <p className='font-bold'>{experience.experience.company}</p>
@@ -173,7 +161,7 @@ export default async function Profile() {
 
       <h3 className='mt-4 text-lg font-bold'>NFTs</h3>
       <div className='flex flex-wrap gap-6'>
-        {user.collections.map(
+        {user?.collections?.map(
           (collection: {
             id: number
             contract: string
