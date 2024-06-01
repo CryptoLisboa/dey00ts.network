@@ -6,17 +6,18 @@ import { Button } from '@nextui-org/button'
 import { signIn, useSession } from 'next-auth/react'
 
 export default function Home() {
-  const { data: session, status: sessionStatus } = useSession()
+  const { status: sessionStatus } = useSession()
 
   const handleLogin = async () =>
     await signIn('deid', {
+      redirect: true,
+      callbackUrl: '/app',
       scope: 'wallets:read collections:read dust:read socials:read',
     })
 
   const isAuthenticated =
-    sessionStatus === 'authenticated' || sessionStatus === 'loading'
+    sessionStatus === 'authenticated' 
 
-  console.log('session', sessionStatus)
   return (
     <div className='dark' id='root'>
       <main className='flex flex-col items-center justify-center h-[85vh]'>
@@ -45,7 +46,7 @@ export default function Home() {
           <Link href='/signup/connect_de_id'>Sign Up</Link>
           <Link href='/skin-builder'>Skin Builder</Link>
           {isAuthenticated && <Link href='/app'>App</Link>}
-          {!isAuthenticated && <Button onClick={handleLogin}>login</Button>}
+          {!isAuthenticated && <Button onClick={handleLogin}>Login</Button>}
         </div>
       </main>
     </div>

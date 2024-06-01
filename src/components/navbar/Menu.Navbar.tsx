@@ -7,6 +7,7 @@ import {
   DropdownTrigger,
   Image,
 } from '@nextui-org/react'
+import { signOut } from 'next-auth/react'
 import NextImage from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -81,7 +82,10 @@ export default function MenuNavbar() {
           </div>
         </DropdownItem>
         <DropdownItem key='delete' className='text-danger' color='danger'>
-          <div className='flex flex-row items-center gap-3'>
+          <div
+            className='flex flex-row items-center gap-3'
+            onClick={() => signOut({ callbackUrl: '/', redirect: true })}
+          >
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
