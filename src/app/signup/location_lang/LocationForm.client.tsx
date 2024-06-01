@@ -23,7 +23,7 @@ export const LocationForm = () => {
           variant='bordered'
           selectionMode='multiple'
           placeholder='Select Language'
-          name='language'
+          name='languages'
           classNames={{
             base: 'text-[#AFE5FF]',
             value: 'text-[#AFE5FF]',

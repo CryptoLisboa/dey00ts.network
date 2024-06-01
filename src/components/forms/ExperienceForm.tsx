@@ -29,6 +29,7 @@ export default function ExperienceForm({
         projectName: '',
         skill: '',
         role: '',
+        description: '',
         startDate: new Date(),
         endDate: new Date(),
         current: false,
@@ -113,6 +114,21 @@ export default function ExperienceForm({
               size='lg'
               labelPlacement='outside'
               label='Role'
+            />
+            <Input
+              key='Description'
+              variant='bordered'
+              value={values.role}
+              onChange={(...args) => {
+                handleChange(...args)
+                submitForm()
+              }}
+              name='description'
+              placeholder='mad stuff here'
+              className='text-[#D9D9D9] border-[#AFE5FF]'
+              size='lg'
+              labelPlacement='outside'
+              label='Description'
             />
             <div className='grid grid-cols-2 gap-x-6'>
               <DatePicker

@@ -1,5 +1,3 @@
-import { DateValue } from '@nextui-org/react'
-
 export type SignUpContextType = {
   userDetails: {
     gender?: string
@@ -26,6 +24,7 @@ export type Experience = {
   projectName: string
   skill: string
   role: string
+  description: string
   startDate: Date
   endDate: Date
   index: number
@@ -39,7 +38,7 @@ export type CreateUser = {}
 
 export type SignupData = {
   gender?: string
-  language?: string
+  languages?: string
   location?: string
   interests?: string[]
   bio?: string

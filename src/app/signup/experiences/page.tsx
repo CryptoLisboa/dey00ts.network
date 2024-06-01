@@ -6,10 +6,54 @@ import { Button, Progress } from '@nextui-org/react'
 import { useContext, useState } from 'react'
 import ExperienceForm from '@/components/forms/ExperienceForm'
 import AuthContext from '@/providers/AuthContext'
+import { GENDERS, SKILLS } from '@/constants/app.constants'
+import { languages, locations } from '@/constants/signup.constants'
+import { SignupData } from '@/types/app.types'
 
-const prepareData = (data: any) => {
-  console.log('data for submission', JSON.stringify(data, null, 2))
-  return data
+// const exampleData = {
+//   user: {},
+//   signupData: {
+//     gender: 'male',
+//     languages: 'english,spanish,portuguese',
+//     location: 'pt',
+//     skills: ['Alpha Caller', 'Collab Manager', 'Community Builder'],
+//     bio: 'weff wefwe',
+//     experiences: [
+//       {
+//         projectName: 'dealpha',
+//         skill: '1',
+//         role: 'janitor',
+//         startDate: '2023-12-15T00:00:00.000Z',
+//         endDate: '2024-05-31T20:00:36.252Z',
+//         current: true,
+//         index: 0,
+//       },
+//     ],
+//   },
+// }
+
+const prepareData = (signupData: Partial<SignupData>) => {
+  const genderId = GENDERS.find(
+    ({ name }) => name.toLowerCase() === signupData?.gender
+  )?.id
+  const languageIds = signupData?.languages
+    ?.split(',')
+    .map((lang) => languages.find(({ name }) => name === lang)?.id)
+  const locationId = locations.find(
+    ({ value }) => value === signupData?.location
+  )?.id
+  const skillIds = signupData?.skills?.map(
+    (skill) => SKILLS.find(({ name }) => name === skill)?.id
+  )
+  const dataForSubmission = {
+    ...signupData,
+    genderId,
+    languageIds,
+    locationId,
+    skillIds,
+  }
+  console.log('data for submission', JSON.stringify(dataForSubmission, null, 2))
+  return dataForSubmission
 }
 
 export default function Experiences() {
@@ -27,23 +71,23 @@ export default function Experiences() {
   const onNext = async () => {
     // get signup data from context
     // prepare data for submission to backend
-    const data = prepareData(signupData)
+    const data = prepareData(signupData as Partial<SignupData>)
     // call api to submit data
 
-    // const response = await fetch('/api/user/create', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data),
-    // })
+    const response = await fetch('/api/user/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
 
     // deal with response
-    // if (response.ok) {
-    //   // navigate to next page
-    // } else {
-    //   // handle error
-    // }
+    if (response.ok) {
+      // navigate to next page
+    } else {
+      // handle error
+    }
   }
 
   return (
