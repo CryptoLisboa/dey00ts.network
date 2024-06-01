@@ -24,8 +24,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
     })
   }
 
-  debugger
-
   const user = await prisma.user.findUnique({
     where: {
       id: userFromSession?.id,
@@ -34,7 +32,15 @@ export async function GET(req: NextRequest, res: NextResponse) {
       profile: true,
       location: true,
       contents: true,
-      userExperiences: true,
+      userExperiences: {
+        include: {
+          experience: {
+            include: {
+              skill: true,
+            },
+          },
+        },
+      },
       dust: true,
       socials: true,
       wallets: true,
