@@ -11,14 +11,14 @@ export function isY00tCollectionAddress(address: string) {
   return Y00T_COLLECTION_ADDRESSES.includes(address)
 }
 
-export const hasY00tsNFTs = (profile: UserCreated) => {
-  return profile.collections.some((collection) =>
+export const hasY00tsNFTs = (profile: any) => {
+  return profile.collections.some((collection: { contract: string }) =>
     isY00tCollectionAddress(collection.contract)
   )
 }
 
-export const hasDeGodsNFTs = (profile: UserCreated) => {
+export const hasDeGodsNFTs = (profile: any) => {
   return profile.collections.some(
-    (collection) => !isY00tCollectionAddress(collection.contract)
+    (collection: { contract: string }) => !isY00tCollectionAddress(collection.contract)
   )
 }
