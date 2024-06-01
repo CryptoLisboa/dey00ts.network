@@ -44,7 +44,7 @@ export const Home = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
         <Button as={Link} href='/skin-builder' color='warning'>
           Skin Builder
         </Button>
-        {!isAuthenticated && <LoginButton />}
+        {/* {!isAuthenticated && <LoginButton />} */}
       </div>
     </main>
   )
