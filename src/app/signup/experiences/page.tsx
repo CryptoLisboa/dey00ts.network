@@ -11,28 +11,6 @@ import { languages, locations } from '@/constants/signup.constants'
 import { SignupData } from '@/types/app.types'
 import { useRouter } from 'next/navigation'
 
-// const exampleData = {
-//   user: {},
-//   signupData: {
-//     gender: 'male',
-//     languages: 'english,spanish,portuguese',
-//     location: 'pt',
-//     skills: ['Alpha Caller', 'Collab Manager', 'Community Builder'],
-//     bio: 'weff wefwe',
-//     experiences: [
-//       {
-//         projectName: 'dealpha',
-//         skill: '1',
-//         role: 'janitor',
-//         startDate: '2023-12-15T00:00:00.000Z',
-//         endDate: '2024-05-31T20:00:36.252Z',
-//         current: true,
-//         index: 0,
-//       },
-//     ],
-//   },
-// }
-
 const prepareData = (signupData: Partial<SignupData>) => {
   const genderId = GENDERS.find(
     ({ name }) => name.toLowerCase() === signupData?.gender
@@ -80,8 +58,6 @@ export default function Experiences() {
       },
       body: JSON.stringify(data),
     })
-
-    debugger
 
     if (response.ok) {
       router.push('/app')
