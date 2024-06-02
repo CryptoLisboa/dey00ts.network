@@ -46,12 +46,7 @@ export default async function AppHomePage(ctx: AppHomePageProps) {
     select: {
       id: true,
       name: true,
-      email: true,
       image: true,
-      bio: true,
-      website: true,
-      createdAt: true,
-      updatedAt: true,
       socials: {
         select: {
           id: true,
