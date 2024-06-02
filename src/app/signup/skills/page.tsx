@@ -5,9 +5,14 @@ import SignUpCard from '@/components/cards/SignUp'
 import { SKILLS } from '@/constants/app.constants'
 import AuthContext from '@/providers/AuthContext'
 import { Button, Progress } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
+import { useToast } from 'rc-toastr'
 import { useContext } from 'react'
 
 export default function Skills() {
+  const router = useRouter()
+  const { toast } = useToast()
+
   const { setSignupData, signupData } = useContext(AuthContext)
 
   const handleChange = (newData: string[]) => {
@@ -15,6 +20,16 @@ export default function Skills() {
       ...signupData,
       skills: newData,
     })
+  }
+
+  const handleNext = () => {
+    if (!signupData?.skills) {
+      toast.error('Please select your skills')
+    }
+
+    if (signupData?.skills) {
+      router.push('/signup/bio')
+    }
   }
   return (
     <main className='dark  overflow-hidden' id='skills'>
@@ -25,7 +40,7 @@ export default function Skills() {
         className='absolute'
       />
       <div className='container mx-auto h-full sm:px-24 md:px-32 lg:px-96'>
-        <SignUpCard nextHref='/signup/bio'>
+        <SignUpCard onClick={handleNext}>
           <div className='text-center grid justify-items-center gap-y-5'>
             <Progress
               size='sm'
@@ -40,7 +55,9 @@ export default function Skills() {
               What are your skills?
             </h1>
             <p className='text-base lg:text-xl text-white'>
-              Pick up to 5 skills, this will help other to find you and helps us connecting you with Y00ts & DeGods with similar interests and skills.
+              Pick up to 5 skills, this will help other to find you and helps us
+              connecting you with Y00ts & DeGods with similar interests and
+              skills.
             </p>
             <div className='flex flex-wrap justify-center gap-4 w-full'>
               {SKILLS.map(({ name, color }) => (

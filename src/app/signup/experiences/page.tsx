@@ -1,4 +1,5 @@
 'use client'
+
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'

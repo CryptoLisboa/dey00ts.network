@@ -1,20 +1,33 @@
 'use client'
+
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import AuthContext from '@/providers/AuthContext'
 import { RadioGroup, Radio, Progress } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
+import { useToast } from 'rc-toastr'
 import { useContext } from 'react'
-// import { useSignUp } from '../../../../providers/SignUpProvider'
 
 export default function GenderSignUp() {
-  // const { userDetails, updateUserDetails, nextStep } = useSignUp()
+  const router = useRouter()
+  const { toast } = useToast()
+
   const { setSignupData, signupData } = useContext(AuthContext)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignupData({
       gender: e.target.value,
     })
+  }
+
+  const handleNext = () => {
+    const isDisabled = !signupData?.gender
+    if (isDisabled) {
+      toast.error('Please select your gender')
+    } else {
+      router.push('/signup/location_lang')
+    }
   }
   return (
     <main className='dark  overflow-hidden' id='gender'>
@@ -25,7 +38,7 @@ export default function GenderSignUp() {
         className='absolute'
       />
       <div className='container mx-auto h-full sm:px-24 md:px-32 lg:px-96'>
-        <SignUpCard nextHref='/signup/location_lang'>
+        <SignUpCard onClick={handleNext}>
           <div className='text-center grid justify-items-center gap-y-5'>
             <Progress
               size='sm'
@@ -42,8 +55,8 @@ export default function GenderSignUp() {
             </h1>
 
             <p className='text-base lg:text-xl text-white'>
-              this helps us understand our community better. we won&apos;t show it on
-              your profile.
+              this helps us understand our community better. we won&apos;t show
+              it on your profile.
             </p>
 
             <RadioGroup

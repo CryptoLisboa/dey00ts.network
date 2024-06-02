@@ -3,6 +3,7 @@ import { UserList } from './UserList.client'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/utils/db.utils'
 import { SEARCH_PAGE_SIZE } from '@/constants/app.constants'
+import { ROUTING } from '@/constants/routing.contants'
 
 interface AppHomePageProps {
   params: any
@@ -14,9 +15,7 @@ interface AppHomePageProps {
 export default async function AppHomePage(ctx: AppHomePageProps) {
   const session = await auth()
 
-  console.log('session 123', JSON.stringify(session, null, 2))
-
-  if (session && !session?.user?.active) redirect('/signup/welcome')
+  if (session && !session?.user?.active) redirect(ROUTING.SIGNUP.WELCOME)
 
   const skills =
     ctx.searchParams.skills

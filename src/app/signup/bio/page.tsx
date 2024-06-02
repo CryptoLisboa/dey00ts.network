@@ -1,12 +1,18 @@
 'use client'
+
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import AuthContext from '@/providers/AuthContext'
 import { Progress, Textarea } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
+import { useToast } from 'rc-toastr'
 import { useContext } from 'react'
 
 export default function Bio() {
+  const router = useRouter()
+  const { toast } = useToast()
+
   const { setSignupData, signupData } = useContext(AuthContext)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,6 +20,15 @@ export default function Bio() {
       ...signupData,
       [e.target.name]: e.target.value,
     })
+  }
+  const handleNext = () => {
+    if (!signupData?.bio) {
+      toast.error('Please write your bio')
+    }
+
+    if (signupData?.bio) {
+      router.push('/signup/experiences')
+    }
   }
   return (
     <main className='dark  overflow-hidden' id='bio'>
@@ -24,7 +39,7 @@ export default function Bio() {
         className='absolute'
       />
       <div className='container mx-auto h-full sm:px-24 md:px-32 lg:px-96'>
-        <SignUpCard nextHref='/signup/experiences'>
+        <SignUpCard onClick={handleNext}>
           <div className='text-center grid justify-items-center gap-y-5'>
             <Progress
               size='sm'
@@ -36,8 +51,7 @@ export default function Bio() {
               value={(100 / 6) * 4}
             />
             <h1 className='text-3xl font-bold text-white text-center'>
-              Pitch yourself to the community and/or share a short
-              bio.
+              Pitch yourself to the community and/or share a short bio.
             </h1>
             <p className='text-base lg:text-xl text-white'>
               {
