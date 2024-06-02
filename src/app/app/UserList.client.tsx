@@ -5,26 +5,23 @@ import { Button, Image, Input } from '@nextui-org/react'
 import NextImage from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
 
-type User = {
-  id: string
-  name: string
-  email: string
-  image: string
-  bio: string | null
-  locationId: number
-  website: string | null
-  createdAt: string
-  updatedAt: string
-}
+// type User = {
+//   id: string
+//   name: string
+//   email: string
+//   image: string
+//   bio: string | null
+//   locationId: number
+//   website: string | null
+//   createdAt: string
+//   updatedAt: string
+// }
 type IUserListProps = {
   users: any //User[]
   skills: SkillIds[]
 }
 export const UserList = ({ users, skills }: IUserListProps) => {
-  const [skillsSelected, setSkillsSelected] = useState<SkillIds[]>([])
-
   const pathname = usePathname()
   const router = useRouter()
 
@@ -63,7 +60,7 @@ export const UserList = ({ users, skills }: IUserListProps) => {
       </div>
       <div className='flex items-center mb-4 overflow-x-auto'>
         <div className='flex flex-wrap justify-center gap-4 w-full'>
-          {SKILLS.map(({ name, color, id }) => (
+          {SKILLS?.map(({ name, color, id }) => (
             <Button
               key={id}
               className='p-2 text-lg opacity-60'
@@ -71,15 +68,15 @@ export const UserList = ({ users, skills }: IUserListProps) => {
               style={{
                 color,
                 borderColor: color,
-                opacity: skills.includes(id) ? 1 : 0.66,
+                opacity: skills?.includes(id) ? 1 : 0.66,
               }}
               onClick={() => {
                 const newSkillsParams = (
                   skills?.includes(id)
-                    ? skills.filter((skillId) => skillId !== id)
+                    ? skills?.filter((skillId) => skillId !== id)
                     : [...skills, id]
                 ).sort((a, b) => a - b)
-                router.push(pathname + '?skills=' + newSkillsParams.join(','))
+                router.push(pathname + '?skills=' + newSkillsParams?.join(','))
               }}
             >
               {name}
@@ -88,30 +85,36 @@ export const UserList = ({ users, skills }: IUserListProps) => {
         </div>
       </div>
       <div className='flex flex-col gap-3 w-full mb-4 '>
-        {users.map((user: any) => (
+        {users?.map((user: any) => (
           <div
-            key={user.id}
+            key={user?.id}
             className='flex w-full items-center justify-between'
           >
             <div className='flex items-center gap-1'>
-              <Image
-                as={NextImage}
-                className='rounded-lg'
-                src={user.image}
-                width={64}
-                height={64}
-                alt='avatar'
-              />
+              {user?.image && (
+                <Image
+                  as={NextImage}
+                  className='rounded-lg'
+                  src={user?.image}
+                  width={64}
+                  height={64}
+                  alt='avatar'
+                />
+              )}
 
-              <Link
-                href={`/${user.socials.twitterHandle}`}
-                className='flex flex-col'
-              >
-                <strong>{user.socials.twitterHandle}</strong>
-                <p>{user.name}</p>
-              </Link>
+              {!!(user?.socials?.twitterHandle && user?.name) && (
+                <Link
+                  href={`/${user?.socials?.twitterHandle}`}
+                  className='flex flex-col'
+                >
+                  <strong>{user?.socials?.twitterHandle}</strong>
+                  <p>{user?.name}</p>
+                </Link>
+              )}
             </div>
-            <div className='flex'>{user.location.name}</div>
+            {!!user?.location?.nameuser?.location?.name && (
+              <div className='flex'>{user?.location?.name}</div>
+            )}
           </div>
         ))}
       </div>
