@@ -36,6 +36,8 @@ export type Dust = {
 export type IAuthUser = {
   id: string
   name: string
+  email: string
+  emailVerified: boolean
   imageUrl: string
   image: string
   description: string
