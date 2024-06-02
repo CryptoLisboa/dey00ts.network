@@ -68,7 +68,7 @@ export const UserList = ({ users, skills }: IUserListProps) => {
               style={{
                 color,
                 borderColor: color,
-                opacity: skills?.includes(id) ? 1 : 0.66,
+                opacity: skills?.includes(id) ? 1 : 0.45,
               }}
               onClick={() => {
                 const newSkillsParams = (
@@ -85,38 +85,40 @@ export const UserList = ({ users, skills }: IUserListProps) => {
         </div>
       </div>
       <div className='flex flex-col gap-3 w-full mb-4 '>
-        {users?.map((user: any) => (
-          <div
-            key={user?.id}
-            className='flex w-full items-center justify-between'
-          >
-            <div className='flex items-center gap-1'>
-              {user?.image && (
-                <Image
-                  as={NextImage}
-                  className='rounded-lg'
-                  src={user?.image}
-                  width={64}
-                  height={64}
-                  alt='avatar'
-                />
-              )}
-
-              {!!(user?.socials?.twitterHandle && user?.name) && (
+        {users?.map((user: any) => {
+          if (user?.socials?.twitterHandle && user?.name) {
+            return (
+              <div
+                key={user?.id}
+                className='flex w-full items-center justify-between'
+              >
                 <Link
                   href={`/${user?.socials?.twitterHandle}`}
-                  className='flex flex-col'
+                  className='flex items-center gap-1'
                 >
-                  <strong>{user?.socials?.twitterHandle}</strong>
-                  <p>{user?.name}</p>
+                  {user?.image && (
+                    <Image
+                      as={NextImage}
+                      className='rounded-lg'
+                      src={user?.image}
+                      width={64}
+                      height={64}
+                      alt='avatar'
+                    />
+                  )}
+
+                  <div className='flex flex-col'>
+                    <strong>{user?.socials?.twitterHandle}</strong>
+                    <p>{user?.name}</p>
+                  </div>
                 </Link>
-              )}
-            </div>
-            {!!user?.location?.nameuser?.location?.name && (
-              <div className='flex'>{user?.location?.name}</div>
-            )}
-          </div>
-        ))}
+                {!!user?.location?.name && (
+                  <div className='flex'>{user?.location?.name}</div>
+                )}
+              </div>
+            )
+          }
+        })}
       </div>
     </main>
   )
