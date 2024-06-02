@@ -27,6 +27,7 @@ export default function MenuNavbar({ session, user }: MenuNavbarProps) {
           alt='Logo'
           width={42}
           height={42}
+          unoptimized
         />
       </DropdownTrigger>
       <DropdownMenu aria-label='Avatar menu'>

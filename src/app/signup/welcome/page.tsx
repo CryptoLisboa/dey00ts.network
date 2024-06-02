@@ -21,6 +21,7 @@ export default function WelcomeSignUp() {
                 alt='avatar_pfp_welcome'
                 width={160}
                 height={128}
+                unoptimized
               />
             </div>
             <h1 className='text-3xl font-bold text-white text-center'>

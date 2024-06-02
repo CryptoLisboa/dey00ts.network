@@ -51,6 +51,7 @@ export default function ConnectDeIDSignUp() {
               alt='de_id'
               width={64}
               height={64}
+              unoptimized
             />
           </Button>
           {/* </div> */}

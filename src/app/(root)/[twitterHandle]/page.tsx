@@ -84,6 +84,7 @@ export default async function HomePage(ctx: any) {
               alt='Location Icon'
               width={24}
               height={24}
+              unoptimized
             />
             <p>{user?.location?.name}</p>
           </div>
@@ -94,6 +95,7 @@ export default async function HomePage(ctx: any) {
               alt='Location Icon'
               width={24}
               height={24}
+              unoptimized
             />
             {user?.languages?.map((language) => (
               <p key={language.id}>{language.name}</p>
@@ -213,6 +215,7 @@ export default async function HomePage(ctx: any) {
               alt='Add Icon'
               width={24}
               height={24}
+              unoptimized
             />
             {user.socials?.discordUsername}
           </Button>
@@ -229,6 +232,7 @@ export default async function HomePage(ctx: any) {
               alt='Add Icon'
               width={24}
               height={24}
+              unoptimized
             />
             {`twitter.com/${user.socials?.twitterHandle}`}
           </Button>

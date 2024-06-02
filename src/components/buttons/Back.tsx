@@ -22,6 +22,7 @@ export default function BackButton({
         style={{
           objectFit: 'contain',
         }}
+        unoptimized
       />
     </div>
   )

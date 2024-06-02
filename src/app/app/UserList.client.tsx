@@ -105,6 +105,7 @@ export const UserList = ({ users, skills, page }: IUserListProps) => {
                       width={64}
                       height={64}
                       alt='avatar'
+                      unoptimized
                     />
                   )}
 

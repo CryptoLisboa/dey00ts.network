@@ -48,6 +48,7 @@ export const DisplaySingleTrait = ({
           width={size}
           height={size}
           onClick={() => handleImageClick && handleImageClick(trait)}
+          unoptimized
         />
         <button className='ml-3' onClick={onRightClick}>
           <svg
