@@ -39,3 +39,6 @@ next-env.d.ts
 /public/non_tracked
 
 /public/temporary-yoots
+
+# Sentry Config File
+.env.sentry-build-plugin
