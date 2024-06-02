@@ -1,6 +1,6 @@
 'use client'
 
-import { SkillIds, SKILLS } from '@/constants/app.constants'
+import { SEARCH_PAGE_SIZE, SkillIds, SKILLS } from '@/constants/app.constants'
 import { Button, Image, Input } from '@nextui-org/react'
 import NextImage from 'next/image'
 import Link from 'next/link'
@@ -136,12 +136,10 @@ export const UserList = ({ users, skills, page }: IUserListProps) => {
         <Button
           variant='bordered'
           onClick={() => {
-            // const pageNext = parseInt(router.query.page as string, 10) || 1
-            // router.push(pathname + `?page=${page + 1}`)
             const pageNext = page + 1
             router.push(pathname + `?page=${pageNext}&skills=${skills}`)
           }}
-          isDisabled={users?.length < 10}
+          isDisabled={users?.length < SEARCH_PAGE_SIZE}
         >
           Next
         </Button>

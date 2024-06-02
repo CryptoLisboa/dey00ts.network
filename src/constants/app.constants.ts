@@ -39,3 +39,5 @@ export const GENDERS: Gender[] = [
 ]
 
 export type GenderNames = (typeof GENDERS)[number]['name']
+
+export const SEARCH_PAGE_SIZE = 10

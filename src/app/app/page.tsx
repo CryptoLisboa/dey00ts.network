@@ -2,6 +2,7 @@ import { auth } from '@/auth'
 import { UserList } from './UserList.client'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/utils/db.utils'
+import { SEARCH_PAGE_SIZE } from '@/constants/app.constants'
 
 interface AppHomePageProps {
   params: any
@@ -22,7 +23,8 @@ export default async function AppHomePage(ctx: AppHomePageProps) {
       ?.split(',')
       .map((id) => parseInt(id, 10))
       .filter((id) => !isNaN(Number(id))) || []
-  const page = ctx.params.page ? parseInt(ctx.params.page, 10) : 1
+  const page = ctx.params.page ? parseInt(ctx.params.page, SEARCH_PAGE_SIZE) : 1
+  const skipAmount = (page - 1) * SEARCH_PAGE_SIZE
 
   const users = await prisma.user.findMany({
     where: {
@@ -40,8 +42,8 @@ export default async function AppHomePage(ctx: AppHomePageProps) {
         : {}),
     },
     orderBy: { createdAt: 'desc' },
-    take: 10,
-    skip: 0,
+    take: SEARCH_PAGE_SIZE,
+    skip: skipAmount,
     select: {
       id: true,
       name: true,
