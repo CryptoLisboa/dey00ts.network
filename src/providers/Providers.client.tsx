@@ -14,11 +14,9 @@ export const Providers = ({
   return (
     <SessionProvider>
       <AuthProvider>
-        {/* <SignUpProvider> */}
-        <NextUIProvider>
-          <ToastProvider>{children}</ToastProvider>
-        </NextUIProvider>
-        {/* </SignUpProvider> */}
+        <ToastProvider>
+          <NextUIProvider>{children}</NextUIProvider>
+        </ToastProvider>
       </AuthProvider>
     </SessionProvider>
   )

@@ -147,7 +147,9 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
         onSelectionChange={(e: any) => {
           setValue(
             'languages',
-            Array.from(e.values()).filter((v) => v !== undefined)
+            Array.from(e.values()).filter(
+              (v) => v !== undefined && v !== null
+            ) as string[]
           )
         }}
       >

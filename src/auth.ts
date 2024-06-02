@@ -82,6 +82,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   ],
   callbacks: {
+    async redirect({ url }) {
+      return url
+    },
     authorized({ request, auth }: { request: any; auth: any }) {
       console.log('authorized callback', request, auth)
       const { pathname } = request.nextUrl
