@@ -19,6 +19,7 @@ function removeNullProperties<T>(obj: T): T {
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  redirectProxyUrl: process.env.REDIRECT_PROXY_URL,
   providers: [
     {
       id: 'deid',
@@ -82,6 +83,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   ],
   callbacks: {
+    async redirect({ url }) {
+      return url
+    },
     authorized({ request, auth }: { request: any; auth: any }) {
       console.log('authorized callback', request, auth)
       const { pathname } = request.nextUrl

@@ -54,8 +54,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
    * Return
    */
 
-  console.log({ user, signupData })
-
   return (
     <AuthContext.Provider
       value={{

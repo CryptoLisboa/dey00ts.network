@@ -4,6 +4,7 @@ import { NextUIProvider } from '@nextui-org/system'
 // import { SignUpProvider } from './SignUpProvider'
 import { AuthProvider } from './AuthContext'
 import { SessionProvider } from 'next-auth/react'
+import { ToastProvider } from 'rc-toastr'
 
 export const Providers = ({
   children,
@@ -13,9 +14,9 @@ export const Providers = ({
   return (
     <SessionProvider>
       <AuthProvider>
-        {/* <SignUpProvider> */}
-        <NextUIProvider>{children}</NextUIProvider>
-        {/* </SignUpProvider> */}
+        <ToastProvider>
+          <NextUIProvider>{children}</NextUIProvider>
+        </ToastProvider>
       </AuthProvider>
     </SessionProvider>
   )
