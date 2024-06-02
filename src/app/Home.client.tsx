@@ -3,16 +3,9 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@nextui-org/button'
-import LoginButton from '@/components/buttons/LoginButton'
+import { ROUTING } from '@/constants/routing.contants'
 
-export const Home = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
-  // const handleLogin = async () =>
-  //   await signIn('deid', {
-  //     redirect: true,
-  //     callbackUrl: '/app',
-  //     scope: 'wallets:read collections:read dust:read socials:read',
-  //   })
-
+export const Home = () => {
   return (
     <main className='flex flex-col items-center justify-center h-[85vh]'>
       <h1 className='font-rowdies text-4xl md:text-6xl'>DeY00ts.Network</h1>
@@ -38,10 +31,10 @@ export const Home = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
 
       <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
         {/* {!isAuthenticated && <Link href='/signup/connect_de_id'>Sign Up</Link>} */}
-        <Button as={Link} href='/app' color='primary'>
+        <Button as={Link} href={ROUTING.APP} color='primary'>
           App
         </Button>
-        <Button as={Link} href='/skin-builder' color='warning'>
+        <Button as={Link} href={ROUTING.SKIN_BUILDER} color='warning'>
           Skin Builder
         </Button>
         {/* {!isAuthenticated && <LoginButton />} */}

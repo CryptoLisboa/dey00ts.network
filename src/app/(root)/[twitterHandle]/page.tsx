@@ -13,6 +13,7 @@ import {
   generateDeGodsImageUrl,
   generateY00tsImageUrl,
 } from '@/utils/de[id]/image'
+import { ROUTING } from '@/constants/routing.contants'
 
 export default async function HomePage(ctx: any) {
   const twitterHandle = ctx.params.twitterHandle
@@ -149,7 +150,7 @@ export default async function HomePage(ctx: any) {
                   .replace(/ /g, '-')})`,
               }}
               as={Link}
-              href={`/app?skills=${skill.id}`}
+              href={`${ROUTING.APP}&skills=${skill.id}`}
             >
               {skill.name}
             </Button>

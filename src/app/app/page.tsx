@@ -22,6 +22,7 @@ export default async function AppHomePage(ctx: AppHomePageProps) {
       ?.split(',')
       .map((id) => parseInt(id, 10))
       .filter((id) => !isNaN(Number(id))) || []
+  const page = ctx.params.page ? parseInt(ctx.params.page, 10) : 1
 
   const users = await prisma.user.findMany({
     where: {
@@ -66,7 +67,7 @@ export default async function AppHomePage(ctx: AppHomePageProps) {
   })
   return (
     <div className='dark' id='root'>
-      <UserList users={users} skills={skills} />
+      <UserList users={users} skills={skills} page={page} />
     </div>
   )
 }

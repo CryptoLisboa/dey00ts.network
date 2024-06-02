@@ -88,13 +88,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (pathname === '/middleware-example') return !!auth
       return true
     },
-    // async redirect({ url, baseUrl }) {
-    //   //do other stuff or redirects here
-
-    //   console.log({ url, baseUrl })
-    //   const finalRedirect = baseUrl + '/app'
-    //   return finalRedirect
-    // },
     async session({
       session,
       // , token, user

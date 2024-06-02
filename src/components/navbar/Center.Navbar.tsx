@@ -1,4 +1,5 @@
 'use client'
+import { ROUTING } from '@/constants/routing.contants'
 import { Button } from '@nextui-org/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -14,10 +15,10 @@ export default function CenterNavbar({
   const className = isHome ? 'hidden' : classNameArg
   return (
     <div className={className}>
-      <Button as={Link} href='/app' color='primary'>
+      <Button as={Link} href={ROUTING.APP} color='primary'>
         App
       </Button>
-      <Button as={Link} href='/skin-builder' color='warning'>
+      <Button as={Link} href={ROUTING.SKIN_BUILDER} color='warning'>
         Skin Builder
       </Button>
     </div>

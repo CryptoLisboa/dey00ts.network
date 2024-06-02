@@ -10,6 +10,7 @@ import { GENDERS, SKILLS } from '@/constants/app.constants'
 import { languages, locations } from '@/constants/signup.constants'
 import { SignupData } from '@/types/app.types'
 import { useRouter } from 'next/navigation'
+import { ROUTING } from '@/constants/routing.contants'
 
 const prepareData = (signupData: Partial<SignupData>) => {
   const genderId = GENDERS.find(
@@ -64,7 +65,7 @@ export default function Experiences() {
     setIsSubmitting(false)
 
     if (response.ok) {
-      router.push('/app')
+      router.push(ROUTING.APP)
     }
   }
 

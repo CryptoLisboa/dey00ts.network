@@ -20,8 +20,9 @@ import { usePathname, useRouter } from 'next/navigation'
 type IUserListProps = {
   users: any //User[]
   skills: SkillIds[]
+  page: number
 }
-export const UserList = ({ users, skills }: IUserListProps) => {
+export const UserList = ({ users, skills, page }: IUserListProps) => {
   const pathname = usePathname()
   const router = useRouter()
 
@@ -119,6 +120,31 @@ export const UserList = ({ users, skills }: IUserListProps) => {
             )
           }
         })}
+      </div>
+      {/* pagination buttons */}
+      <div className='flex justify-center gap-x-4'>
+        <Button
+          variant='bordered'
+          onClick={() => {
+            const pagePrevious = Math.max(1, page - 1)
+            router.push(pathname + `?page=${pagePrevious}&skills=${skills}`)
+          }}
+          isDisabled={page === 1}
+        >
+          Previous
+        </Button>
+        <Button
+          variant='bordered'
+          onClick={() => {
+            // const pageNext = parseInt(router.query.page as string, 10) || 1
+            // router.push(pathname + `?page=${page + 1}`)
+            const pageNext = page + 1
+            router.push(pathname + `?page=${pageNext}&skills=${skills}`)
+          }}
+          isDisabled={users?.length < 10}
+        >
+          Next
+        </Button>
       </div>
     </main>
   )
