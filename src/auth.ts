@@ -41,10 +41,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.DEID_CLIENT_ID as string,
       clientSecret: process.env.DEID_CLIENT_SECRET as string,
       profile(response: { success: boolean; profile: IAuthUser }) {
-        let email = response.profile.email
+        const emailFromResponse = response.profile.email
+        let email = emailFromResponse
         if (!email) {
           const placeholderEmail = `${response.profile.id}@${
             response.profile.socials.twitterUsername ||
+            response.profile.socials.twitterHandle ||
             response.profile.socials.twitterId ||
             response.profile.socials.discordUsername ||
             response.profile.socials.telegramUsername
