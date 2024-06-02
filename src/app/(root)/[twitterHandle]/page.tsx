@@ -189,6 +189,7 @@ export default async function HomePage(ctx: any) {
                               ? generateY00tsImageUrl(token.tokenId, 224, 100)
                               : generateDeGodsImageUrl(token.tokenId, 224, 100)
                           }
+                          unoptimized
                           alt='Avatar'
                           className='rounded-3xl w-56 h-56'
                           width={224}
