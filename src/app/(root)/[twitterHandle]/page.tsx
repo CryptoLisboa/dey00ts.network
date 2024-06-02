@@ -65,6 +65,7 @@ export default async function HomePage(ctx: any) {
             className='rounded-full w-56 h-56'
             width={224}
             height={224}
+            unoptimized
           />
           <p className='text-sm font-bold text-gray-400'>
             {user?.socials?.twitterHandle}
