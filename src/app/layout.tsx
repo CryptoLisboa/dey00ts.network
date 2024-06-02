@@ -1,4 +1,5 @@
 import './globals.css'
+import "rc-toastr/dist/index.css" 
 
 import type { Metadata } from 'next'
 import { Inter, Luckiest_Guy } from 'next/font/google'
