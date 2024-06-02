@@ -55,7 +55,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
         const userObj = {
           ...response.profile,
-          email,
+          email: null, // next auth has a bug where it's throwing an error if email is not null
           externalId: response.profile.id,
           socials: {
             create: {

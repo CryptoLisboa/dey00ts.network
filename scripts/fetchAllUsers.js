@@ -39,7 +39,14 @@ async function fetchUserById(id) {
       updatedAt: true,
       socials: true,
       location: true,
-    //   wallets: true,
+      wallets: true,
+      accounts: true,
+      collections: true,
+      followers: true,
+      followings: true,
+      contents: true,
+      dust: true,
+      profile: true,
     },
   })
   console.log(user)
@@ -102,7 +109,40 @@ async function deleteUserById(id) {
     },
   })
 
-  const deletedProfile = await prisma.profile.delete({
+  //   const deletedProfile = await prisma.profile.delete({
+  //     where: {
+  //       userId: id,
+  //     },
+  //   })
+
+  const deletedAccounts = await prisma.account.deleteMany({
+    where: {
+      userId: id,
+    },
+  })
+
+  const userCollections = await prisma.collection.findMany({
+    where: {
+      userId: id,
+    },
+    select: {
+      id: true,
+    },
+  })
+
+  const collectionIds = userCollections.map((collection) => collection.id)
+
+  // delete tokens associated with collections
+  for (let i = 0; i < collectionIds.length; i++) {
+    const collectionId = collectionIds[i]
+    const deletedTokens = await prisma.token.deleteMany({
+      where: {
+        collectionId: collectionId,
+      },
+    })
+  }
+
+  const deletedCollections = await prisma.collection.deleteMany({
     where: {
       userId: id,
     },
@@ -117,9 +157,9 @@ async function deleteUserById(id) {
 }
 
 async function main() {
-    await fetchAllUsers()
-  //   await fetchUserById('clwxqat1j0000vze0n3d0rgg8')
-  //   await deleteUserById('clwxbtai50000umyge1tgeqo3')
+  // await fetchAllUsers()
+  //   await fetchUserById('clwxylmpd0000c81nc8crg3yt')
+  await deleteUserById('clwxz6s5f000014j77vpvghum')
   await prisma.$disconnect()
 }
 
