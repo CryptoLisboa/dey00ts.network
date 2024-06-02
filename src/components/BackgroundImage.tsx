@@ -18,6 +18,7 @@ export default function BgImage({
       priority
       style={{ objectFit: 'cover', zIndex: -1 }}
       className={className}
+      unoptimized
       // placeholder="blur" // needs blurDataURL
       // blurDataURL=""
     />
