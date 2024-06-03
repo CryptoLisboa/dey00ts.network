@@ -76,8 +76,12 @@ export const UserList = ({ users, skills, page }: IUserListProps) => {
                   skills?.includes(id)
                     ? skills?.filter((skillId) => skillId !== id)
                     : [...skills, id]
-                ).sort((a, b) => a - b)
-                router.push(pathname + '?skills=' + newSkillsParams?.join(','))
+                )
+                  .sort((a, b) => a - b)
+                  ?.join(',')
+                router.push(
+                  pathname + `?page=1&skills=${newSkillsParams}`
+                )
               }}
             >
               {name}
