@@ -9,6 +9,7 @@ interface AppHomePageProps {
   params: any
   searchParams: {
     skills: string
+    page: string
   }
 }
 
@@ -22,7 +23,9 @@ export default async function AppHomePage(ctx: AppHomePageProps) {
       ?.split(',')
       .map((id) => parseInt(id, 10))
       .filter((id) => !isNaN(Number(id))) || []
-  const page = ctx.params.page ? parseInt(ctx.params.page, SEARCH_PAGE_SIZE) : 1
+  const page = ctx.searchParams.page
+    ? parseInt(ctx.searchParams.page, SEARCH_PAGE_SIZE)
+    : 1
   const skipAmount = (page - 1) * SEARCH_PAGE_SIZE
 
   const users = await prisma.user.findMany({
@@ -39,6 +42,11 @@ export default async function AppHomePage(ctx: AppHomePageProps) {
             },
           }
         : {}),
+      socials: {
+        twitterHandle: {
+          not: null,
+        },
+      },
     },
     orderBy: { createdAt: 'desc' },
     take: SEARCH_PAGE_SIZE,
