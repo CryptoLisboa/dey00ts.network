@@ -1,7 +1,8 @@
-import NextAuth from 'next-auth'
+import NextAuth, { AuthError, CredentialsSignin } from 'next-auth'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { prisma } from '@/utils/db.utils'
 import { IAuthUser } from './types/auth.types'
+import { code } from '@nextui-org/theme'
 
 function removeNullProperties<T>(obj: T): T {
   if (Array.isArray(obj)) {
@@ -17,7 +18,15 @@ function removeNullProperties<T>(obj: T): T {
   return obj
 }
 
+class NoTwitterAccountError extends AuthError {
+  override code = 'NoTwitterId'
+  override error: 'Error'
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  pages: {
+    error: '/auth/error',
+  },
   adapter: PrismaAdapter(prisma),
   redirectProxyUrl: process.env.REDIRECT_PROXY_URL,
   providers: [
@@ -41,21 +50,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.DEID_CLIENT_ID as string,
       clientSecret: process.env.DEID_CLIENT_SECRET as string,
       profile(response: { success: boolean; profile: IAuthUser }) {
-        const emailFromResponse = response.profile.email
-        let email = emailFromResponse
-        if (!email) {
-          const placeholderEmail = `${response.profile.id}@${
-            response.profile.socials.twitterUsername ||
-            response.profile.socials.twitterHandle ||
-            response.profile.socials.twitterId ||
-            response.profile.socials.discordUsername ||
-            response.profile.socials.telegramUsername
-          }.fake`
-          email = placeholderEmail
-        }
+        throw new NoTwitterAccountError({ code: 'NoTwitterId' })
+        // 'You must have a twitter account to sign in',
+        // {
+        //   name: 'NoTwitterId',
+        //   message: 'You must have a twitter account to sign in',
+        //   cause: 'NoTwitterId',
+        //   stack: 'NoTwitterId',
+        // }
         const userObj = {
           ...response.profile,
-          email: null, // next auth has a bug where it's throwing an error if email is not null
           externalId: response.profile.id,
           socials: {
             create: {
