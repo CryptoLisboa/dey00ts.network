@@ -112,7 +112,9 @@ export async function PUT(req: NextRequest, res: NextResponse) {
       languages?.includes(lang.id)
     )
     const allSkills = await prisma.skill.findMany()
-    const matchedSkills = allSkills.filter((skill) => skills?.includes(skill.id))
+    const matchedSkills = allSkills.filter((skill) =>
+      skills?.includes(skill.id)
+    )
 
     const updatedUser = await prisma.user.update({
       where: {

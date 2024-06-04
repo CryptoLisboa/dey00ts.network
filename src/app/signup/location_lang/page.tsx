@@ -63,7 +63,6 @@ export default function LocationSignUp() {
           body: JSON.stringify(body),
         })
         if (response.ok) {
-          toast.success('Location updated')
           mutate('/api/user')
           router.push('/signup/skills')
         } else {

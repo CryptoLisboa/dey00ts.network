@@ -53,7 +53,6 @@ export default function GenderSignUp() {
           body: JSON.stringify(body),
         })
         if (response.ok) {
-          toast.success('Gender updated')
           mutate('/api/user')
           router.push('/signup/location_lang')
         } else {

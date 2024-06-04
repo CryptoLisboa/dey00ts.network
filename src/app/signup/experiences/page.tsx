@@ -4,62 +4,69 @@ import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import { Button, Progress, Spinner } from '@nextui-org/react'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ExperienceForm from '@/components/forms/ExperienceForm'
 import AuthContext from '@/providers/AuthContext'
 import { GENDERS, SKILLS } from '@/constants/app.constants'
 import { languages, locations } from '@/constants/signup.constants'
-import { SignupData } from '@/types/app.types'
+import { Experience, SignupData } from '@/types/app.types'
 import { useRouter } from 'next/navigation'
 import { ROUTING } from '@/constants/routing.contants'
-
-const prepareData = (signupData: Partial<SignupData>) => {
-  const genderId = GENDERS.find(
-    ({ name }) => name.toLowerCase() === signupData?.gender
-  )?.id
-  const languageIds = signupData?.languages
-    ?.split(',')
-    .map((lang) => languages.find(({ name }) => name === lang)?.id)
-  const locationId = locations.find(
-    ({ value }) => value === signupData?.location
-  )?.id
-  const skillIds = signupData?.skills?.map(
-    (skill) => SKILLS.find(({ name }) => name === skill)?.id
-  )
-  const dataForSubmission = {
-    ...signupData,
-    genderId,
-    languageIds,
-    locationId,
-    skillIds,
-  }
-  return dataForSubmission
-}
 
 export default function Experiences() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const router = useRouter()
-  const [experiences, setExperiences] = useState<number>(1)
-  const { signupData } = useContext(AuthContext)
+
+  const [experiencesCount, setExperiencesCount] = useState<number>(1)
+  const [experiences, setExperiences] = useState<Experience[]>([])
+
+  const { user } = useContext(AuthContext)
+
+  useEffect(() => {
+    if (user?.userExperiences) {
+      setExperiencesCount(user.userExperiences.length)
+    }
+  }, [user?.userExperiences?.length])
+
+  useEffect(() => {
+    if (user?.userExperiences) {
+      console.log({ userE: user?.userExperiences })
+      const newExp: Experience[] = user.userExperiences?.map((exp, index) => ({
+        company: exp.experience.company,
+        role: exp.experience.role,
+        description: exp.experience.description,
+        skill: String(exp.experience.skill.id),
+        current: exp.experience.current,
+        startDate: exp.experience.startDate,
+        endDate: exp.experience.endDate,
+        index,
+        // index: exp.index,
+      }))
+
+      setExperiences(newExp)
+    }
+  }, [user?.userExperiences])
+
+  console.log({ user: user?.userExperiences })
 
   const onAddExperience = () => {
-    setExperiences(experiences + 1)
+    setExperiencesCount(experiencesCount + 1)
   }
 
   const onRemoveExperience = () => {
-    setExperiences(experiences - 1)
+    setExperiencesCount(experiencesCount - 1)
   }
 
   const onNext = async () => {
     setIsSubmitting(true)
-    const data = prepareData(signupData as Partial<SignupData>)
+    const body = { experiences }
 
     const response = await fetch('/api/user/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     })
 
     setIsSubmitting(false)
@@ -70,7 +77,7 @@ export default function Experiences() {
   }
 
   const clicksDisabled = isSubmitting
-  const nextDisabled = clicksDisabled || experiences === 0
+  const nextDisabled = clicksDisabled || experiencesCount === 0
 
   return (
     <main className='dark overflow' id='experiences'>
@@ -114,7 +121,7 @@ export default function Experiences() {
                 size='sm'
                 className='bg-[#212121] shadow-md shadow-white'
                 onClick={onAddExperience}
-                disabled={clicksDisabled || experiences === 5}
+                disabled={clicksDisabled || experiencesCount === 5}
               >
                 <div className='text-white text-2xl md:text-3xl  flex justify-center items-center text-center leading-none'>
                   +
@@ -122,10 +129,12 @@ export default function Experiences() {
               </Button>
             </div>
             <div className='grid gap-y-12 w-full'>
-              {Array.from({ length: experiences }, (_, i) => i).map(
+              {Array.from({ length: experiencesCount }, (_, i) => i).map(
                 (_, index) => (
                   <ExperienceForm
                     key={index}
+                    experiences={experiences}
+                    setExperiences={setExperiences}
                     onRemoveExperience={onRemoveExperience}
                     index={index}
                     disabled={clicksDisabled}

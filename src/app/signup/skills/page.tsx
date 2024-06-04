@@ -44,7 +44,6 @@ export default function Skills() {
           body: JSON.stringify(body),
         })
         if (response.ok) {
-          toast.success('Skills updated')
           mutate('/api/user')
           router.push('/signup/bio')
         } else {

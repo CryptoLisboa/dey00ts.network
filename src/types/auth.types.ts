@@ -53,7 +53,19 @@ export type IAuthUser = {
   languages: Language[]
   locationId: number
   skills: Skill[]
-  profile: {
+  profile?: {
     bio: string
   }
+  userExperiences?: {
+    experience: {
+      description: string
+      role: string
+      company: string
+      current: boolean
+      startDate: Date
+      endDate: Date
+      skill: Skill
+      skillId: number
+    }
+  }[]
 }

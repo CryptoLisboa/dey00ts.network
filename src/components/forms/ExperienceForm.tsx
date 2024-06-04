@@ -10,57 +10,125 @@ import {
   Switch,
 } from '@nextui-org/react'
 import { Formik, FormikHelpers } from 'formik'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { parseDate, getLocalTimeZone } from '@internationalized/date'
 import { SKILLS } from '@/constants/app.constants'
+function getDateFromISOString(isoString: string) {
+  // Create a new Date object from the ISO string
+  const dateObject = new Date(isoString)
 
+  // Extract the year, month, and day from the Date object
+  const year = dateObject.getUTCFullYear()
+  const month = String(dateObject.getUTCMonth() + 1).padStart(2, '0') // Months are zero-indexed
+  const day = String(dateObject.getUTCDate()).padStart(2, '0')
+
+  // Return the formatted date string
+  return `${year}-${month}-${day}`
+}
 export default function ExperienceForm({
   onRemoveExperience,
   index,
   disabled,
+  experiences,
+  setExperiences,
 }: {
   onRemoveExperience: () => void
   index: number
   disabled?: boolean
+  experiences?: Experience[]
+  setExperiences: any
 }) {
-  const { setSignupData, signupData } = useContext(AuthContext)
-  const [startDate, setStartDate] = useState(parseDate('2024-01-01'))
-  const [endDate, setEndDate] = useState(parseDate('2024-05-31'))
+  const [startDate, setStartDate] = useState(
+    parseDate(
+      experiences && experiences[index]
+        ? // @ts-expect-error
+          getDateFromISOString(experiences[index].startDate)
+        : '2024-01-01'
+    )
+  )
+  const [endDate, setEndDate] = useState(
+    parseDate(
+      experiences && experiences[index]
+        ? // @ts-expect-error
+          getDateFromISOString(experiences[index].endDate)
+        : '2024-05-31'
+    )
+  )
 
+  useEffect(() => {
+    setStartDate(
+      parseDate(
+        experiences && experiences[index]
+          ? // @ts-expect-error
+            getDateFromISOString(experiences[index].startDate)
+          : '2024-01-01'
+      )
+    )
+    setEndDate(
+      parseDate(
+        experiences && experiences[index]
+          ? // @ts-expect-error
+            getDateFromISOString(experiences[index].endDate)
+          : '2024-05-31'
+      )
+    )
+  }, [experiences, index])
   return (
     <Formik
       initialValues={{
-        company: '',
-        skill: '',
-        role: '',
-        description: '',
-        startDate: new Date(),
-        endDate: new Date(),
-        current: false,
+        company:
+          experiences && experiences[index]
+            ? experiences[index].company || ''
+            : '',
+        skill:
+          experiences && experiences[index] ? experiences[index].skill : '',
+        role:
+          experiences && experiences[index]
+            ? experiences[index].role || ''
+            : '',
+        description:
+          experiences && experiences[index]
+            ? experiences[index].description || ''
+            : '',
+        startDate:
+          experiences && experiences[index]
+            ? new Date(experiences[index].startDate) || ''
+            : new Date(),
+        endDate:
+          experiences && experiences[index]
+            ? new Date(experiences[index].endDate) || ''
+            : new Date(),
+        current:
+          experiences && experiences[index]
+            ? experiences[index].current
+            : false,
         index,
       }}
+      enableReinitialize
       onSubmit={(
         values: Experience,
         { setSubmitting }: FormikHelpers<Experience>
       ) => {
-        if (signupData?.experiences?.some((exp) => exp.index === index)) {
-          setSignupData({
-            ...signupData,
-            experiences: [
-              ...(signupData?.experiences || []).filter(
-                (exp) => exp.index !== index
-              ),
-              { ...values, index },
-            ],
-          })
+        if (experiences?.some((exp: any) => exp.index === index)) {
+          setExperiences([
+            ...(experiences || []).filter((exp: any) => exp.index !== index),
+            {
+              ...values,
+              startDate: startDate.toDate(getLocalTimeZone()),
+              endDate: endDate.toDate(getLocalTimeZone()),
+              index,
+            },
+          ])
         } else {
-          setSignupData({
-            ...signupData,
-            experiences: [
-              ...(signupData?.experiences || []),
-              { ...values, index },
-            ],
-          })
+          setExperiences([
+            ...(experiences || []),
+            {
+              ...values,
+              startDate: startDate.toDate(getLocalTimeZone()),
+              endDate: endDate.toDate(getLocalTimeZone()),
+              index,
+            },
+          ])
         }
         setSubmitting(false)
       }}
@@ -74,6 +142,7 @@ export default function ExperienceForm({
               name='company'
               value={values.company}
               onChange={(...args) => {
+                console.log({ values })
                 handleChange(...args)
                 submitForm()
               }}
@@ -88,7 +157,7 @@ export default function ExperienceForm({
               key='Skill'
               variant='bordered'
               name='skill'
-              value={values.skill}
+              value={Number(values.skill)}
               onChange={(...args) => {
                 handleChange(...args)
                 submitForm()
@@ -166,8 +235,6 @@ export default function ExperienceForm({
                 name='endDate'
                 value={endDate}
                 validate={(value) => {
-                  debugger
-
                   if (value < startDate)
                     return 'End date should be after start date'
                   return undefined

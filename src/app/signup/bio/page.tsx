@@ -41,7 +41,6 @@ export default function Bio() {
           body: JSON.stringify(body),
         })
         if (response.ok) {
-          toast.success('Bio updated')
           mutate('/api/user')
           router.push('/signup/experiences')
         } else {
