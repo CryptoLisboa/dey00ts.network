@@ -26,7 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: 'de[id]',
       type: 'oauth',
       authorization: {
-        url: 'https://verify.de.xyz/oauth/authorize',
+        url: 'https://de.xyz/oauth/authorize',
         params: {
           scope:
             'wallets:read collections:read dust:read socials:read email:read telegram:read',
