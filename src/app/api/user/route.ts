@@ -109,31 +109,37 @@ export async function PUT(req: NextRequest, res: NextResponse) {
 
     const allLanguages = await prisma.language.findMany()
     const matchedLanguages = allLanguages.filter((lang) =>
-      languages.includes(lang.id)
+      languages?.includes(lang.id)
     )
     const allSkills = await prisma.skill.findMany()
-    const matchedSkills = allSkills.filter((skill) => skills.includes(skill.id))
+    const matchedSkills = allSkills.filter((skill) => skills?.includes(skill.id))
 
     const updatedUser = await prisma.user.update({
       where: {
         id: user.id,
       },
       data: {
-        location: location.id ? { connect: { id: location.id } } : undefined,
-        languages: {
-          set: [],
-          connect: matchedLanguages.map((l) => l.id)?.map((id) => ({ id })),
-        },
-        gender: gender ? { connect: { id: gender } } : undefined,
-        skills: {
-          set: [], // Clear existing skills
-          connect: matchedSkills?.map(({ id }) => ({ id })),
-        },
-        profile: {
-          update: {
-            bio,
-          },
-        },
+        location: location?.id ? { connect: { id: location.id } } : undefined,
+        languages: body.languages
+          ? {
+              set: [],
+              connect: matchedLanguages.map((l) => l.id)?.map((id) => ({ id })),
+            }
+          : undefined,
+        gender: body.gender ? { connect: { id: gender } } : undefined,
+        skills: body.skills
+          ? {
+              set: [], // Clear existing skills
+              connect: matchedSkills?.map(({ id }) => ({ id })),
+            }
+          : undefined,
+        profile: body.bio
+          ? {
+              update: {
+                bio,
+              },
+            }
+          : undefined,
       },
     })
     return new Response(JSON.stringify({ success: true }), {

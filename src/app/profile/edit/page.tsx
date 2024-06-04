@@ -29,7 +29,6 @@ export default async function EditProfilePage() {
     )
   }
 
-  console.log({ session })
   return (
     <main className='dark overflow' id='experiences'>
       <BackButton />

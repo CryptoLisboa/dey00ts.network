@@ -46,4 +46,5 @@ export type IAuthUser = {
   collections: Collection[]
   wallets: Wallet[]
   dust: Dust
+  genderId: number
 }

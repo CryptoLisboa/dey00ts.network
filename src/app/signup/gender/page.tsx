@@ -3,32 +3,63 @@
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
+import { GENDERS } from '@/constants/app.constants'
 import AuthContext from '@/providers/AuthContext'
 import { RadioGroup, Radio, Progress } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import { useToast } from 'rc-toastr'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { mutate } from 'swr'
 
 export default function GenderSignUp() {
   const router = useRouter()
   const { toast } = useToast()
+  const { user } = useContext(AuthContext)
 
-  const { setSignupData, signupData } = useContext(AuthContext)
+  const [gender, setGender] = useState<string | null>(
+    GENDERS.find((g) => g.id === user?.genderId)?.name || null
+  )
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSignupData({
-      gender: e.target.value,
-    })
-  }
+  useEffect(() => {
+    setGender(GENDERS.find((g) => g.id === user?.genderId)?.name || null)
+  }, [user?.genderId])
 
-  const handleNext = () => {
-    const isDisabled = !signupData?.gender
+  const handleNext = async () => {
+    const isDisabled = !gender
+
     if (isDisabled) {
       toast.error('Please select your gender')
     } else {
-      router.push('/signup/location_lang')
+      try {
+        const genderId = GENDERS.find(
+          ({ name }) => name.toLowerCase() === gender?.toLowerCase()
+        )?.id
+
+        const body = {
+          gender: genderId,
+        }
+
+        const response = await fetch('/api/user', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        })
+        if (response.ok) {
+          toast.success('Gender updated')
+          mutate('/api/user')
+          router.push('/signup/location_lang')
+        } else {
+          toast.error('Failed to update gender')
+        }
+      } catch (error) {
+        toast.error('Failed to update gender')
+        console.error('error', error)
+      }
     }
   }
+
   return (
     <main className='dark  overflow-hidden' id='gender'>
       <BackButton />
@@ -63,24 +94,24 @@ export default function GenderSignUp() {
               isRequired
               color='success'
               label='Gender'
-              value={signupData?.gender}
+              value={gender}
               name='gender'
-              onChange={handleChange}
+              onChange={(e) => setGender(e.target.value)}
               classNames={{
                 base: 'w-full',
                 wrapper: 'grid grid-cols-1 gap-y-5 px-10',
               }}
             >
-              <Radio color='primary' value='male'>
+              <Radio color='primary' value='Male'>
                 <p className='text-white'>male</p>
               </Radio>
-              <Radio color='danger' value='female'>
+              <Radio color='danger' value='Female'>
                 <p className='text-white'>female</p>
               </Radio>
-              <Radio color='warning' value='other'>
+              <Radio color='warning' value='Other'>
                 <p className='text-white'>other</p>
               </Radio>
-              <Radio color='warning' value='prefer not to say'>
+              <Radio color='warning' value='Prefer not to say'>
                 <p className='text-white'>prefer not to say</p>
               </Radio>
             </RadioGroup>

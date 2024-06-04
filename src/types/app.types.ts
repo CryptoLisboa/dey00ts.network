@@ -1,3 +1,5 @@
+import { IAuthUser } from './auth.types'
+
 export type SignUpContextType = {
   userDetails: {
     gender?: string
@@ -55,7 +57,7 @@ export type Auth = {
   logOut: (cause?: string) => Promise<void>
   getUserData: (isFirstLoad?: boolean) => Promise<void>
   setSignupData: (data: SignupData) => void
-  user?: Partial<User>
+  user?: Partial<IAuthUser>
   signupData?: Partial<SignupData>
 }
 

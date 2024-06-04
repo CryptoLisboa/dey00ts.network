@@ -69,8 +69,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
     setValue('bio', userData?.profile?.bio)
 
     const genderVal = GENDERS.find((g) => g.id === userData?.genderId)?.name
-    console.log({ genderVal })
-    debugger
     setValue('gender', genderVal)
     setValue(
       'skills',

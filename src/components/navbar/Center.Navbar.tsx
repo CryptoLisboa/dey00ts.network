@@ -10,7 +10,6 @@ export default function CenterNavbar({
   className?: string
 }) {
   const pathname = usePathname()
-  console.log('pathname:', pathname)
   const isHome = pathname === '/'
   const className = isHome ? 'hidden' : classNameArg
   return (
