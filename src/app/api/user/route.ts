@@ -44,6 +44,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       dust: true,
       socials: true,
       wallets: true,
+      skills: true,
       languages: {
         include: {
           users: true,
@@ -104,12 +105,14 @@ export async function PUT(req: NextRequest, res: NextResponse) {
     }
 
     const body = await req.json()
-    const { location, languages, bio } = body
+    const { location, languages, bio, gender, skills } = body
 
     const allLanguages = await prisma.language.findMany()
     const matchedLanguages = allLanguages.filter((lang) =>
       languages.includes(lang.id)
     )
+    const allSkills = await prisma.skill.findMany()
+    const matchedSkills = allSkills.filter((skill) => skills.includes(skill.id))
 
     const updatedUser = await prisma.user.update({
       where: {
@@ -118,19 +121,14 @@ export async function PUT(req: NextRequest, res: NextResponse) {
       data: {
         location: location.id ? { connect: { id: location.id } } : undefined,
         languages: {
-          set: [], // Clear existing languages
+          set: [],
           connect: matchedLanguages.map((l) => l.id)?.map((id) => ({ id })),
         },
-        // languages: {
-        //   update: matchedLanguages.map((language: any) => ({
-        //     where: { id: language.id },
-        //     data: language,
-        //   })),
-        //   // connectOrCreate: languages.map((language: any) => ({
-        //   //   where: { id: language.id },
-        //   //   create: language,
-        //   // })),
-        // },
+        gender: gender ? { connect: { id: gender } } : undefined,
+        skills: {
+          set: [], // Clear existing skills
+          connect: matchedSkills?.map(({ id }) => ({ id })),
+        },
         profile: {
           update: {
             bio,
