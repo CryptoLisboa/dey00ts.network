@@ -7,27 +7,50 @@ import AuthContext from '@/providers/AuthContext'
 import { Progress, Textarea } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import { useToast } from 'rc-toastr'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { mutate } from 'swr'
 
 export default function Bio() {
   const router = useRouter()
   const { toast } = useToast()
 
-  const { setSignupData, signupData } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSignupData({
-      ...signupData,
-      [e.target.name]: e.target.value,
-    })
-  }
-  const handleNext = () => {
-    if (!signupData?.bio) {
+  const [bio, setBio] = useState<string>(user?.profile?.bio || '')
+
+  useEffect(() => {
+    setBio(user?.profile?.bio || '')
+  }, [user?.profile?.bio])
+
+  const handleNext = async () => {
+    if (!bio) {
       toast.error('Please write your bio')
     }
 
-    if (signupData?.bio) {
-      router.push('/signup/experiences')
+    if (bio) {
+      try {
+        const body = {
+          bio,
+        }
+
+        const response = await fetch('/api/user', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        })
+        if (response.ok) {
+          toast.success('Bio updated')
+          mutate('/api/user')
+          router.push('/signup/experiences')
+        } else {
+          toast.error('Failed to update bio')
+        }
+      } catch (error) {
+        toast.error('Failed to update bio')
+        console.error('error', error)
+      }
     }
   }
   return (
@@ -62,8 +85,8 @@ export default function Bio() {
               key='bordered'
               variant='bordered'
               name='bio'
-              value={signupData?.bio}
-              onChange={handleChange}
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
               placeholder='type here'
               className='text-[#D9D9D9] border-[#AFE5FF] h-full'
               size='lg'

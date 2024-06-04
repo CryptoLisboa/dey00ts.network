@@ -6,6 +6,7 @@ import SignUpCard from '@/components/cards/SignUp'
 import { GENDERS } from '@/constants/app.constants'
 import AuthContext from '@/providers/AuthContext'
 import { RadioGroup, Radio, Progress } from '@nextui-org/react'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useToast } from 'rc-toastr'
 import { useContext, useEffect, useState } from 'react'
@@ -15,10 +16,15 @@ export default function GenderSignUp() {
   const router = useRouter()
   const { toast } = useToast()
   const { user } = useContext(AuthContext)
-
+  const session = useSession()
   const [gender, setGender] = useState<string | null>(
     GENDERS.find((g) => g.id === user?.genderId)?.name || null
   )
+  useEffect(() => {
+    if (session.status === 'unauthenticated') {
+      router.push('/signup/connect_de_id')
+    }
+  }, [session])
 
   useEffect(() => {
     setGender(GENDERS.find((g) => g.id === user?.genderId)?.name || null)

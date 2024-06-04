@@ -33,7 +33,6 @@ const prepareData = (signupData: Partial<SignupData>) => {
     locationId,
     skillIds,
   }
-  // console.log('data for submission', JSON.stringify(dataForSubmission, null, 2))
   return dataForSubmission
 }
 

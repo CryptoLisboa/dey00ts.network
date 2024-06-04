@@ -5,36 +5,77 @@ import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import { Progress, Select, SelectItem } from '@nextui-org/react'
 import { useToast } from 'rc-toastr'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import AuthContext from '@/providers/AuthContext'
 import { languages, locations } from '@/constants/signup.constants'
 import { useRouter } from 'next/navigation'
+import { mutate } from 'swr'
 
 export default function LocationSignUp() {
   const router = useRouter()
   const { toast } = useToast()
 
-  const { setSignupData, signupData } = useContext(AuthContext)
+  const { user } = useContext(AuthContext)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSignupData({
-      ...signupData,
-      [e.target.name]: e.target.value,
-    })
-  }
+  const [languagesValues, setLanguagesValues] = useState<Set<string>>(
+    new Set([])
+  )
+  const [locationsValue, setLocationsValue] = useState<Set<string>>(new Set([]))
 
-  const handleNext = () => {
-    if (!signupData?.languages) {
+  useEffect(() => {
+    const hasValidLanguagesValues = user?.languages?.map((lang) => lang.name)
+    if (hasValidLanguagesValues) {
+      setLanguagesValues(new Set(hasValidLanguagesValues))
+    }
+
+    const hasValidLocationValue = locations.find(
+      (loc) => loc.id === user?.locationId
+    )?.value
+    if (hasValidLocationValue) {
+      setLocationsValue(new Set([hasValidLocationValue]))
+    }
+  }, [user?.languages, user?.locationId])
+
+  const handleNext = async () => {
+    if (!languagesValues.size) {
       toast.error('Please select your language')
     }
-    if (!signupData?.location) {
+    if (!locationsValue.size) {
       toast.error('Please select your location')
     }
 
-    if (signupData?.languages && signupData?.location) {
-      router.push('/signup/skills')
+    if (languagesValues.size && locationsValue.size) {
+      try {
+        const body = {
+          languages: Array.from(languagesValues).map(
+            (lang: string) => languages.find((l) => l.name === lang)?.id
+          ),
+          location: locations.find((loc) =>
+            Array.from(locationsValue).includes(loc.value)
+          ),
+        }
+
+        const response = await fetch('/api/user', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(body),
+        })
+        if (response.ok) {
+          toast.success('Location updated')
+          mutate('/api/user')
+          router.push('/signup/skills')
+        } else {
+          toast.error('Failed to update location')
+        }
+      } catch (error) {
+        toast.error('Failed to update location')
+        console.error('error', error)
+      }
     }
   }
+
   return (
     <main className='dark  overflow-hidden' id='location'>
       <BackButton />
@@ -79,9 +120,12 @@ export default function LocationSignUp() {
                     popoverContent: 'text-[#AFE5FF] bg-[#111111]',
                     trigger: 'border-[#AFE5FF]',
                   }}
-                  onChange={(e: any) => handleChange(e)}
+                  selectedKeys={languagesValues}
+                  // onChange={setLanguages}
+                  // @ts-ignore
+                  onSelectionChange={setLanguagesValues}
                 >
-                  {languages.map((language) => (
+                  {languages?.map((language) => (
                     <SelectItem key={language.name} value={language.name}>
                       {language.name}
                     </SelectItem>
@@ -102,7 +146,9 @@ export default function LocationSignUp() {
                     popoverContent: 'text-[#AFE5FF] bg-[#111111]',
                     trigger: 'border-[#AFE5FF]',
                   }}
-                  onChange={(e: any) => handleChange(e)}
+                  selectedKeys={locationsValue}
+                  // @ts-ignore
+                  onSelectionChange={setLocationsValue}
                 >
                   {locations.map((location) => (
                     <SelectItem key={location.value} value={location.value}>

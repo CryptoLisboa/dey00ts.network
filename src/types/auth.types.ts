@@ -1,3 +1,6 @@
+import { Language, Skill } from '@prisma/client'
+import { Profile } from 'next-auth'
+
 export type Socials = {
   telegramId: string
   telegramUsername: string
@@ -47,4 +50,10 @@ export type IAuthUser = {
   wallets: Wallet[]
   dust: Dust
   genderId: number
+  languages: Language[]
+  locationId: number
+  skills: Skill[]
+  profile: {
+    bio: string
+  }
 }
