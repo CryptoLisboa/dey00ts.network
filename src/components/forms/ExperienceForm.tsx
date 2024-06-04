@@ -10,7 +10,7 @@ import {
   Switch,
 } from '@nextui-org/react'
 import { Formik, FormikHelpers } from 'formik'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { parseDate, getLocalTimeZone } from '@internationalized/date'
 import { SKILLS } from '@/constants/app.constants'
 
@@ -24,6 +24,8 @@ export default function ExperienceForm({
   disabled?: boolean
 }) {
   const { setSignupData, signupData } = useContext(AuthContext)
+  const [startDate, setStartDate] = useState(parseDate('2024-01-01'))
+  const [endDate, setEndDate] = useState(parseDate('2024-05-31'))
 
   return (
     <Formik
@@ -141,10 +143,14 @@ export default function ExperienceForm({
                 labelPlacement='outside'
                 label={'Start'}
                 name='startDate'
-                value={parseDate(
-                  new Date(values.startDate).toLocaleDateString('en-CA')
-                )}
+                value={startDate}
+                validate={(value) => {
+                  if (value > endDate)
+                    return 'Start date should be before end date'
+                  return undefined
+                }}
                 onChange={(value) => {
+                  setStartDate(value)
                   setFieldValue('startDate', value.toDate(getLocalTimeZone()))
                   submitForm()
                 }}
@@ -158,10 +164,16 @@ export default function ExperienceForm({
                 labelPlacement='outside'
                 label={'End'}
                 name='endDate'
-                value={parseDate(
-                  new Date(values.endDate).toLocaleDateString('en-CA')
-                )}
+                value={endDate}
+                validate={(value) => {
+                  debugger
+
+                  if (value < startDate)
+                    return 'End date should be after start date'
+                  return undefined
+                }}
                 onChange={(value) => {
+                  setEndDate(value)
                   setFieldValue('endDate', value.toDate(getLocalTimeZone()))
                   submitForm()
                 }}
