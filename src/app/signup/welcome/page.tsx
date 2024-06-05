@@ -6,6 +6,7 @@ import NextImage from 'next/image'
 
 export default async function WelcomeSignUp() {
   const session = await auth()
+  
   return (
     <main className='dark overflow-hidden' id='welcome'>
       <BgImage
