@@ -1,5 +1,5 @@
 'use client'
-import AuthContext from '@/providers/AuthContext'
+
 import { Experience } from '@/types/app.types'
 import {
   Button,
@@ -10,19 +10,15 @@ import {
   Switch,
 } from '@nextui-org/react'
 import { Formik, FormikHelpers } from 'formik'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { parseDate, getLocalTimeZone } from '@internationalized/date'
 import { SKILLS } from '@/constants/app.constants'
+
 function getDateFromISOString(isoString: string) {
-  // Create a new Date object from the ISO string
   const dateObject = new Date(isoString)
-
-  // Extract the year, month, and day from the Date object
   const year = dateObject.getUTCFullYear()
-  const month = String(dateObject.getUTCMonth() + 1).padStart(2, '0') // Months are zero-indexed
+  const month = String(dateObject.getUTCMonth() + 1).padStart(2, '0')
   const day = String(dateObject.getUTCDate()).padStart(2, '0')
-
-  // Return the formatted date string
   return `${year}-${month}-${day}`
 }
 export default function ExperienceForm({
