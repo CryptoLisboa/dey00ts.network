@@ -137,8 +137,13 @@ export async function PUT(req: NextRequest, res: NextResponse) {
           : undefined,
         profile: body.bio
           ? {
-              update: {
-                bio,
+              upsert: {
+                create: {
+                  bio,
+                },
+                update: {
+                  bio,
+                },
               },
             }
           : undefined,
