@@ -26,7 +26,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       name: 'de[id]',
       type: 'oauth',
       authorization: {
-        url: 'https://verify.de.xyz/oauth/authorize',
+        url: 'https://de.xyz/oauth/authorize',
         params: {
           scope:
             'wallets:read collections:read dust:read socials:read email:read telegram:read',
@@ -41,8 +41,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.DEID_CLIENT_ID as string,
       clientSecret: process.env.DEID_CLIENT_SECRET as string,
       profile(response: { success: boolean; profile: IAuthUser }) {
+        const emailFromResponse = response.profile.email
+        let email = emailFromResponse
+        if (!email) {
+          const placeholderEmail = `${response.profile.id}@${
+            response.profile.socials.twitterUsername ||
+            response.profile.socials.twitterHandle ||
+            response.profile.socials.twitterId ||
+            response.profile.socials.discordUsername ||
+            response.profile.socials.telegramUsername
+          }.fake`
+          email = placeholderEmail
+        }
         const userObj = {
           ...response.profile,
+          email: null, // next auth has a bug where it's throwing an error if email is not null
           externalId: response.profile.id,
           socials: {
             create: {
@@ -73,10 +86,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           imageUrl: undefined,
         }
 
-        console.log(
-          'response de id auth obj processed',
-          JSON.stringify(userObj, null, 2)
-        )
+        // console.log(
+        //   'response de id auth obj processed',
+        //   JSON.stringify(userObj, null, 2)
+        // )
 
         return removeNullProperties(userObj)
       },
@@ -87,7 +100,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return url
     },
     authorized({ request, auth }: { request: any; auth: any }) {
-      console.log('authorized callback', request, auth)
+      // console.log('authorized callback', request, auth)
       const { pathname } = request.nextUrl
       if (pathname === '/middleware-example') return !!auth
       return true

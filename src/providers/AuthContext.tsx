@@ -1,8 +1,10 @@
 'use client'
 import { useState } from 'react'
 import * as React from 'react'
-import { Auth, CreateUser, SignupData, User } from '@/types/app.types'
+import { Auth, CreateUser, SignupData } from '@/types/app.types'
 import { useRouter } from 'next/navigation'
+import useSWR from 'swr'
+import { IAuthUser } from '@/types/auth.types'
 
 /**
  * Create context
@@ -12,7 +14,7 @@ const AuthContext = React.createContext<Auth>({
   login: async () => undefined,
   logOut: async () => undefined,
   isAuthenticated: false,
-  user: {},
+  user: {} as Partial<IAuthUser>,
   signup: async () => undefined,
   getUserData: async () => undefined,
   setSignupData: () => undefined,
@@ -24,12 +26,15 @@ const AuthContext = React.createContext<Auth>({
  * Provider
  */
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json())
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const router = useRouter()
 
-  const [user, setUserData] = useState({} as Partial<User>)
+  // const [user, setUserData] = useState({} as Partial<User>)
+  const { data: user } = useSWR('/api/user', fetcher)
   const [signupData, setSignupData] = useState({} as Partial<SignupData>)
   const [loading, setLoading] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)

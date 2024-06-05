@@ -7,8 +7,13 @@ const Y00T_COLLECTION_ADDRESSES = [
   '0xfd1b0b0dfa524e1fd42e7d51155a663c581bbd50',
 ]
 
+const isZeroXAddress = (addressString: string) => addressString.startsWith('0x')
+
 export function isY00tCollectionAddress(address: string) {
-  return Y00T_COLLECTION_ADDRESSES.includes(address)
+  // let's check if the address starts with 0x and set a boolean value to true
+  return Y00T_COLLECTION_ADDRESSES.includes(
+    isZeroXAddress(address) ? address.toLowerCase() : address
+  )
 }
 
 export const hasY00tsNFTs = (profile: any) => {
@@ -19,6 +24,7 @@ export const hasY00tsNFTs = (profile: any) => {
 
 export const hasDeGodsNFTs = (profile: any) => {
   return profile.collections.some(
-    (collection: { contract: string }) => !isY00tCollectionAddress(collection.contract)
+    (collection: { contract: string }) =>
+      !isY00tCollectionAddress(collection.contract)
   )
 }

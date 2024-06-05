@@ -44,6 +44,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       dust: true,
       socials: true,
       wallets: true,
+      skills: true,
       languages: {
         include: {
           users: true,
@@ -104,11 +105,15 @@ export async function PUT(req: NextRequest, res: NextResponse) {
     }
 
     const body = await req.json()
-    const { location, languages, bio } = body
+    const { location, languages, bio, gender, skills } = body
 
     const allLanguages = await prisma.language.findMany()
     const matchedLanguages = allLanguages.filter((lang) =>
-      languages.includes(lang.id)
+      languages?.includes(lang.id)
+    )
+    const allSkills = await prisma.skill.findMany()
+    const matchedSkills = allSkills.filter((skill) =>
+      skills?.includes(skill.id)
     )
 
     const updatedUser = await prisma.user.update({
@@ -116,26 +121,32 @@ export async function PUT(req: NextRequest, res: NextResponse) {
         id: user.id,
       },
       data: {
-        location: location.id ? { connect: { id: location.id } } : undefined,
-        languages: {
-          set: [], // Clear existing languages
-          connect: matchedLanguages.map((l) => l.id)?.map((id) => ({ id })),
-        },
-        // languages: {
-        //   update: matchedLanguages.map((language: any) => ({
-        //     where: { id: language.id },
-        //     data: language,
-        //   })),
-        //   // connectOrCreate: languages.map((language: any) => ({
-        //   //   where: { id: language.id },
-        //   //   create: language,
-        //   // })),
-        // },
-        profile: {
-          update: {
-            bio,
-          },
-        },
+        location: location?.id ? { connect: { id: location.id } } : undefined,
+        languages: body.languages
+          ? {
+              set: [],
+              connect: matchedLanguages.map((l) => l.id)?.map((id) => ({ id })),
+            }
+          : undefined,
+        gender: body.gender ? { connect: { id: gender } } : undefined,
+        skills: body.skills
+          ? {
+              set: [], // Clear existing skills
+              connect: matchedSkills?.map(({ id }) => ({ id })),
+            }
+          : undefined,
+        profile: body.bio
+          ? {
+              upsert: {
+                create: {
+                  bio,
+                },
+                update: {
+                  bio,
+                },
+              },
+            }
+          : undefined,
       },
     })
     return new Response(JSON.stringify({ success: true }), {

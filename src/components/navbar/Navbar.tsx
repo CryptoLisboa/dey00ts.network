@@ -26,6 +26,7 @@ export const Navbar = async () => {
           className='border-0 rounded-none'
           width={84}
           height={84}
+          unoptimized
         />
       </Link>
 

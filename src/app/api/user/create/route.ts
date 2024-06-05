@@ -33,32 +33,8 @@ export async function POST(req: NextRequest) {
 
   const updateData = {
     active: true,
-    profile: {
-      // Handling bio as part of the Profile relation
-      upsert: {
-        update: {
-          bio: data.bio,
-        },
-        create: {
-          bio: data.bio,
-        },
-      },
-    },
-    // Correctly connecting relations with ID as a number
-    gender: data.genderId ? { connect: { id: data.genderId } } : undefined,
-    location: data.locationId
-      ? { connect: { id: data.locationId } }
-      : undefined,
-    languages: {
-      set: [], // Clear existing languages
-      connect: data.languageIds?.map((id) => ({ id })),
-    },
-    skills: {
-      set: [], // Clear existing skills
-      connect: data.skillIds?.map((id) => ({ id })),
-    },
     userExperiences: {
-      deleteMany: {}, // Removes all existing experiences
+      deleteMany: {},
       create: data.experiences?.map((exp) => ({
         experience: {
           create: {
@@ -67,7 +43,6 @@ export async function POST(req: NextRequest) {
             startDate: new Date(exp.startDate),
             endDate: exp.endDate ?? new Date(exp.endDate),
             current: exp.current,
-            // Ensuring ID is passed as a number if your schema expects it
             skill: { connect: { id: parseInt(exp.skill) } },
             company: exp.company,
           },
@@ -81,9 +56,9 @@ export async function POST(req: NextRequest) {
       where: { id: userFromSession.id },
       data: updateData,
       include: {
-        profile: true, // Include the profile object
-        gender: true, // Include the gender object
-        location: true, // Include the location object
+        profile: true,
+        gender: true,
+        location: true,
         languages: true,
         skills: true,
         userExperiences: {

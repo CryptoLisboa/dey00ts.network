@@ -26,7 +26,6 @@ export const UserList = ({ users, skills, page }: IUserListProps) => {
   const pathname = usePathname()
   const router = useRouter()
 
-  console.log(users)
   return (
     <main className='container pt-0 mx-auto p-4'>
       <div className='flex flex-col items-center mb-4 gap-3'>
@@ -76,8 +75,10 @@ export const UserList = ({ users, skills, page }: IUserListProps) => {
                   skills?.includes(id)
                     ? skills?.filter((skillId) => skillId !== id)
                     : [...skills, id]
-                ).sort((a, b) => a - b)
-                router.push(pathname + '?skills=' + newSkillsParams?.join(','))
+                )
+                  .sort((a, b) => a - b)
+                  ?.join(',')
+                router.push(pathname + `?page=1&skills=${newSkillsParams}`)
               }}
             >
               {name}
@@ -105,6 +106,7 @@ export const UserList = ({ users, skills, page }: IUserListProps) => {
                       width={64}
                       height={64}
                       alt='avatar'
+                      unoptimized
                     />
                   )}
 
