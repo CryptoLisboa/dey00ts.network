@@ -94,14 +94,14 @@ export default function Page() {
         </div>
 
         {selectedUser && (
-          <div className='flex flex-col gap-3 bg-white rounded-xl w-full md:w-1/2 p-3'>
-            <div className='flex gap-3 justify-between'>
+          <div className='flex flex-col gap-3 bg-white rounded-xl w-full md:w-1/2 p-3 items-center content-center'>
+            <div className='flex gap-3 justify-between place-self-center align-middle self-center content-center'>
               <Image
                 src={selectedUser.image || 'temp/avatar.png'}
                 alt={'Testing'}
                 width={50}
                 height={50}
-                className='rounded-full'
+                className='rounded-full self-center content-center'
               />
 
               <div className='flex text-primary flex-col'>
@@ -115,7 +115,36 @@ export default function Page() {
 
             <Divider />
 
-            <p className='font-bold text-black'>My Collections:</p>
+            <div className='grid grid-cols-2 gap-3 text-primary text-sm text-center font-bold'>
+              <div className='grid-cols-1'>
+                <h3 className='text-xs'>Total calls</h3>
+                <p className=''>50</p>
+              </div>
+              <div className='grid-cols-1'>
+                <h3 className='text-xs'>Success Rate</h3>
+                <p className=''>99%</p>
+              </div>
+              <div className='grid-cols-1'>
+                <h3 className='text-xs'>Profit Generated</h3>
+                <p className=''>50€</p>
+              </div>
+              <div className='grid-cols-1'>
+                <h3 className='text-xs'>Subscribers</h3>
+                <p className=''>8200</p>
+              </div>
+            </div>
+
+            <p className='text-left font-bold text-black'>Language:</p>
+
+            <div className='flex gap-3'>
+              {selectedUser?.languages?.map((language: any) => (
+                <Chip key={language.id} variant='shadow' color='success'>
+                  {language.name}
+                </Chip>
+              ))}
+            </div>
+
+            <p className='text-left font-bold text-black'>My Collections:</p>
             <div className='flex flex-row w-full overflow-x-scroll gap-6 '>
               {selectedUser?.collections?.map(
                 (collection: {
@@ -167,7 +196,7 @@ export default function Page() {
               <Button
                 className='bg-transparent border-2 border-black text-black text-xs'
                 as={Link}
-                href={`https://twitter.com/${user?.socials?.twitterHandle}`}
+                href={`https://twitter.com/${selectedUser?.socials?.twitterHandle}`}
                 target='_blank'
               >
                 <Image

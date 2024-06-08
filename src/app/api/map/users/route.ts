@@ -27,6 +27,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
           },
         },
         socials: true,
+        languages: true,
         collections: { include: { tokens: true } },
       },
     })
