@@ -35,40 +35,24 @@ export default function ExperienceForm({
   setExperiences: any
 }) {
   const [startDate, setStartDate] = useState(
-    parseDate(
-      experiences && experiences[index]
-        ? // @ts-expect-error
-          getDateFromISOString(experiences[index].startDate)
-        : '2024-01-01'
-    )
+    parseDate('2024-01-01')
+    // parseDate(
+    //   experiences && experiences[index]
+    //     ? // @ts-expect-error
+    //       getDateFromISOString(experiences[index].startDate)
+    //     : '2024-01-01'
+    // )
   )
   const [endDate, setEndDate] = useState(
-    parseDate(
-      experiences && experiences[index]
-        ? // @ts-expect-error
-          getDateFromISOString(experiences[index].endDate)
-        : '2024-05-31'
-    )
+    parseDate('2024-05-31')
+    // parseDate(
+    //   experiences && experiences[index]
+    //     ? // @ts-expect-error
+    //       getDateFromISOString(experiences[index].endDate)
+    //     : '2024-05-31'
+    // )
   )
 
-  useEffect(() => {
-    setStartDate(
-      parseDate(
-        experiences && experiences[index]
-          ? // @ts-expect-error
-            getDateFromISOString(experiences[index].startDate)
-          : '2024-01-01'
-      )
-    )
-    setEndDate(
-      parseDate(
-        experiences && experiences[index]
-          ? // @ts-expect-error
-            getDateFromISOString(experiences[index].endDate)
-          : '2024-05-31'
-      )
-    )
-  }, [experiences, index])
   return (
     <Formik
       initialValues={{
