@@ -19,12 +19,12 @@ export const SKILLS: Skill[] = [
   { name: 'Graphic Design', color: '#ffca3a', id: 10 },
   { name: 'Artist', color: '#8ac926', id: 11 },
   { name: 'UX/UI Designer', color: '#f4a261', id: 12 },
+  { name: 'Writer', color: '#800020', id: 13 },
 ]
 
 // define a type for the skill names
 export type SkillNames = (typeof SKILLS)[number]['name']
 export type SkillIds = (typeof SKILLS)[number]['id']
-
 
 export type Gender = {
   name: string
