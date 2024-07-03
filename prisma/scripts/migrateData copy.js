@@ -21,55 +21,61 @@ async function migrateData() {
   try {
     console.log('Starting data migration...')
 
-    // Fetch and create ID mappers for genders
-    console.log('Fetching genders from both databases...')
-    const sourceGenders = await sourcePrisma.gender.findMany()
-    const targetGenders = await targetPrisma.gender.findMany()
-    const genderIdMap = {}
-    sourceGenders.forEach((gender, index) => {
-      genderIdMap[gender.id] = targetGenders[index].id
-    })
-    console.log('Created gender ID map.', JSON.stringify(genderIdMap, null, 2))
+    // Fetch and insert genders
+    console.log('Fetching genders from source database...')
+    const genders = await sourcePrisma.gender.findMany()
+    console.log(`Fetched ${genders.length} genders. Inserting into target database...`)
+    for (const gender of genders) {
+      await targetPrisma.gender.create({
+        data: {
+          name: gender.name,
+        },
+      })
+    }
+    console.log('Inserted genders into target database.')
 
-    // Fetch and create ID mappers for locations
-    console.log('Fetching locations from both databases...')
-    const sourceLocations = await sourcePrisma.location.findMany()
-    const targetLocations = await targetPrisma.location.findMany()
-    const locationIdMap = {}
-    sourceLocations.forEach((location, index) => {
-      locationIdMap[location.id] = targetLocations[index].id
-    })
-    console.log('Created location ID map.', JSON.stringify(locationIdMap, null, 2))
+    // Fetch and insert locations
+    console.log('Fetching locations from source database...')
+    const locations = await sourcePrisma.location.findMany()
+    console.log(`Fetched ${locations.length} locations. Inserting into target database...`)
+    for (const location of locations) {
+      await targetPrisma.location.create({
+        data: {
+          name: location.name,
+          description: location.description,
+          latitude: location.latitude,
+          longitude: location.longitude,
+          value: location.value,
+        },
+      })
+    }
+    console.log('Inserted locations into target database.')
 
-    // Fetch and create ID mappers for skills
-    console.log('Fetching skills from both databases...')
-    const sourceSkills = await sourcePrisma.skill.findMany()
-    const targetSkills = await targetPrisma.skill.findMany()
-    const skillIdMap = {}
-    sourceSkills.forEach((skill, index) => {
-      skillIdMap[skill.id] = targetSkills[index].id
-    })
-    console.log('Created skill ID map.', JSON.stringify(skillIdMap, null, 2))
+    // Fetch and insert skills
+    console.log('Fetching skills from source database...')
+    const skills = await sourcePrisma.skill.findMany()
+    console.log(`Fetched ${skills.length} skills. Inserting into target database...`)
+    for (const skill of skills) {
+      await targetPrisma.skill.create({
+        data: {
+          name: skill.name,
+        },
+      })
+    }
+    console.log('Inserted skills into target database.')
 
-    // Fetch and create ID mappers for languages
-    console.log('Fetching languages from both databases...')
-    const sourceLanguages = await sourcePrisma.language.findMany()
-    const targetLanguages = await targetPrisma.language.findMany()
-    const languageIdMap = {}
-    sourceLanguages.forEach((language, index) => {
-      languageIdMap[language.id] = targetLanguages[index].id
-    })
-    console.log('Created language ID map.', JSON.stringify(languageIdMap, null, 2))
-
-    // Fetch and create ID mappers for experiences
-    console.log('Fetching experiences from both databases...')
-    const sourceExperiences = await sourcePrisma.experience.findMany()
-    const targetExperiences = await targetPrisma.experience.findMany()
-    const experienceIdMap = {}
-    sourceExperiences.forEach((experience, index) => {
-      experienceIdMap[experience.id] = targetExperiences[index].id
-    })
-    console.log('Created experience ID map.', JSON.stringify(experienceIdMap, null, 2))
+    // Fetch and insert languages
+    console.log('Fetching languages from source database...')
+    const languages = await sourcePrisma.language.findMany()
+    console.log(`Fetched ${languages.length} languages. Inserting into target database...`)
+    for (const language of languages) {
+      await targetPrisma.language.create({
+        data: {
+          name: language.name,
+        },
+      })
+    }
+    console.log('Inserted languages into target database.')
 
     // Fetch all users from the source database
     console.log('Fetching users from source database...')
@@ -97,21 +103,7 @@ async function migrateData() {
 
     // Insert users into the target database
     for (const user of users) {
-      console.log(`Migrating user with externalId: ${user.externalId}`)
-
-      // Check if user with the same externalId already exists
-      const existingUser = await targetPrisma.user.findUnique({
-        where: { externalId: user.externalId },
-      })
-
-      if (existingUser) {
-        console.log(`User with externalId ${user.externalId} already exists. Skipping...`)
-        continue
-      }
-      else {
-        console.log(`User with externalId ${user.externalId} does not exist. Inserting...`)
-      }
-
+      console.log(`Migrating user with email: ${user.email}`)
       await targetPrisma.user.create({
         data: {
           email: user.email,
@@ -124,10 +116,10 @@ async function migrateData() {
           website: user.website,
           image: user.image,
           active: user.active,
-          genderId: genderIdMap[user.genderId],
-          locationId: locationIdMap[user.locationId],
+          genderId: user.genderId,
+          locationId: user.locationId,
           accounts: {
-            create: user.accounts.map((account) => ({
+            create: user.accounts.map(account => ({
               type: account.type,
               provider: account.provider,
               providerAccountId: account.providerAccountId,
@@ -143,7 +135,7 @@ async function migrateData() {
             })),
           },
           Authenticator: {
-            create: user.Authenticator.map((auth) => ({
+            create: user.Authenticator.map(auth => ({
               credentialID: auth.credentialID,
               providerAccountId: auth.providerAccountId,
               credentialPublicKey: auth.credentialPublicKey,
@@ -154,25 +146,25 @@ async function migrateData() {
             })),
           },
           collections: {
-            create: user.collections.map((collection) => ({
+            create: user.collections.map(collection => ({
               network: collection.network,
               contract: collection.contract,
             })),
           },
           followers: {
-            create: user.followers.map((follower) => ({
+            create: user.followers.map(follower => ({
               followerId: follower.followerId,
               followingId: follower.followingId,
             })),
           },
           followings: {
-            create: user.followings.map((following) => ({
+            create: user.followings.map(following => ({
               followerId: following.followerId,
               followingId: following.followingId,
             })),
           },
           contents: {
-            create: user.contents.map((content) => ({
+            create: user.contents.map(content => ({
               title: content.title,
               body: content.body,
             })),
@@ -191,7 +183,7 @@ async function migrateData() {
             },
           },
           sessions: {
-            create: user.sessions.map((session) => ({
+            create: user.sessions.map(session => ({
               sessionToken: session.sessionToken,
               expires: session.expires,
               createdAt: session.createdAt,
@@ -210,28 +202,24 @@ async function migrateData() {
             },
           },
           userExperiences: {
-            create: user.userExperiences.map((ue) => ({
-              experienceId: experienceIdMap[ue.experienceId],
+            create: user.userExperiences.map(ue => ({
+              experienceId: ue.experienceId,
             })),
           },
           wallets: {
-            create: user.wallets.map((wallet) => ({
+            create: user.wallets.map(wallet => ({
               address: wallet.address,
               network: wallet.network,
             })),
           },
           languages: {
-            create: user.languages.map((language) => ({
-              name: sourceLanguages.find(
-                (sourceLanguage) => sourceLanguage.id === language.id
-              ).name,
+            create: user.languages.map(language => ({
+              name: language.name,
             })),
           },
           skills: {
-            create: user.skills.map((skill) => ({
-              name: sourceSkills.find(
-                (sourceSkill) => sourceSkill.id === skill.id
-              ).name,
+            create: user.skills.map(skill => ({
+              name: skill.name,
             })),
           },
         },
