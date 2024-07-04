@@ -4,6 +4,7 @@ import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import { GENDERS } from '@/constants/app.constants'
+import { ROUTING } from '@/constants/routing.contants'
 import AuthContext from '@/providers/AuthContext'
 import { RadioGroup, Radio, Progress } from '@nextui-org/react'
 import { useSession } from 'next-auth/react'
@@ -54,7 +55,7 @@ export default function GenderSignUp() {
         })
         if (response.ok) {
           mutate('/api/user')
-          router.push('/signup/location_lang')
+          router.push(ROUTING.SIGNUP.LOCATION_LANG)
         } else {
           toast.error('Failed to update gender')
         }

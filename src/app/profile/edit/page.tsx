@@ -5,6 +5,7 @@ import { auth } from '@/auth'
 import { Button } from '@nextui-org/button'
 import Link from 'next/link'
 import LoginButton from '@/components/buttons/LoginButton'
+import { ROUTING } from '@/constants/routing.contants'
 
 export default async function EditProfilePage() {
   const session = await auth()
@@ -17,12 +18,12 @@ export default async function EditProfilePage() {
         </h1>
 
         <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
-          <Button as={Link} href='/app' color='primary'>
-            App
-          </Button>
-          <Button as={Link} href='/signup/connect_de_id' color='secondary'>
-            Sign Up
-          </Button>
+          <Link href={ROUTING.APP} prefetch={true}>
+            <Button color='primary'>App</Button>
+          </Link>
+          <Link href='/signup/connect_de_id' prefetch={true}>
+            <Button color='secondary'>Sign Up</Button>
+          </Link>
           <LoginButton />
         </div>
       </main>

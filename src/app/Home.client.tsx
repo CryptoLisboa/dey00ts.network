@@ -30,13 +30,12 @@ export const Home = () => {
       </h2>
 
       <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
-        {/* {!isAuthenticated && <Link href='/signup/connect_de_id'>Sign Up</Link>} */}
-        <Button as={Link} href={ROUTING.APP} color='primary'>
-          App
-        </Button>
-        <Button as={Link} href={ROUTING.SKIN_BUILDER} color='warning'>
-          Skin Builder
-        </Button>
+        <Link href={ROUTING.APP} prefetch={true}>
+          <Button color='primary'>App</Button>
+        </Link>
+        <Link href={ROUTING.SKIN_BUILDER} prefetch={true}>
+          <Button color='warning'>Skin Builder</Button>
+        </Link>
         {/* {!isAuthenticated && <LoginButton />} */}
       </div>
     </main>

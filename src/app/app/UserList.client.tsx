@@ -97,6 +97,7 @@ export const UserList = ({ users, skills, page }: IUserListProps) => {
                 <Link
                   href={`/${user?.socials?.twitterHandle}`}
                   className='flex items-center gap-1'
+                  prefetch={true}
                 >
                   {user?.image && (
                     <Image

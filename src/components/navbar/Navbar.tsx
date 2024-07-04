@@ -6,6 +6,7 @@ import { auth } from '@/auth'
 import { prisma } from '@/utils/db.utils'
 import LoginButton from '../buttons/LoginButton'
 import CenterNavbar from './Center.Navbar'
+import { ROUTING } from '@/constants/routing.contants'
 
 export const Navbar = async () => {
   const session = await auth()
@@ -18,7 +19,7 @@ export const Navbar = async () => {
   }
   return (
     <nav className='flex items-center justify-between p-3 md:p-6'>
-      <Link href={'/'}>
+      <Link href={ROUTING.HOME} prefetch={true}>
         <Image
           as={NextImage}
           src='/images/degods-logo.png'

@@ -3,6 +3,7 @@
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
+import { ROUTING } from '@/constants/routing.contants'
 import AuthContext from '@/providers/AuthContext'
 import { Progress, Textarea } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
@@ -42,7 +43,7 @@ export default function Bio() {
         })
         if (response.ok) {
           mutate('/api/user')
-          router.push('/signup/experiences')
+          router.push(ROUTING.SIGNUP.EXPERIENCES)
         } else {
           toast.error('Failed to update bio')
         }

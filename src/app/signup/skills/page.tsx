@@ -4,6 +4,7 @@ import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import { SKILLS } from '@/constants/app.constants'
+import { ROUTING } from '@/constants/routing.contants'
 import AuthContext from '@/providers/AuthContext'
 import { Button, Progress } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
@@ -45,7 +46,7 @@ export default function Skills() {
         })
         if (response.ok) {
           mutate('/api/user')
-          router.push('/signup/bio')
+          router.push(ROUTING.SIGNUP.BIO)
         } else {
           toast.error('Failed to update skills')
         }
