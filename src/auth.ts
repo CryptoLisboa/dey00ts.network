@@ -86,6 +86,81 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           imageUrl: undefined,
         }
 
+        prisma.user
+          .findUnique({
+            where: {
+              externalId: userObj.externalId,
+            },
+          })
+          .then((user) => {
+            if (user) {
+              prisma.user
+                .update({
+                  where: {
+                    id: user.id,
+                  },
+                  data: {
+                    image: userObj.image,
+                    socials: userObj.socials
+                      ? {
+                          upsert: {
+                            create: userObj.socials.create,
+                            update: userObj.socials.create,
+                          },
+                        }
+                      : undefined,
+                    // collections: userObj.collections
+                    //   ? {
+                    //       upsert: userObj.collections.create.map((collection) => {
+                    //         return prisma.collection.findUnique({
+                    //           where: {
+                    //             contract_network_userId: {
+                    //               contract: collection.contract,
+                    //               network: collection.network,
+                    //               userId: user.id,
+                    //             },
+                    //           },
+                    //         }).then((existingCollection) => ({
+                    //           where: {
+                    //             id: existingCollection ? existingCollection.id : -1, // Use a dummy id if not found
+                    //           },
+                    //           create: collection,
+                    //           update: collection,
+                    //         }));
+                    //       }),
+                    //     }
+                    //   : undefined,
+                    wallets: userObj.wallets
+                      ? {
+                          upsert: userObj.wallets.create.map((wallet) => ({
+                            where: { address: wallet.address },
+                            create: wallet,
+                            update: wallet,
+                          })),
+                        }
+                      : undefined,
+                    dust: userObj.dust
+                      ? {
+                          upsert: {
+                            create: userObj.dust.create,
+                            update: userObj.dust.create,
+                          },
+                        }
+                      : undefined,
+                  },
+                })
+                .then((user) => {
+                  console.log('User updated', JSON.stringify(user, null, 2))
+                })
+                .catch((error) => {
+                  console.error('Error updating user', error)
+                })
+            }
+          })
+          .catch((error) => {
+            console.error('Error finding user', error)
+          })
+
         // console.log(
         //   'response de id auth obj processed',
         //   JSON.stringify(userObj, null, 2)
@@ -110,6 +185,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       // , token, user
     }) {
       return session
+    },
+    async signIn({ user }) {
+      console.log('signIn callback', user)
+      return true
     },
   },
 })
