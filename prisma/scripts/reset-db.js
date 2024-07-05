@@ -1,9 +1,14 @@
 const { PrismaClient } = require('@prisma/client')
+const dotenv = require('dotenv')
+
+dotenv.config({
+  path: path.resolve(__dirname, '../../.env')
+})
 
 const prisma = new PrismaClient({
   datasources: {
     db: {
-      url: 'postgresql://postgres:IBFuTbpDRtvONIXZcHkgZSCZSiNEExBG@viaduct.proxy.rlwy.net:43658/railway',
+      url: process.env.DATABASE_URL,
     },
   },
 })
