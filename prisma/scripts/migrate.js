@@ -1,19 +1,22 @@
 const { exec } = require('child_process')
 const path = require('path')
+require('dotenv').config({
+  path: path.resolve(__dirname, '../../.env.migration'),
+})
 
 // Source database credentials
-const SOURCE_DB_NAME = 'railway'
-const SOURCE_DB_USER = 'postgres'
-const SOURCE_DB_HOST = 'roundhouse.proxy.rlwy.net'
-const SOURCE_DB_PORT = '12164'
-const SOURCE_DB_PASSWORD = 'vZoXdpCULyWhgRnckCTXhUcAuBJBZkuO'
+const SOURCE_DB_NAME = process.env.SOURCE_DB_NAME
+const SOURCE_DB_USER = process.env.SOURCE_DB_USER
+const SOURCE_DB_HOST = process.env.SOURCE_DB_HOST
+const SOURCE_DB_PORT = process.env.SOURCE_DB_PORT
+const SOURCE_DB_PASSWORD = process.env.SOURCE_DB_PASSWORD
 
 // Target database credentials
-const TARGET_DB_NAME = 'railway'
-const TARGET_DB_USER = 'postgres'
-const TARGET_DB_HOST = 'viaduct.proxy.rlwy.net'
-const TARGET_DB_PORT = '43658'
-const TARGET_DB_PASSWORD = process.env.PGPASSWORD || 'IBFuTbpDRtvONIXZcHkgZSCZSiNEExBG'
+const TARGET_DB_NAME = process.env.TARGET_DB_NAME
+const TARGET_DB_USER = process.env.TARGET_DB_USER
+const TARGET_DB_HOST = process.env.TARGET_DB_HOST
+const TARGET_DB_PORT = process.env.TARGET_DB_PORT
+const TARGET_DB_PASSWORD = process.env.TARGET_DB_PASSWORD
 
 // Dump file path
 const DUMP_FILE = path.resolve(__dirname, 'source_db.dump')
