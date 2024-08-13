@@ -171,7 +171,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   ],
   callbacks: {
-    async redirect({ url }) {
+    async redirect({ url, baseUrl }) {
+      console.log('redirect callback', url, baseUrl)
       return url
     },
     authorized({ request, auth }: { request: any; auth: any }) {
@@ -180,15 +181,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (pathname === '/middleware-example') return !!auth
       return true
     },
-    async session({
-      session,
-      // , token, user
-    }) {
+    async session({ session }) {
       return session
     },
-    async signIn({ user }) {
-      console.log('signIn callback', user)
+    async signIn({ user, account }) {
+      console.log('signIn callback', user, account)
+      setTimeout(async () => {
+        if (!account?.providerAccountId) return
+        const accountResponseUpdate = await prisma.account.update({
+          where: {
+            provider_providerAccountId: {
+              provider: 'deid',
+              providerAccountId: account.providerAccountId,
+            },
+          },
+          data: {
+            access_token: accountResponse.access_token,
+            refresh_token: accountResponse.refresh_token,
+            expires_at: accountResponse.expires_at,
+          },
+        })
+      }, 1000)
       return true
     },
   },
 })
+
