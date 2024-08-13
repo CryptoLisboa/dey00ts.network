@@ -19,7 +19,7 @@ export const UserList = ({
   className: string
 }) => {
   return (
-    <div className='grid grid-cols-1 lg:grid-cols-4 gap-3 w-full mb-4'>
+    <div className={className}>
       {users?.map((user: any) => {
         if (user?.socials?.twitterHandle && user?.name) {
           return (
@@ -49,22 +49,20 @@ export const UserList = ({
 
                 <div className='flex lg:flex-row lg:justify-between lg:w-full items-center col-span-9 h-full gap-x-2'>
                   <div className='flex flex-col justify-between py-2 lg:py-0'>
-                    <strong
-                      className='text-wrap overflow-clip text-ellipsis lg:text-sm text-xs'
-                      style={getSkillStyles(user?.skills[0]?.name)}
-                    >
-                      {user?.skills[0]?.name}
+                    <strong className='text-wrap overflow-clip text-ellipsis lg:text-sm text-xs'>
+                      {user?.name}
                     </strong>
                     <p className='text-wrap overflow-clip text-ellipsis lg:text-sm text-xs'>
                       @{user?.socials?.twitterHandle}
                     </p>
                   </div>
 
-                  {!!user?.location?.name && (
-                    <div className='text-wrap overflow-clip text-ellipsis lg:text-sm text-xs text-right'>
-                      {user?.location?.name}
-                    </div>
-                  )}
+                  <div
+                    className='text-wrap overflow-clip text-ellipsis lg:text-sm text-xs text-right h-full'
+                    style={getSkillStyles(user?.skills[0]?.name)}
+                  >
+                    {user?.skills[0]?.name}
+                  </div>
                 </div>
               </Link>
             </div>
