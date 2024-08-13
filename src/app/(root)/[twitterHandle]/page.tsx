@@ -16,7 +16,7 @@ import {
 import { ROUTING } from '@/constants/routing.contants'
 import { getSkillButtonStyles } from '@/utils/button'
 
-export default async function HomePage(ctx: any) {
+export default async function ProfilePage(ctx: any) {
   const twitterHandle = ctx.params.twitterHandle
 
   const user = await prisma.user.findFirst({
@@ -166,7 +166,7 @@ export default async function HomePage(ctx: any) {
             </div>
           </div>
           <div className='lg:col-span-5 flex flex-col gap-8'>
-            <div className='flex flex-col gap-8 border-1 border-white rounded-3xl lg:p-14 p-4'>
+            <div className='flex flex-col gap-8 border-1 border-white rounded-3xl lg:p-8 p-4'>
               <h3 className='text-2xl font-bold'>Things this DeGod did</h3>
               {user.userExperiences.map((experience) => (
                 <div
