@@ -16,6 +16,7 @@
     --color-graphic-design: #ffca3a;
     --color-artist: #8ac926;
     --color-ux-ui-designer: #f4a261;
+    --color-writer: #800020;
   }
 
   .dark {
@@ -31,6 +32,7 @@
     --color-graphic-design: #ffca3a;
     --color-artist: #8ac926;
     --color-ux-ui-designer: #f4a261;
+    --color-writer: #800020;
   }
 }
 

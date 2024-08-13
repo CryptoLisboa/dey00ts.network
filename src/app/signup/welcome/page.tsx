@@ -1,6 +1,7 @@
 import { auth } from '@/auth'
 import BgImage from '@/components/BackgroundImage'
 import SignUpCard from '@/components/cards/SignUp'
+import { ROUTING } from '@/constants/routing.contants'
 import { Image } from '@nextui-org/react'
 import NextImage from 'next/image'
 
@@ -15,7 +16,7 @@ export default async function WelcomeSignUp() {
         className='absolute'
       />
       <div className='container mx-auto h-full sm:px-24 md:px-32 lg:px-96'>
-        <SignUpCard nextHref='/signup/gender'>
+        <SignUpCard nextHref={ROUTING.SIGNUP.GENDER}>
           <div className='text-center grid justify-items-center gap-y-5'>
             <div className='relative w-40 h-32 grid'>
               <Image

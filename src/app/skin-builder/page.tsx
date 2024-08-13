@@ -11,6 +11,7 @@ import { Suspense } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import { ROUTING } from '@/constants/routing.contants'
 
 const DynamicDegodsBuilder = dynamic(() =>
   import('./Degods/DegodsBuilder').then((mod) => mod.DegodsBuilder)
@@ -70,7 +71,11 @@ function SkinBuilderComponent() {
         </div>
 
         <div className='flex flex-col flex-1 justify-center'>
-          <Link className='underline' href='/skin-builder'>
+          <Link
+            className='underline'
+            href={ROUTING.SKIN_BUILDER}
+            prefetch={true}
+          >
             <motion.h1
               whileHover={{ scale: 1.1 }}
               className='font-rowdies text-2xl md:text-4xl text-center cursor-progress'

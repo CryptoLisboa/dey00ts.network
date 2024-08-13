@@ -28,6 +28,7 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+.env.migration
 
 # vercel
 .vercel
@@ -42,3 +43,7 @@ next-env.d.ts
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+#DB migration
+prisma/scripts/source_db.dump
+prisma/scripts/source_db.teigas_old_db.dump

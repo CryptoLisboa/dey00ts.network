@@ -10,6 +10,7 @@ import AuthContext from '@/providers/AuthContext'
 import { languages, locations } from '@/constants/signup.constants'
 import { useRouter } from 'next/navigation'
 import { mutate } from 'swr'
+import { ROUTING } from '@/constants/routing.contants'
 
 export default function LocationSignUp() {
   const router = useRouter()
@@ -64,7 +65,7 @@ export default function LocationSignUp() {
         })
         if (response.ok) {
           mutate('/api/user')
-          router.push('/signup/skills')
+          router.push(ROUTING.SIGNUP.SKILLS)
         } else {
           toast.error('Failed to update location')
         }

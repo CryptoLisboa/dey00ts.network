@@ -14,12 +14,12 @@ export default function CenterNavbar({
   const className = isHome ? 'hidden' : classNameArg
   return (
     <div className={className}>
-      <Button as={Link} href={ROUTING.APP} color='primary'>
-        App
-      </Button>
-      <Button as={Link} href={ROUTING.SKIN_BUILDER} color='warning'>
-        Skin Builder
-      </Button>
+      <Link href={ROUTING.APP} prefetch={true}>
+        <Button color='primary'>App</Button>
+      </Link>
+      <Link href={ROUTING.SKIN_BUILDER} prefetch={true}>
+        <Button color='warning'>Skin Builder</Button>
+      </Link>
     </div>
   )
 }

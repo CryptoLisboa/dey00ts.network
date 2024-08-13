@@ -53,6 +53,9 @@ const config: Config = {
         ['ui-ux-designer']: {
           DEFAULT: 'var(--color-ui-ux-designer)',
         },
+        ['writer']: {
+          DEFAULT: 'var(--color-writer)',
+        },
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
