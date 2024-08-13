@@ -1,5 +1,5 @@
 import { auth } from '@/auth'
-import { UserList } from './UserList.client'
+import { UserSearchAndList } from './UserSearchAndList.client'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/utils/db.utils'
 import { SEARCH_PAGE_SIZE } from '@/constants/app.constants'
@@ -67,11 +67,17 @@ export default async function AppHomePage(ctx: AppHomePageProps) {
           name: true,
         },
       },
+      skills: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   })
   return (
     <div className='dark' id='root'>
-      <UserList users={users} skills={skills} page={page} />
+      <UserSearchAndList users={users} skills={skills} page={page} />
     </div>
   )
 }
