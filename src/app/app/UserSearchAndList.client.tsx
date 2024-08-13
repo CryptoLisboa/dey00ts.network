@@ -53,11 +53,11 @@ export const UserSearchAndList = ({
         </div>
       </div>
       <div className='flex items-center mb-4 overflow-x-auto'>
-        <div className='flex flex-wrap justify-center gap-4 w-full'>
+        <div className='flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-4 w-full overflow-x-auto md:overflow-x-visible pb-2 md:pb-0'>
           {SKILLS?.map(({ name, color, id }) => (
             <Button
               key={id}
-              className='p-2 text-lg opacity-60'
+              className='p-2 lg:text-lg text-sm opacity-60 whitespace-nowrap md:whitespace-normal min-w-fit'
               variant='bordered'
               style={{
                 color,
