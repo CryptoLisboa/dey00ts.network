@@ -57,7 +57,7 @@ export const UserSearchAndList = ({
           {SKILLS?.map(({ name, color, id }) => (
             <Button
               key={id}
-              className='p-2 lg:text-lg text-sm opacity-60 whitespace-nowrap md:whitespace-normal min-w-fit'
+              className='p-2 lg:text-lg text-xs opacity-60 whitespace-nowrap md:whitespace-normal min-w-fit'
               variant='bordered'
               style={{
                 color,

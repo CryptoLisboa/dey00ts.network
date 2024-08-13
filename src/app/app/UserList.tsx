@@ -56,7 +56,7 @@ export const UserList = ({
                 </div>
 
                 {!!user?.location?.name && (
-                  <div className='text-wrap overflow-clip text-ellipsis h-full col-span-3 lg:text-base text-sm flex flex-col justify-end py-2'>
+                  <div className='text-wrap overflow-clip text-ellipsis h-full col-span-3 lg:text-base text-xs flex flex-col justify-end py-2'>
                     {user?.location?.name}
                   </div>
                 )}
