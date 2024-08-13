@@ -1,15 +1,8 @@
 // import { Image } from '@nextui-org/react'
 // import NextImage from 'next/image'
+import { getSkillButtonStyles } from '@/utils/button'
 import Image from 'next/image'
 import Link from 'next/link'
-
-const getSkillStyles = (skillName: string) => {
-  const formattedSkillName = skillName.toLowerCase().replace(/ /g, '-')
-  return {
-    color: `var(--color-${formattedSkillName})`,
-    borderColor: `var(--color-${formattedSkillName})`,
-  }
-}
 
 export const UserList = ({
   users,
@@ -59,7 +52,7 @@ export const UserList = ({
 
                   <div
                     className='text-wrap overflow-clip text-ellipsis lg:text-sm text-xs text-right h-full'
-                    style={getSkillStyles(user?.skills[0]?.name)}
+                    style={getSkillButtonStyles(user?.skills[0]?.name)}
                   >
                     {user?.skills[0]?.name}
                   </div>
