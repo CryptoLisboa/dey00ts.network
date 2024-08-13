@@ -80,7 +80,7 @@ export const UserSearchAndList = ({
           ))}
         </div>
       </div>
-      <UserList className='flex flex-col gap-3 w-full mb-4 ' users={users} />
+      <UserList className='flex flex-col gap-3 w-full mb-4' users={users} />
 
       {/* pagination buttons */}
       <div className='flex justify-center gap-x-4'>
