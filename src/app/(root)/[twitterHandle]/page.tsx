@@ -58,10 +58,10 @@ export default async function HomePage(ctx: any) {
   return (
     <div className='dark' id='root'>
       <main className='container pt-0 mx-auto p-4'>
-        <div className='grid grid-cols-1 lg:grid-cols-7 lg:gap-x-24 gap-4'>
-          <div className='col-span-2 flex flex-col gap-4'>
+        <div className='grid grid-cols-1 lg:grid-cols-7 lg:gap-x-24 gap-16'>
+          <div className='lg:col-span-2 flex flex-col gap-4'>
             <div className='flex flex-col items-center mb-8'>
-              <div className='w-72 h-72 lg:w-full lg:h-full'>
+              <div className='w-full h-full lg:w-full lg:h-full'>
                 <NextImage
                   // as={NextImage}
                   className='rounded-lg w-full h-full object-cover aspect-square'
@@ -165,8 +165,8 @@ export default async function HomePage(ctx: any) {
               </Button>
             </div>
           </div>
-          <div className='col-span-5 flex flex-col gap-8'>
-            <div className='col-span-5 flex flex-col gap-8 border-1 border-white rounded-3xl p-14'>
+          <div className='lg:col-span-5 flex flex-col gap-8'>
+            <div className='flex flex-col gap-8 border-1 border-white rounded-3xl lg:p-14 p-4'>
               <h3 className='text-2xl font-bold'>Things this DeGod did</h3>
               {user.userExperiences.map((experience) => (
                 <div
@@ -253,29 +253,33 @@ export default async function HomePage(ctx: any) {
                       <div className='flex flex-wrap gap-6'>
                         {collection.tokens.map(
                           (token: { id: number; tokenId: number }) => (
-                            <div key={token.id} className='flex flex-col gap-1'>
+                            <div
+                              key={token.id}
+                              className='flex flex-col w-1/3 lg:w-fit gap-1'
+                            >
                               <p>{token.tokenId}</p>
-                              <Image
-                                as={NextImage}
-                                src={
-                                  isY00tCollectionAddress(collection.contract)
-                                    ? generateY00tsImageUrl(
-                                        token.tokenId,
-                                        224,
-                                        100
-                                      )
-                                    : generateDeGodsImageUrl(
-                                        token.tokenId,
-                                        224,
-                                        100
-                                      )
-                                }
-                                unoptimized
-                                alt='Avatar'
-                                className='rounded-3xl w-56 h-56'
-                                width={224}
-                                height={224}
-                              />
+                              <div className='w-full h-full lg:w-56 lg:h-56'>
+                                <NextImage
+                                  className='rounded-3xl w-full h-full object-cover aspect-square'
+                                  src={
+                                    isY00tCollectionAddress(collection.contract)
+                                      ? generateY00tsImageUrl(
+                                          token.tokenId,
+                                          224,
+                                          100
+                                        )
+                                      : generateDeGodsImageUrl(
+                                          token.tokenId,
+                                          224,
+                                          100
+                                        )
+                                  }
+                                  width={128}
+                                  height={128}
+                                  alt={`${user?.name}`}
+                                  unoptimized
+                                />
+                              </div>
                             </div>
                           )
                         )}
