@@ -798,7 +798,7 @@
     "@react-types/breadcrumbs" "3.7.5"
     "@react-types/shared" "3.23.1"
 
-"@nextui-org/button@2.0.34", "@nextui-org/button@^2.0.31":
+"@nextui-org/button@2.0.34":
   version "2.0.34"
   resolved "https://registry.yarnpkg.com/@nextui-org/button/-/button-2.0.34.tgz#0621aec4dec1c4ec3e8d091f71ba7b86b02f4c19"
   integrity sha512-VeFpOs7trX6u6FqeGr0XCpuNqPhXTLqsmt4iaygvheZCbzrTKvWHd4QMqSh2CPsNH8UFUBSFJjr3oaf3a0SYWQ==
@@ -1008,7 +1008,7 @@
     "@nextui-org/system-rsc" "2.1.2"
     "@react-aria/utils" "3.24.1"
 
-"@nextui-org/link@2.0.32", "@nextui-org/link@^2.0.29":
+"@nextui-org/link@2.0.32":
   version "2.0.32"
   resolved "https://registry.yarnpkg.com/@nextui-org/link/-/link-2.0.32.tgz#30f640870508b36a1c7bc6f3181f42a7fb0c0949"
   integrity sha512-NIG8Ay/WfFxwMYKB11xg0iVAzJR1jy0QrtKFGaZscyJ522beM+aMBZuourC9u7kwjucTvt5fuGRm86KBVDBXCQ==

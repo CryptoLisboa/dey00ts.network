@@ -1,6 +1,7 @@
 // import { Image } from '@nextui-org/react'
 // import NextImage from 'next/image'
 import { getSkillButtonStyles } from '@/utils/button'
+import { Button } from '@nextui-org/react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -19,12 +20,12 @@ export const UserList = ({
             <div key={user?.id} className='flex flex-col lg:gap-2'>
               <Link
                 href={`/${user?.socials?.twitterHandle}`}
-                className='grid grid-cols-12 items-center gap-0.5 lg:grid-cols-1 lg:gap-2 w-full lg:w-72 h-full'
+                className='grid grid-cols-12 items-center gap-0.5 lg:grid-cols-1 lg:gap-2 w-full lg:w-56 h-full'
                 prefetch={true}
               >
                 {user?.image && (
-                  <div className='w-16 h-16 col-span-3 lg:w-72 lg:h-auto lg:flex lg:justify-center'>
-                    <div className='lg:w-72 lg:h-72'>
+                  <div className='w-16 h-16 col-span-3 lg:w-56 lg:h-auto lg:flex lg:justify-center'>
+                    <div className='lg:w-56 lg:h-72'>
                       <Image
                         className='rounded-lg w-full h-full object-cover'
                         src={
@@ -41,20 +42,23 @@ export const UserList = ({
                 )}
 
                 <div className='flex lg:flex-row lg:justify-between lg:w-full items-center col-span-9 h-full gap-x-2'>
-                  <div className='flex flex-col justify-between py-2 lg:py-0'>
-                    <strong className='text-wrap overflow-clip text-ellipsis lg:text-sm text-xs'>
+                  <div className='flex flex-col justify-between py-2 lg:py-0 flex-grow min-w-0'>
+                    <strong className='truncate overflow-hidden text-ellipsis lg:text-sm text-xs'>
                       {user?.name}
                     </strong>
-                    <p className='text-wrap overflow-clip text-ellipsis lg:text-sm text-xs'>
+                    <p className='truncate overflow-hidden text-ellipsis lg:text-sm text-xs'>
                       @{user?.socials?.twitterHandle}
                     </p>
                   </div>
 
-                  <div
-                    className='text-wrap overflow-clip text-ellipsis lg:text-sm text-xs text-right h-full'
-                    style={getSkillButtonStyles(user?.skills[0]?.name)}
-                  >
-                    {user?.skills[0]?.name}
+                  <div className='h-full flex flex-col justify-center lg:justify-start flex-shrink-0'>
+                    <Button
+                      className='bg-transparent border-1 border-full-stack lg:text-sm text-xs text-right whitespace-nowrap p-1 lg:p-2.5'
+                      style={getSkillButtonStyles(user?.skills[0]?.name)}
+                      size='sm'
+                    >
+                      {user?.skills[0]?.name}
+                    </Button>
                   </div>
                 </div>
               </Link>
