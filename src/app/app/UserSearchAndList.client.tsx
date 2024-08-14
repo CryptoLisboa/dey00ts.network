@@ -1,7 +1,7 @@
 'use client'
 
 import { SEARCH_PAGE_SIZE, SkillIds, SKILLS } from '@/constants/app.constants'
-import { Button, Image, Input } from '@nextui-org/react'
+import { Button } from '@nextui-org/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { UserList } from './UserList'
 

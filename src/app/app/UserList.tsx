@@ -51,9 +51,9 @@ export const UserList = ({
                     </p>
                   </div>
 
-                  <div className='h-full flex-shrink-0'>
+                  <div className='h-full flex flex-col justify-center lg:justify-start flex-shrink-0'>
                     <Button
-                      className='bg-transparent border-1 border-full-stack lg:text-sm text-xs text-right whitespace-nowrap'
+                      className='bg-transparent border-1 border-full-stack lg:text-sm text-xs text-right whitespace-nowrap p-1 lg:p-2.5'
                       style={getSkillButtonStyles(user?.skills[0]?.name)}
                       size='sm'
                     >
