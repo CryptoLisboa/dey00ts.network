@@ -1,18 +1,9 @@
 'use client'
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
+import { handleLogin } from '@/services/deid'
 import { Button } from '@nextui-org/react'
-import { signIn } from 'next-auth/react'
 import Image from 'next/image'
-
-const handleLogin = async () => {
-  await signIn(
-    'deid',
-    {
-      scope: 'wallets:read collections:read dust:read socials:read',
-    }
-  )
-}
 
 export default function ConnectDeIDSignUp() {
   return (

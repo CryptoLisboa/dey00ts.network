@@ -1,20 +1,83 @@
-import NextAuth from 'next-auth'
+import NextAuth, { Account, Session, User } from 'next-auth'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { prisma } from '@/utils/db.utils'
-import { IAuthUser } from './types/auth.types'
+import { profile } from '@/auth.profile'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { AdapterSession, AdapterUser } from 'next-auth/adapters'
 
-function removeNullProperties<T>(obj: T): T {
-  if (Array.isArray(obj)) {
-    return obj.map((item) => removeNullProperties(item)) as unknown as T
-  } else if (obj !== null && typeof obj === 'object') {
-    return Object.entries(obj).reduce((acc, [key, value]) => {
-      if (value !== null) {
-        ;(acc as any)[key] = removeNullProperties(value)
-      }
-      return acc
-    }, {} as T)
+const nextAuthOptions = (req: NextApiRequest, res: NextApiResponse) => {
+  return {
+    adapter: PrismaAdapter(prisma),
+    redirectProxyUrl: process.env.REDIRECT_PROXY_URL,
+    providers: [
+      {
+        id: 'deid',
+        name: 'de[id]',
+        type: 'oauth',
+        authorization: {
+          url: 'https://de.xyz/oauth/authorize',
+          params: {
+            scope:
+              'wallets:read collections:read dust:read socials:read email:read telegram:read',
+          },
+        },
+        checks: ['pkce', 'state'],
+        token: 'https://api.oauth.dustlabs.com/oauth/token',
+        userinfo: 'https://api.oauth.dustlabs.com/profile',
+        client: {
+          token_endpoint_auth_method: 'client_secret_post',
+        },
+        clientId: process.env.DEID_CLIENT_ID as string,
+        clientSecret: process.env.DEID_CLIENT_SECRET as string,
+        profile: profile,
+      },
+    ],
+    callbacks: {
+      async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+        console.log('redirect callback', url, baseUrl)
+        return url
+      },
+      authorized({ request, auth }: { request: any; auth: any }) {
+        // console.log('authorized callback', request, auth)
+        const { pathname } = request.nextUrl
+        if (pathname === '/middleware-example') return !!auth
+        return true
+      },
+      async session({
+        session,
+      }: {
+        session: { user: AdapterUser } & AdapterSession & Session
+      }) {
+        return session
+      },
+      async signIn({
+        user,
+        account,
+      }: {
+        user: AdapterUser | User
+        account: Account | null
+      }) {
+        console.log('signIn callback', user, account)
+        setTimeout(async () => {
+          if (!account?.providerAccountId) return
+          const accountResponseUpdate = await prisma.account.update({
+            where: {
+              provider_providerAccountId: {
+                provider: 'deid',
+                providerAccountId: account.providerAccountId,
+              },
+            },
+            data: {
+              access_token: accountResponse.access_token,
+              refresh_token: accountResponse.refresh_token,
+              expires_at: accountResponse.expires_at,
+            },
+          })
+        }, 1000)
+        return true
+      },
+    },
   }
-  return obj
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -40,138 +103,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       clientId: process.env.DEID_CLIENT_ID as string,
       clientSecret: process.env.DEID_CLIENT_SECRET as string,
-      profile(response: { success: boolean; profile: IAuthUser }) {
-        const emailFromResponse = response.profile.email
-        let email = emailFromResponse
-        if (!email) {
-          const placeholderEmail = `${response.profile.id}@${
-            response.profile.socials.twitterUsername ||
-            response.profile.socials.twitterHandle ||
-            response.profile.socials.twitterId ||
-            response.profile.socials.discordUsername ||
-            response.profile.socials.telegramUsername
-          }.fake`
-          email = placeholderEmail
-        }
-        const userObj = {
-          ...response.profile,
-          email: null, // next auth has a bug where it's throwing an error if email is not null
-          externalId: response.profile.id,
-          socials: {
-            create: {
-              ...response.profile.socials,
-            },
-          },
-          collections: {
-            create: [
-              ...response.profile.collections.map((collection) => {
-                return {
-                  ...collection,
-                  tokens: {
-                    create: [...collection.tokens],
-                  },
-                }
-              }),
-            ],
-          },
-          wallets: {
-            create: [...response.profile.wallets],
-          },
-          dust: {
-            create: {
-              ...response.profile.dust,
-            },
-          },
-          image: response.profile.imageUrl,
-          imageUrl: undefined,
-        }
-
-        prisma.user
-          .findUnique({
-            where: {
-              externalId: userObj.externalId,
-            },
-          })
-          .then((user) => {
-            if (user) {
-              prisma.user
-                .update({
-                  where: {
-                    id: user.id,
-                  },
-                  data: {
-                    image: userObj.image,
-                    socials: userObj.socials
-                      ? {
-                          upsert: {
-                            create: userObj.socials.create,
-                            update: userObj.socials.create,
-                          },
-                        }
-                      : undefined,
-                    // collections: userObj.collections
-                    //   ? {
-                    //       upsert: userObj.collections.create.map((collection) => {
-                    //         return prisma.collection.findUnique({
-                    //           where: {
-                    //             contract_network_userId: {
-                    //               contract: collection.contract,
-                    //               network: collection.network,
-                    //               userId: user.id,
-                    //             },
-                    //           },
-                    //         }).then((existingCollection) => ({
-                    //           where: {
-                    //             id: existingCollection ? existingCollection.id : -1, // Use a dummy id if not found
-                    //           },
-                    //           create: collection,
-                    //           update: collection,
-                    //         }));
-                    //       }),
-                    //     }
-                    //   : undefined,
-                    wallets: userObj.wallets
-                      ? {
-                          upsert: userObj.wallets.create.map((wallet) => ({
-                            where: { address: wallet.address },
-                            create: wallet,
-                            update: wallet,
-                          })),
-                        }
-                      : undefined,
-                    dust: userObj.dust
-                      ? {
-                          upsert: {
-                            create: userObj.dust.create,
-                            update: userObj.dust.create,
-                          },
-                        }
-                      : undefined,
-                  },
-                })
-                .then((user) => {
-                  console.log('User updated', JSON.stringify(user, null, 2))
-                })
-                .catch((error) => {
-                  console.error('Error updating user', error)
-                })
-            }
-          })
-          .catch((error) => {
-            console.error('Error finding user', error)
-          })
-
-        // console.log(
-        //   'response de id auth obj processed',
-        //   JSON.stringify(userObj, null, 2)
-        // )
-
-        return removeNullProperties(userObj)
-      },
+      profile: profile,
     },
   ],
   callbacks: {
-    async redirect({ url }) {
+    async redirect({ url, baseUrl }) {
+      console.log('redirect callback', url, baseUrl)
       return url
     },
     authorized({ request, auth }: { request: any; auth: any }) {
@@ -180,15 +117,39 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (pathname === '/middleware-example') return !!auth
       return true
     },
-    async session({
-      session,
-      // , token, user
-    }) {
+    async session({ session }) {
       return session
     },
-    async signIn({ user }) {
-      console.log('signIn callback', user)
+    async signIn({ user, account }) {
+      console.log('signIn callback', user, account)
+      setTimeout(async () => {
+        if (!account?.providerAccountId) return
+        const accountResponseUpdate = await prisma.account.update({
+          where: {
+            provider_providerAccountId: {
+              provider: 'deid',
+              providerAccountId: account.providerAccountId,
+            },
+          },
+          data: {
+            access_token: accountResponse.access_token,
+            refresh_token: accountResponse.refresh_token,
+            expires_at: accountResponse.expires_at,
+          },
+        })
+      }, 1000)
       return true
     },
   },
 })
+
+const accountResponse = {
+  access_token:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaWQiOiI5YWQ4MzFmMi05MTczLTQ4ZTgtYjc3My0xNzJlNGNkMTVhNzMiLCJzY29wZSI6ImVtYWlsOnJlYWQgZHVzdDpyZWFkIHdhbGxldHM6cmVhZCBjb2xsZWN0aW9uczpyZWFkIHNvY2lhbHM6cmVhZCB0ZWxlZ3JhbTpyZWFkIiwic3ViIjoiYWQ1YjFlNWYtYjI5Ni00ZGY2LTlhOTEtN2Q0NDQxYWEwZjE3IiwiZXhwIjoxNzIzNTY3NjA3LCJuYmYiOjE3MjM1NjQwMDcsImlhdCI6MTcyMzU2NDAwNywianRpIjoiOTlmZWUxOWY0MWY2MDNmMWYyNTkwZmZkOWQ3Y2QxNDVjZjYwZTRkMTQ3ZjUxYjNmN2QzZmYzNzM4NWUzNWQyMjliMmYzZjQ1NGE0Y2I2YWEifQ.uAl6YhxEdJkrO6dsOgsabKC1I4IO7isroonQPYdFiaE',
+  refresh_token:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfaWQiOiI5YWQ4MzFmMi05MTczLTQ4ZTgtYjc3My0xNzJlNGNkMTVhNzMiLCJhY2Nlc3NfdG9rZW5faWQiOiI5OWZlZTE5ZjQxZjYwM2YxZjI1OTBmZmQ5ZDdjZDE0NWNmNjBlNGQxNDdmNTFiM2Y3ZDNmZjM3Mzg1ZTM1ZDIyOWIyZjNmNDU0YTRjYjZhYSIsInJlZnJlc2hfdG9rZW5faWQiOiJjOGYyNjk5YzhmNDYwODVkM2E3N2Q0NzVlNDNkMjFkNDliMzZjZDNhZmFhYTVlYmU1ODZjMDNlZTViNWIwNGUyZmRmODNmZDc5NjUyMjVkMiIsInNjb3BlIjoiZW1haWw6cmVhZCBkdXN0OnJlYWQgd2FsbGV0czpyZWFkIGNvbGxlY3Rpb25zOnJlYWQgc29jaWFsczpyZWFkIHRlbGVncmFtOnJlYWQiLCJ1c2VyX2lkIjoiYWQ1YjFlNWYtYjI5Ni00ZGY2LTlhOTEtN2Q0NDQxYWEwZjE3IiwiZXhwaXJlX3RpbWUiOjE3MjM1NzEyMDgsImlhdCI6MTcyMzU2NDAwN30.hwom6chYaXVx1ehsQbDDIulpVKWSxlTmWLGoaxzDRVE',
+  scope:
+    'email:read dust:read wallets:read collections:read socials:read telegram:read',
+  expires_at: 1723567607,
+  providerAccountId: 'ad5b1e5f-b296-4df6-9a91-7d4441aa0f17',
+}

@@ -1,9 +1,8 @@
 import { prisma } from '@/app/utils/db'
-import { Button } from '@nextui-org/button'
 import Link from 'next/link'
 import NextImage from 'next/image'
 import { notFound } from 'next/navigation'
-import { Image } from '@nextui-org/react'
+import { Image, Button } from '@nextui-org/react'
 import {
   // hasDeGodsNFTs,
   // hasY00tsNFTs,
@@ -63,7 +62,6 @@ export default async function ProfilePage(ctx: any) {
             <div className='flex flex-col items-center mb-8'>
               <div className='w-full h-full lg:w-full lg:h-full'>
                 <NextImage
-                  // as={NextImage}
                   className='rounded-lg w-full h-full object-cover aspect-square'
                   src={
                     user?.image ||
@@ -134,23 +132,25 @@ export default async function ProfilePage(ctx: any) {
               </div>
             </div>
 
-            <div className='mt-4 flex gap-6'>
-              <Button className='bg-transparent border-1 border-[#D9D9D980] text-white'>
-                <Image
-                  as={NextImage}
-                  src='/icons/discord.svg'
-                  alt='Add Icon'
-                  width={24}
-                  height={24}
-                  unoptimized
-                />
-                {user.socials?.discordUsername}
-              </Button>
+            <div className='mt-4 flex gap-6 flex-wrap'>
+              {!!user.socials?.discordUsername && (
+                <Button className='bg-transparent border-1 border-[#D9D9D980] text-white w-fit'>
+                  <Image
+                    as={NextImage}
+                    src='/icons/discord.svg'
+                    alt='Add Icon'
+                    width={24}
+                    height={24}
+                    unoptimized
+                  />
+                  {user.socials?.discordUsername}
+                </Button>
+              )}
 
               <Button
                 className='bg-transparent border-1 border-[#D9D9D980] text-white'
                 as={Link}
-                href={`https://twitter.com/${user.socials?.twitterHandle}`}
+                href={`https://x.com/${user.socials?.twitterHandle}`}
                 target='_blank'
               >
                 <Image
@@ -161,7 +161,7 @@ export default async function ProfilePage(ctx: any) {
                   height={24}
                   unoptimized
                 />
-                {`twitter.com/${user.socials?.twitterHandle}`}
+                <p className=''>{`x.com/${user.socials?.twitterHandle}`}</p>
               </Button>
             </div>
           </div>
