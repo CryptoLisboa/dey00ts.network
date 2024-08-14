@@ -1,6 +1,7 @@
 // import { Image } from '@nextui-org/react'
 // import NextImage from 'next/image'
 import { getSkillButtonStyles } from '@/utils/button'
+import { Button } from '@nextui-org/react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -50,11 +51,14 @@ export const UserList = ({
                     </p>
                   </div>
 
-                  <div
-                    className='text-wrap overflow-clip text-ellipsis lg:text-sm text-xs text-right h-full'
-                    style={getSkillButtonStyles(user?.skills[0]?.name)}
-                  >
-                    {user?.skills[0]?.name}
+                  <div className='h-full'>
+                    <Button
+                      className='bg-transparent border-1 border-full-stack text-wrap overflow-clip text-ellipsis lg:text-sm text-xs text-right'
+                      style={getSkillButtonStyles(user?.skills[0]?.name)}
+                      size='sm'
+                    >
+                      {user?.skills[0]?.name}
+                    </Button>
                   </div>
                 </div>
               </Link>

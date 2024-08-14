@@ -1,9 +1,8 @@
 import { prisma } from '@/app/utils/db'
-import { Button } from '@nextui-org/button'
 import Link from 'next/link'
 import NextImage from 'next/image'
 import { notFound } from 'next/navigation'
-import { Image } from '@nextui-org/react'
+import { Image, Button } from '@nextui-org/react'
 import {
   // hasDeGodsNFTs,
   // hasY00tsNFTs,
@@ -63,7 +62,6 @@ export default async function ProfilePage(ctx: any) {
             <div className='flex flex-col items-center mb-8'>
               <div className='w-full h-full lg:w-full lg:h-full'>
                 <NextImage
-                  // as={NextImage}
                   className='rounded-lg w-full h-full object-cover aspect-square'
                   src={
                     user?.image ||

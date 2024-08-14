@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Button } from '@nextui-org/button'
+import { Button } from '@nextui-org/react'
 import { ROUTING } from '@/constants/routing.contants'
 
 export const Home = () => {

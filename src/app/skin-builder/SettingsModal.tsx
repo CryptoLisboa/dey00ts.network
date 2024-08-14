@@ -1,5 +1,5 @@
 import { degodsTraitOrder } from '@/constants/degodsMapper'
-import { Button } from '@nextui-org/button'
+import { Button } from '@nextui-org/react'
 import {
   Listbox,
   Modal,
