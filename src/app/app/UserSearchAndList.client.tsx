@@ -34,30 +34,34 @@ export const UserSearchAndList = ({
       </div>
       <div className='flex items-center mt-2 lg:mt-4 mb-4 overflow-x-auto'>
         <div className='flex flex-nowrap md:flex-wrap justify-start md:justify-center gap-4 w-full overflow-x-auto md:overflow-x-visible pb-2 md:pb-0'>
-          {SKILLS?.map(({ name, color, id }) => (
-            <Button
-              key={id}
-              className='p-2 lg:text-lg text-xs opacity-60 whitespace-nowrap md:whitespace-normal min-w-fit'
-              variant='bordered'
-              style={{
-                color,
-                borderColor: color,
-                opacity: skills?.includes(id) ? 1 : 0.45,
-              }}
-              onClick={() => {
-                const newSkillsParams = (
-                  skills?.includes(id)
-                    ? skills?.filter((skillId) => skillId !== id)
-                    : [...skills, id]
-                )
-                  .sort((a, b) => a - b)
-                  ?.join(',')
-                router.push(pathname + `?page=1&skills=${newSkillsParams}`)
-              }}
-            >
-              {name}
-            </Button>
-          ))}
+          {SKILLS?.map(({ name, color, id }) => {
+            const isActive = skills?.includes(id)
+            return (
+              <Button
+                key={id}
+                className='p-2 lg:text-lg text-xs opacity-60 whitespace-nowrap md:whitespace-normal min-w-fit'
+                variant='bordered'
+                style={{
+                  color: isActive ? 'white' : color,
+                  borderColor: color,
+                  backgroundColor: isActive ? color : 'transparent',
+                  opacity: isActive ? 1 : 0.45,
+                }}
+                onClick={() => {
+                  const newSkillsParams = (
+                    isActive
+                      ? skills?.filter((skillId) => skillId !== id)
+                      : [...skills, id]
+                  )
+                    .sort((a, b) => a - b)
+                    ?.join(',')
+                  router.push(pathname + `?page=1&skills=${newSkillsParams}`)
+                }}
+              >
+                {name}
+              </Button>
+            )
+          })}
         </div>
       </div>
       <UserList
