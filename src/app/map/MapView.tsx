@@ -99,9 +99,11 @@ const UserMarkersList = ({
 export const MapView = ({
   users,
   handleClick,
+  selectedUser,
 }: {
   users: any[]
   handleClick: (user: any) => void
+  selectedUser: any
 }) => {
   const [unmountMap, setunmountMap] = useState(false)
 
@@ -121,6 +123,7 @@ export const MapView = ({
       center={defaultCenter}
       zoom={defaultZoom}
       className='w-full h-full'
+      closePopupOnClick={true}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

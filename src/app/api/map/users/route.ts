@@ -14,7 +14,14 @@ function getRandomLatLng() {
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
     const users = await prisma.user.findMany({
-      where: {},
+      where: {
+        active: true,
+        socials: {
+          twitterHandle: {
+            not: null,
+          },
+        },
+      },
       include: {
         location: true,
         userExperiences: {

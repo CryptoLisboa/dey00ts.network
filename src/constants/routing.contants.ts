@@ -11,4 +11,5 @@ export const ROUTING = {
     EXPERIENCES: '/signup/experiences',
   },
   SKIN_BUILDER: '/skin-builder',
+  WORLD_MAP: '/map',
 }

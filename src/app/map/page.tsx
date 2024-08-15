@@ -95,44 +95,30 @@ export default function Page() {
 
         {selectedUser && (
           <div className='flex flex-col gap-3 bg-white rounded-xl w-full md:w-1/2 p-3 items-center content-center'>
-            <div className='flex gap-3 justify-between place-self-center align-middle self-center content-center'>
-              <Image
-                src={selectedUser.image || 'temp/avatar.png'}
-                alt={'Testing'}
-                width={50}
-                height={50}
-                className='rounded-full self-center content-center'
-              />
+            <div className='flex gap-3 justify-between place-self-center align-middle self-center content-center w-full'>
+              <Link href={`/${selectedUser.socials.twitterHandle}`}>
+                <Image
+                  src={selectedUser.image || 'temp/avatar.png'}
+                  alt={'Testing'}
+                  width={50}
+                  height={50}
+                  className='rounded-full self-center content-center'
+                />
+              </Link>
 
               <div className='flex text-primary flex-col'>
-                <span className='font-lucky'>{selectedUser.name}</span>
-                <span className='font-lucky'>
-                  {selectedUser.socials.twitterHandle}
-                </span>
-                <span className='font-lucky'>21m away</span>
+                <Link href={`/${selectedUser.socials.twitterHandle}`}>
+                  <span className='font-lucky'>{selectedUser.name}</span>
+                </Link>
+                <Link href={`/${selectedUser.socials.twitterHandle}`}>
+                  <span className='font-lucky'>
+                    @{selectedUser.socials.twitterHandle}
+                  </span>
+                </Link>
               </div>
             </div>
 
             <Divider />
-
-            <div className='grid grid-cols-2 gap-3 text-primary text-sm text-center font-bold'>
-              <div className='grid-cols-1'>
-                <h3 className='text-xs'>Total calls</h3>
-                <p className=''>50</p>
-              </div>
-              <div className='grid-cols-1'>
-                <h3 className='text-xs'>Success Rate</h3>
-                <p className=''>99%</p>
-              </div>
-              <div className='grid-cols-1'>
-                <h3 className='text-xs'>Profit Generated</h3>
-                <p className=''>50€</p>
-              </div>
-              <div className='grid-cols-1'>
-                <h3 className='text-xs'>Subscribers</h3>
-                <p className=''>8200</p>
-              </div>
-            </div>
 
             <p className='text-left font-bold text-black'>Language:</p>
 
@@ -144,7 +130,6 @@ export default function Page() {
               ))}
             </div>
 
-            <p className='text-left font-bold text-black'>My Collections:</p>
             <div className='flex flex-row w-full overflow-x-scroll gap-6 '>
               {selectedUser?.collections?.map(
                 (collection: {
@@ -223,7 +208,11 @@ export default function Page() {
           </div>
         )}
       </div>
-      <DynamicMapView users={data} handleClick={setSelectedUser} />
+      <DynamicMapView
+        users={data}
+        handleClick={setSelectedUser}
+        selectedUser={selectedUser}
+      />
     </main>
   )
 }
