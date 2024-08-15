@@ -2,6 +2,7 @@
 
 import { GENDERS, SKILLS } from '@/constants/app.constants'
 import { languages, locations } from '@/constants/signup.constants'
+import { fetcher } from '@/utils/services'
 import {
   Button,
   Radio,
@@ -17,8 +18,6 @@ import { useToast } from 'rc-toastr'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import useSWR from 'swr'
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 const getInitialLocationValue = (locationId: number) => {
   return locations.find((loc) => loc.id === locationId)?.value || ''
