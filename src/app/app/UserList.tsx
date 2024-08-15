@@ -1,17 +1,44 @@
 // import { Image } from '@nextui-org/react'
 // import NextImage from 'next/image'
 import { getSkillButtonStyles } from '@/utils/button'
-import { Button } from '@nextui-org/react'
+import { Button, Card, Skeleton } from '@nextui-org/react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export const UserList = ({
   users,
   className,
+  isLoading,
 }: {
   users: any
   className: string
+  isLoading: boolean
 }) => {
+  if (isLoading) {
+    return (
+      <div className={className}>
+        {[...Array(15)].map((_, index) => (
+          <Card
+            key={index}
+            className='lg:w-56 w-full space-y-5 p-4 mb-4'
+            radius='lg'
+          >
+            <Skeleton className='rounded-lg'>
+              <div className='h-60 rounded-lg bg-default-300'></div>
+            </Skeleton>
+            <div className='space-y-3'>
+              <Skeleton className='w-4/5 rounded-lg'>
+                <div className='h-3 w-4/5 rounded-lg bg-default-200'></div>
+              </Skeleton>
+              <Skeleton className='w-2/5 rounded-lg'>
+                <div className='h-3 w-2/5 rounded-lg bg-default-300'></div>
+              </Skeleton>
+            </div>
+          </Card>
+        ))}
+      </div>
+    )
+  }
   return (
     <div className={className}>
       {users?.map((user: any) => {

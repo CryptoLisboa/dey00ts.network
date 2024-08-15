@@ -4,21 +4,30 @@ import { SEARCH_PAGE_SIZE, SkillIds, SKILLS } from '@/constants/app.constants'
 import { Button } from '@nextui-org/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { UserList } from './UserList'
+import { fetcher } from '@/utils/services'
+import useSWR from 'swr'
+import { useEffect } from 'react'
 
 type IUserSearchAndListProps = {
-  users: any //User[]
   skills: SkillIds[]
   page: number
 }
 export const UserSearchAndList = ({
-  users,
   skills,
   page,
 }: IUserSearchAndListProps) => {
   const pathname = usePathname()
   const router = useRouter()
 
-  console.log('users', users)
+  const {
+    data: users,
+    isLoading: isUsersLoading,
+    mutate,
+  } = useSWR(`/api/user/search?page=${page}&skills=${skills}`, fetcher)
+
+  useEffect(() => {
+    mutate()
+  }, [skills, page, mutate])
 
   return (
     <main className='container pt-0 mx-auto p-4'>
@@ -67,6 +76,7 @@ export const UserSearchAndList = ({
       <UserList
         className='grid grid-cols-1 lg:grid-cols-5 gap-y-5 lg:gap-y-10 gap-x-4 lg:gap-x-8 w-full mb-4'
         users={users}
+        isLoading={isUsersLoading}
       />
 
       {/* pagination buttons */}
@@ -77,7 +87,7 @@ export const UserSearchAndList = ({
             const pagePrevious = Math.max(1, page - 1)
             router.push(pathname + `?page=${pagePrevious}&skills=${skills}`)
           }}
-          isDisabled={page === 1}
+          isDisabled={page === 1 || isUsersLoading}
         >
           Previous
         </Button>
@@ -87,7 +97,7 @@ export const UserSearchAndList = ({
             const pageNext = page + 1
             router.push(pathname + `?page=${pageNext}&skills=${skills}`)
           }}
-          isDisabled={users?.length < SEARCH_PAGE_SIZE}
+          isDisabled={users?.length < SEARCH_PAGE_SIZE || isUsersLoading}
         >
           Next
         </Button>
