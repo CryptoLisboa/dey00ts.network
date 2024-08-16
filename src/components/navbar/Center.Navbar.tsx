@@ -15,10 +15,14 @@ export default function CenterNavbar({
   return (
     <div className={className}>
       <Link href={ROUTING.APP} prefetch={true}>
-        <Button color='primary'>App</Button>
+        <Button color='primary' className='font-offbit font-extrabold'>
+          App
+        </Button>
       </Link>
       <Link href={ROUTING.SKIN_BUILDER} prefetch={true}>
-        <Button color='warning'>Skin Builder</Button>
+        <Button color='warning' className='font-offbit font-extrabold'>
+          Skin Builder
+        </Button>
       </Link>
     </div>
   )

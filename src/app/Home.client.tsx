@@ -33,10 +33,14 @@ export const Home = () => {
 
       <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
         <Link href={ROUTING.APP} prefetch={true}>
-          <Button color='primary'>App</Button>
+          <Button color='primary' className='font-offbit font-extrabold'>
+            App
+          </Button>
         </Link>
         <Link href={ROUTING.SKIN_BUILDER} prefetch={true}>
-          <Button color='warning'>Skin Builder</Button>
+          <Button color='warning' className='font-offbit font-extrabold'>
+            Skin Builder
+          </Button>
         </Link>
         {/* {!isAuthenticated && <LoginButton />} */}
       </div>

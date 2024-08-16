@@ -7,7 +7,7 @@ export default function LoginButton() {
     <Button
       onClick={handleLogin}
       color='secondary'
-      className='font-lucky px-3 py-2 lg:px-5 lg:py-4 min-w-fit'
+      className='font-offbit font-extrabold px-3 py-2 lg:px-5 lg:py-4 min-w-fit'
     >
       Login
     </Button>
