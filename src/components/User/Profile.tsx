@@ -97,9 +97,11 @@ export default function ProfilePage({
                   height={24}
                   unoptimized
                 />
-                {user?.languages?.map((language) => (
-                  <p key={language.id}>{language.name}</p>
-                ))}
+                {user?.languages?.map(
+                  (language: { id: number; name: string }) => (
+                    <p key={language.id}>{language.name}</p>
+                  )
+                )}
               </div>
             </div>
 
@@ -139,52 +141,65 @@ export default function ProfilePage({
           <div className='lg:col-span-5 flex flex-col gap-8'>
             <div className='flex flex-col gap-8 border-1 border-white rounded-3xl lg:p-8 p-4'>
               <h3 className='text-2xl font-bold'>Things this DeGod did</h3>
-              {user.userExperiences.map((experience) => (
-                <div
-                  key={experience.experience.id}
-                  className='flex flex-col gap-6'
-                >
-                  <div className='flex flex-col gap-y-4'>
-                    <div className='flex flex-col gap-y-0.5'>
-                      <p className='font-bold text-lg'>
-                        {experience.experience.company}
-                      </p>
-                      <div className='flex flex-row gap-x-2'>
-                        <p className='text-sm'>{`${experience.experience.role} // `}</p>
-                        <p className='text-xs flex items-center'>
-                          {new Date(
-                            experience.experience.startDate
-                          ).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit',
-                          })}{' '}
-                          -{' '}
-                          {experience.experience.current
-                            ? 'current'
-                            : new Date(
-                                experience.experience?.endDate as Date
-                              ).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit',
-                              })}
+              {user.userExperiences.map(
+                (experience: {
+                  experience: {
+                    id: number
+                    company: string
+                    role: string
+                    startDate: Date
+                    endDate: Date
+                    current: boolean
+                    description: string
+                    skill: { id: number; name: string }
+                  }
+                }) => (
+                  <div
+                    key={experience.experience.id}
+                    className='flex flex-col gap-6'
+                  >
+                    <div className='flex flex-col gap-y-4'>
+                      <div className='flex flex-col gap-y-0.5'>
+                        <p className='font-bold text-lg'>
+                          {experience.experience.company}
                         </p>
+                        <div className='flex flex-row gap-x-2'>
+                          <p className='text-sm'>{`${experience.experience.role} // `}</p>
+                          <p className='text-xs flex items-center'>
+                            {new Date(
+                              experience.experience.startDate
+                            ).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: '2-digit',
+                              day: '2-digit',
+                            })}{' '}
+                            -{' '}
+                            {experience.experience.current
+                              ? 'current'
+                              : new Date(
+                                  experience.experience?.endDate as Date
+                                ).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: '2-digit',
+                                  day: '2-digit',
+                                })}
+                          </p>
+                        </div>
                       </div>
+                      <Button
+                        className='bg-transparent border-1 border-full-stack text-sm w-fit'
+                        style={getSkillButtonStyles(
+                          experience.experience.skill.name
+                        )}
+                        size='sm'
+                      >
+                        {experience.experience.skill.name}
+                      </Button>
                     </div>
-                    <Button
-                      className='bg-transparent border-1 border-full-stack text-sm w-fit'
-                      style={getSkillButtonStyles(
-                        experience.experience.skill.name
-                      )}
-                      size='sm'
-                    >
-                      {experience.experience.skill.name}
-                    </Button>
+                    <p className=''>{`${experience.experience.description}`}</p>
                   </div>
-                  <p className=''>{`${experience.experience.description}`}</p>
-                </div>
-              ))}
+                )
+              )}
             </div>
 
             <div className='flex flex-col gap-4'>
