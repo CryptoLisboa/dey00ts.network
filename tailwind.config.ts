@@ -1,12 +1,6 @@
 import type { Config } from 'tailwindcss'
 import { nextui } from '@nextui-org/theme'
 
-/*
---color-artist: #8ac926;
-    --color-ui-ux-designer: #f4a261;
-    --color-video-editing: #6a4c93;
-    --color-graphic-design: #ffca3a;
-*/
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -65,6 +59,8 @@ const config: Config = {
       fontFamily: {
         rowdies: ['var(--font-rowdies)'],
         lucky: ['var(--font-lucky)'],
+        offbit: ['OffBit', 'sans-serif'],
+        argent: ['ArgentPixelCF', 'sans-serif'],
       },
     },
   },
