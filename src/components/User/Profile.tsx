@@ -47,17 +47,16 @@ export default function ProfilePage({
                     'radial-gradient(circle, #0049FF 0%, #01AE6A 20%, #0199FF 40%, #E7B114 62%, #E83847 82%, #6401FF 100%)',
                 }}
               >
-                <NextImage
-                  className='rounded-lg w-full h-full object-cover aspect-square'
-                  src={
-                    user?.image ||
-                    'https://pbs.twimg.com/profile_images/1821304671081738240/qeI3FyEi_400x400.jpg'
-                  }
-                  width={128}
-                  height={128}
-                  alt={`${user?.name}`}
-                  unoptimized
-                />
+                <div className='w-full h-full lg:w-full lg:h-full rounded-lg bg-black'>
+                  <NextImage
+                    className='rounded-lg w-full h-full object-cover aspect-square'
+                    src={user?.image}
+                    width={128}
+                    height={128}
+                    alt={`${user?.name}`}
+                    unoptimized
+                  />
+                </div>
               </div>
             </div>
             <div className='flex flex-col gap-1'>
