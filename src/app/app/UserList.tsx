@@ -52,7 +52,13 @@ export const UserList = ({
               >
                 {user?.image && (
                   <div className='w-16 h-16 col-span-3 lg:w-56 lg:h-auto lg:flex lg:justify-center'>
-                    <div className='lg:w-56 lg:h-72'>
+                    <div
+                      className='lg:w-56 lg:h-72 px-0.5 py-0.5 rounded-lg'
+                      style={{
+                        background:
+                          'radial-gradient(circle, #0049FF 0%, #01AE6A 20%, #0199FF 40%, #E7B114 62%, #E83847 82%, #6401FF 100%)',
+                      }}
+                    >
                       <Image
                         className='rounded-lg w-full h-full object-cover'
                         src={
