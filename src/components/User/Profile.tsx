@@ -120,22 +120,43 @@ export default function ProfilePage({
                 </Button>
               )}
 
-              <Button
-                className='bg-transparent border-1 border-[#D9D9D980] text-white'
-                as={Link}
-                href={`https://x.com/${user.socials?.twitterHandle}`}
-                target='_blank'
-              >
-                <Image
-                  as={NextImage}
-                  src='/icons/twitter.svg'
-                  alt='Add Icon'
-                  width={24}
-                  height={24}
-                  unoptimized
-                />
-                <p className=''>{`x.com/${user.socials?.twitterHandle}`}</p>
-              </Button>
+              {!!user.socials?.twitterHandle && (
+                <Button
+                  className='bg-transparent border-1 border-[#D9D9D980] text-white'
+                  as={Link}
+                  href={`https://x.com/${user.socials?.twitterHandle}`}
+                  target='_blank'
+                >
+                  <Image
+                    as={NextImage}
+                    src='/icons/twitter.svg'
+                    alt='Add Icon'
+                    width={24}
+                    height={24}
+                    unoptimized
+                  />
+                  <p className=''>{`${user.socials?.twitterHandle}`}</p>
+                </Button>
+              )}
+
+              {!!user.socials?.telegramUsername && (
+                <Button
+                  className='bg-transparent border-1 border-[#D9D9D980] text-white'
+                  as={Link}
+                  href={`https://t.me/${user.socials?.telegramUsername}`}
+                  target='_blank'
+                >
+                  <Image
+                    as={NextImage}
+                    src='/icons/message.svg'
+                    alt='Add Icon'
+                    width={24}
+                    height={24}
+                    unoptimized
+                  />
+                  <p className=''>{`${user.socials?.telegramUsername}`}</p>
+                </Button>
+              )}
             </div>
           </div>
           <div className='lg:col-span-5 flex flex-col gap-8'>

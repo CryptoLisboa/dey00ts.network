@@ -1,7 +1,6 @@
 import { auth } from '@/auth'
 import { UserSearchAndList } from './UserSearchAndList.client'
 import { redirect } from 'next/navigation'
-import { prisma } from '@/utils/db.utils'
 import { SEARCH_PAGE_SIZE } from '@/constants/app.constants'
 import { ROUTING } from '@/constants/routing.contants'
 
@@ -26,55 +25,7 @@ export default async function AppHomePage(ctx: AppHomePageProps) {
   const page = ctx.searchParams.page
     ? parseInt(ctx.searchParams.page, SEARCH_PAGE_SIZE)
     : 1
-  // const skipAmount = (page - 1) * SEARCH_PAGE_SIZE
 
-  // const users = await prisma.user.findMany({
-  //   where: {
-  //     active: true,
-  //     ...(skills && skills.length > 0
-  //       ? {
-  //           skills: {
-  //             some: {
-  //               id: {
-  //                 in: skills,
-  //               },
-  //             },
-  //           },
-  //         }
-  //       : {}),
-  //     socials: {
-  //       twitterHandle: {
-  //         not: null,
-  //       },
-  //     },
-  //   },
-  //   orderBy: { createdAt: 'desc' },
-  //   take: SEARCH_PAGE_SIZE,
-  //   skip: skipAmount,
-  //   select: {
-  //     id: true,
-  //     name: true,
-  //     image: true,
-  //     socials: {
-  //       select: {
-  //         id: true,
-  //         twitterHandle: true,
-  //       },
-  //     },
-  //     location: {
-  //       select: {
-  //         id: true,
-  //         name: true,
-  //       },
-  //     },
-  //     skills: {
-  //       select: {
-  //         id: true,
-  //         name: true,
-  //       },
-  //     },
-  //   },
-  // })
   return (
     <div className='dark' id='root'>
       <UserSearchAndList skills={skills} page={page} />
