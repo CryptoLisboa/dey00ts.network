@@ -2,6 +2,7 @@
 
 import { GENDERS, SKILLS } from '@/constants/app.constants'
 import { languages, locations } from '@/constants/signup.constants'
+import { fetcher } from '@/utils/services'
 import {
   Button,
   Radio,
@@ -17,8 +18,7 @@ import { useToast } from 'rc-toastr'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import useSWR from 'swr'
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
+import EditProfileSkeleton from '../EditForm.skeleton'
 
 const getInitialLocationValue = (locationId: number) => {
   return locations.find((loc) => loc.id === locationId)?.value || ''
@@ -90,7 +90,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
         gender: genderId,
       }
 
-      debugger
       const response = await fetch('/api/user', {
         method: 'PUT',
         headers: {
@@ -108,6 +107,11 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
       toast.error('Failed to update profile')
       console.error('error', error)
     }
+  }
+
+  const hadNoData = isLoading
+  if (hadNoData) {
+    return <EditProfileSkeleton />
   }
 
   return (

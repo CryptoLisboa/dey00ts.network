@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import styles from './Background.module.css'
 
 export default function BgImage({
   src,
@@ -23,4 +24,8 @@ export default function BgImage({
       // blurDataURL=""
     />
   )
+}
+
+export function BackgroundImageDefault() {
+  return <div role='img' aria-label='bg' className={`${styles.background}`} />
 }

@@ -1,54 +1,44 @@
-import { prisma } from '@/utils/db.utils'
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/auth'
+import { SEARCH_PAGE_SIZE } from '@/constants/app.constants'
+import { searchUsers } from '@/services/user'
 
 interface SearchUsersForm {
+  page: number
   skills: number[]
 }
 
 // create GET service to return the user
-export async function POST(req: NextRequest, res: NextResponse) {
-  debugger
+export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    // get skill ids from the query
-    const data: SearchUsersForm = await req.json()
-    const { skills } = data
+    const reqUrl = new URL(req.url)
+    const { searchParams } = reqUrl
+    const page = parseInt(searchParams.get('page') || '1', 10)
+    const skills =
+      searchParams
+        .get('skills')
+        ?.split(',')
+        .map((id) => parseInt(id, 10))
+        .filter((id) => !isNaN(Number(id))) || []
 
-    const user = await prisma.user.findMany({
-      where: {
-        userExperiences: {
-          some: {
-            experience: {
-              skillId: {
-                in: skills,
-              },
-            },
-          },
-        },
-      },
-      include: {
-        location: true,
-        userExperiences: {
-          include: {
-            experience: {
-              include: {
-                skill: true,
-              },
-            },
-          },
-        },
-        socials: true,
-      },
-    })
+    const pageIsANumber = !isNaN(page)
+    const isInvalidPage = pageIsANumber && page < 1
 
-    if (!user) {
-      return new Response(JSON.stringify({ error: 'User not found' }), {
-        status: 404,
-        headers: { 'Content-Type': 'application/json' },
-      })
+    if (isInvalidPage) {
+      return new Response(
+        JSON.stringify({
+          error:
+            'Invalid page number or page number is required to be greater than 0',
+        }),
+        {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
     }
 
-    return new Response(JSON.stringify(user), {
+    const users = await searchUsers(skills, page, SEARCH_PAGE_SIZE)
+
+    return new Response(JSON.stringify(users), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     })

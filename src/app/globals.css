@@ -43,8 +43,10 @@
 }
 
 .custom-shadow {
-  background-color: black; /* Ensure the button background is black */
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.75); /* White shadow all around */
+  background-color: black;
+  /* Ensure the button background is black */
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.75);
+  /* White shadow all around */
 }
 
 .leaflet-layer,
@@ -52,4 +54,53 @@
 .leaflet-control-zoom-out,
 .leaflet-control-attribution {
   filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
+@font-face {
+  font-family: 'OffBit';
+  src: url('/fonts/OffBit/OffBit-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OffBit';
+  src: url('/fonts/OffBit/OffBit-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OffBit';
+  src: url('/fonts/OffBit/OffBit-101.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OffBit';
+  src: url('/fonts/OffBit/OffBit-101Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OffBit';
+  src: url('/fonts/OffBit/OffBit-Dot.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OffBit';
+  src: url('/fonts/OffBit/OffBit-DotBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ArgentPixelCF';
+  src: url('/fonts/ArgentPixelCF/ArgentPixelCF-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
 }
