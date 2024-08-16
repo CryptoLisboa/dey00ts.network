@@ -31,13 +31,17 @@ export const UserSearchAndList = ({
 
   return (
     <main className='container pt-0 mx-auto p-4'>
-      <div className='flex flex-col items-center mt-10 lg:mt-20 mb-4 gap-3'>
-        <h3 className='text-3xl lg:text-6xl font-bold text-white text-center lg:mb-8 mb-4'>
-          DeGods Network
+      <div className='flex flex-col items-center mt-10 lg:mt-15 mb-4 gap-3'>
+        <h3 className='font-offbit text-5xl lg:text-8xl font-bold text-white text-center lg:mb-8 mb-4'>
+          DeGods
+          <div className='text-center text-2xl lg:text-5xl font-offbit'>
+            Network
+          </div>
         </h3>
-        <h3 className='text-lg lg:text-xl font-bold text-white text-center'>
+
+        <h5 className='text-lg lg:text-xl font-bold text-white text-center font-argent'>
           Connect, Network, and Collaborate, Ignite Creativity and Innovation...
-        </h3>
+        </h5>
 
         <div className='w-full h-px bg-gray-300 mt-3 lg:mt-7' />
       </div>
@@ -48,7 +52,7 @@ export const UserSearchAndList = ({
             return (
               <Button
                 key={id}
-                className='p-2 lg:text-lg text-xs opacity-60 whitespace-nowrap md:whitespace-normal min-w-fit'
+                className='p-2 lg:text-lg text-xs opacity-60 whitespace-nowrap md:whitespace-normal min-w-fit font-offbit font-bold'
                 variant='bordered'
                 style={{
                   color: isActive ? 'white' : color,

@@ -70,10 +70,10 @@ export const UserList = ({
 
                 <div className='flex lg:flex-row lg:justify-between lg:w-full items-center col-span-9 h-full gap-x-2'>
                   <div className='flex flex-col justify-between py-2 lg:py-0 flex-grow min-w-0'>
-                    <strong className='truncate overflow-hidden text-ellipsis lg:text-sm text-xs'>
+                    <strong className='truncate overflow-hidden text-ellipsis lg:text-base text-sm font-offbit font-bold'>
                       {user?.name}
                     </strong>
-                    <p className='truncate overflow-hidden text-ellipsis lg:text-sm text-xs'>
+                    <p className='truncate overflow-hidden text-ellipsis lg:text-sm text-xs font-argent'>
                       @{user?.socials?.twitterHandle}
                     </p>
                   </div>

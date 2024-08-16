@@ -8,8 +8,10 @@ import { ROUTING } from '@/constants/routing.contants'
 export const Home = () => {
   return (
     <main className='flex flex-col items-center justify-center h-[85vh]'>
-      <h1 className='font-rowdies text-4xl md:text-6xl'>DeY00ts.Network</h1>
-      <h2 className='font-rowdies text-2xl md:text-4xl'>
+      <h1 className='font-offbit text-6xl md:text-8xl font-bold'>
+        DeGods Network
+      </h1>
+      <h2 className='font-offbit text-4xl md:text-6xl'>
         Made by
         <Link className='underline' href='https://twitter.com/lisbonlabs'>
           {' '}
