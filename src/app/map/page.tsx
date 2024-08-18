@@ -36,7 +36,7 @@ export default function Page() {
 
   return (
     <main className='dark flex w-full h-[85vh] relative' id='map'>
-      {isLoading && (
+      {/* {isLoading && (
         <div
           className='flex flex-col gap-3 w-[50px] h-[50px]'
           style={{
@@ -48,8 +48,8 @@ export default function Page() {
         >
           <Spinner size='lg' className='cursor-wait' color='warning' />
         </div>
-      )}
-      <div
+      )} */}
+      {/* <div
         className='flex flex-col gap-3 w-[200px] h-[200px] md:w-[500px] md:h-[500px]'
         style={{
           position: 'absolute',
@@ -207,7 +207,7 @@ export default function Page() {
             </div>
           </div>
         )}
-      </div>
+      </div> */}
       <DynamicMapView
         users={data}
         handleClick={setSelectedUser}

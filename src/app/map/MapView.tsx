@@ -10,11 +10,13 @@ import {
   TileLayer,
   useMapEvents,
 } from 'react-leaflet'
+import MarkerClusterGroup from 'react-leaflet-cluster'
 import L from 'leaflet'
 import { useSession } from 'next-auth/react'
+import UserPopUp from '@/app/map/UserPopUp.MapView'
 
 const defaultCenter: LatLngExpression = [38.9072, -77.0369]
-const defaultZoom = 8
+const defaultZoom = 4
 
 const updateUserLocation = async () => {
   try {
@@ -79,7 +81,9 @@ const UserMarker = ({
         },
       }}
     >
-      <Popup>{user.name}</Popup>
+      <Popup>
+        <UserPopUp user={user} />
+      </Popup>
     </Marker>
   )
 }
@@ -91,9 +95,13 @@ const UserMarkersList = ({
   users: any[]
   handleClick: (user: any) => void
 }) => {
-  return users?.map((user) => (
-    <UserMarker key={user.id} user={user} handleClick={handleClick} />
-  ))
+  return (
+    <MarkerClusterGroup chunkedLoading>
+      {users?.map((user) => (
+        <UserMarker key={user.id} user={user} handleClick={handleClick} />
+      ))}
+    </MarkerClusterGroup>
+  )
 }
 
 export const MapView = ({
@@ -124,6 +132,11 @@ export const MapView = ({
       zoom={defaultZoom}
       className='w-full h-full'
       closePopupOnClick={true}
+      scrollWheelZoom={true}
+      doubleClickZoom={true}
+      zoomAnimation={true}
+      minZoom={3}
+      maxZoom={10}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
