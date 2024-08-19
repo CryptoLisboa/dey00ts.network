@@ -107,7 +107,6 @@ const UserMarkersList = ({
 export const MapView = ({
   users,
   handleClick,
-  selectedUser,
 }: {
   users: any[]
   handleClick: (user: any) => void
@@ -144,7 +143,7 @@ export const MapView = ({
       />
       <UserMarkersList users={users} handleClick={handleClick} />
 
-      <LocationMarker />
+      {/* <LocationMarker /> */}
     </MapContainer>
   )
 }

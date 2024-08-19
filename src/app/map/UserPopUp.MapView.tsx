@@ -29,7 +29,7 @@ interface User {
 
 export default function UserPopUp({ user }: { user: User }) {
   return (
-    <div className='flex flex-col gap-3 bg-white rounded-xl w-full md:w-1/2 p-3 items-center content-center'>
+    <div className='flex flex-col gap-3 bg-white rounded-xl w-full p-3 items-center content-center'>
       <div className='flex gap-3 justify-between place-self-center align-middle self-center content-center w-full'>
         <Link href={`/${user.socials.twitterHandle}`}>
           <Image
@@ -53,8 +53,6 @@ export default function UserPopUp({ user }: { user: User }) {
       </div>
 
       <Divider />
-
-      <p className='text-left font-bold text-black'>Language:</p>
 
       <div className='flex gap-3'>
         {user?.languages?.map((language) => (
@@ -98,7 +96,7 @@ export default function UserPopUp({ user }: { user: User }) {
         <Button
           className='bg-transparent border-2 border-black text-black text-xs'
           as={Link}
-          href={`https://twitter.com/${user?.socials?.twitterHandle}`}
+          href={`https://x.com/${user?.socials?.twitterHandle}`}
           target='_blank'
         >
           <Image
@@ -109,7 +107,7 @@ export default function UserPopUp({ user }: { user: User }) {
             height={24}
             unoptimized
           />
-          {`Twitter`}
+          {`X`}
         </Button>
         <Button className='bg-transparent border-2 border-black text-black text-xs'>
           <Image
