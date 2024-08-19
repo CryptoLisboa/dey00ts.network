@@ -8,7 +8,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "studio": "npx prisma studio --browser none"
+    "studio": "npx prisma studio --browser none",
+    "prisma:generate": "exec prisma generate",
+    "prisma:format": "exec prisma format",
+    "prisma:studio": "exec prisma studio --browser none",
+    "prisma:push": "exec prisma db push",
+    "prisma:migrate:dev": "exec prisma migrate dev"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.1.0",
