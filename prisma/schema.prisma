@@ -86,7 +86,7 @@ model CountryApi {
   region              String
   externalRegionId    Int
   subregion           String
-  externalSubRegionId Int
+  externalSubRegionId Int?
   latitude            Float
   longitude           Float
   emoji               String
