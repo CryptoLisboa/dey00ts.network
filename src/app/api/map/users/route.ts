@@ -23,7 +23,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
         },
       },
       include: {
-        location: true,
+        location: {
+          include: {
+            country: true,
+            state: true,
+            city: true,
+          },
+        },
         userExperiences: {
           include: {
             experience: {
@@ -39,20 +45,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
       },
     })
 
-    const mockedLatLngUsers = users.map((user) => {
-      const { lat, lng } = getRandomLatLng()
-
-      return {
-        ...user,
-        location: {
-          ...user.location,
-          lat,
-          lng,
-        },
-      }
-    })
-
-    return new Response(JSON.stringify(mockedLatLngUsers), {
+    return new Response(JSON.stringify(users), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     })

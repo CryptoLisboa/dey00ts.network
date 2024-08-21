@@ -57,6 +57,17 @@ function LocationMarker() {
   )
 }
 
+const getUserCoordinates = (user: any) => {
+  if (user?.location?.city?.latitude && user?.location?.city?.longitude) {
+    return [user?.location?.city?.latitude, user?.location?.city?.longitude]
+  }
+  if (user?.location?.state?.latitude && user?.location?.state?.longitude) {
+    return [user?.location?.state?.latitude, user?.location?.state?.longitude]
+  }
+
+  return [user?.location?.country?.latitude, user?.location?.country?.longitude]
+}
+
 const UserMarker = ({
   user,
   handleClick,
@@ -70,19 +81,20 @@ const UserMarker = ({
     iconAnchor: [32, 64],
     className: 'rounded-full',
   })
+  const coordinates = getUserCoordinates(user)
   return (
     <Marker
-      position={[user.location.lat, user.location.lng]}
+      position={coordinates as LatLngExpression}
       icon={myIcon}
       eventHandlers={{
         click: (e) => {
           console.log('marker clicked', e)
-          handleClick(user)
+          // handleClick(user)
         },
       }}
     >
       <Popup>
-        <UserPopUp user={user} />
+        <UserPopUp key={`pop-up-key-${user.id}`} user={user} />
       </Popup>
     </Marker>
   )
@@ -96,7 +108,13 @@ const UserMarkersList = ({
   handleClick: (user: any) => void
 }) => {
   return (
-    <MarkerClusterGroup chunkedLoading>
+    <MarkerClusterGroup
+      chunkedLoading
+      maxClusterRadius={80}
+      spiderfyDistanceMultiplier={3}
+      disableClusteringAtZoom={12}
+      // node_modules/leaflet.markercluster/dist/leaflet.markercluster-src.js
+    >
       {users?.map((user) => (
         <UserMarker key={user.id} user={user} handleClick={handleClick} />
       ))}
