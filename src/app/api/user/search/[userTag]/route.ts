@@ -1,12 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { SEARCH_PAGE_SIZE } from '@/constants/app.constants'
+import { NextRequest } from 'next/server'
 import { searchUsers } from '@/services/user'
 import { prisma } from '@/utils/db.utils'
-
-interface SearchUsersForm {
-  page: number
-  skills: number[]
-}
 
 // create GET service to return one user
 export async function GET(

@@ -162,7 +162,7 @@ async function main() {
   let hasFoundLastCountry = false
   let hasFoundLastState = false
   for (const country of countries) {
-    if (country.id === 124) {
+    if (country.id === 127) {
       hasFoundLastCountry = true
     }
     if (!hasFoundLastCountry) {
@@ -177,7 +177,7 @@ async function main() {
     // const stateApiInstances = await upsertStates({ country, createdCountry })
 
     for (const state of country.states) {
-      if (state.id === 2961) {
+      if (state.id === 1526) {
         hasFoundLastState = true
       }
       if (!hasFoundLastState) {
