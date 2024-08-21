@@ -164,37 +164,3 @@ async function main() {
 }
 
 main()
-
-/*
-model User {
-  id              String           @id @default(cuid())
-  email           String?          @default("")
-  name            String?
-  bio             String?
-  createdAt       DateTime         @default(now())
-  emailVerified   DateTime?
-  updatedAt       DateTime         @updatedAt
-  externalId      String           @unique
-  website         String?
-  image           String?
-  active          Boolean          @default(false)
-  genderId        Int?
-  locationId      Int?
-  accounts        Account[]
-  Authenticator   Authenticator[]
-  collections     Collection[]
-  followers       Connection[]     @relation("followingConnection")
-  followings      Connection[]     @relation("followerConnection")
-  contents        Content[]
-  dust            Dust?
-  profile         Profile?
-  sessions        Session[]
-  socials         Socials?
-  gender          Gender?          @relation("UserToGender", fields: [genderId], references: [id], map: "UserToGenderFK")
-  location        Location?        @relation(fields: [locationId], references: [id])
-  userExperiences UserExperience[]
-  wallets         Wallet[]
-  languages       Language[]       @relation("UserLanguages")
-  skills          Skill[]          @relation("UserSkills")
-}
-*/

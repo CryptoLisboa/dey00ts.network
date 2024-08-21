@@ -31,14 +31,31 @@ export const Home = () => {
         </Link>
       </h2>
 
-      <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
+      <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky px-4 lg:px-0'>
         <Link href={ROUTING.APP} prefetch={true}>
-          <Button color='primary' className='font-offbit font-extrabold'>
+          <Button
+            color='primary'
+            className='p-1 lg:p-2.5 text-center flex flex-col justify-center items-center font-offbit font-extrabold'
+            size='sm'
+          >
             App
           </Button>
         </Link>
+        <Link href={ROUTING.WORLD_MAP} prefetch={true}>
+          <Button
+            color='secondary'
+            className='p-1 lg:p-2.5 text-center flex flex-col justify-center items-center font-offbit font-extrabold'
+            size='sm'
+          >
+            World Map
+          </Button>
+        </Link>
         <Link href={ROUTING.SKIN_BUILDER} prefetch={true}>
-          <Button color='warning' className='font-offbit font-extrabold'>
+          <Button
+            color='warning'
+            className='p-1 lg:p-2.5 text-center flex flex-col justify-center items-center font-offbit font-extrabold'
+            size='sm'
+          >
             Skin Builder
           </Button>
         </Link>

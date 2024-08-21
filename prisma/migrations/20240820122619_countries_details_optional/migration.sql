@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "CountryApi" ALTER COLUMN "region" DROP NOT NULL,
+ALTER COLUMN "externalRegionId" DROP NOT NULL,
+ALTER COLUMN "subregion" DROP NOT NULL;

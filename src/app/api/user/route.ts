@@ -105,7 +105,7 @@ export async function PUT(req: NextRequest, res: NextResponse) {
     }
 
     const body = await req.json()
-    const { location, languages, bio, gender, skills } = body
+    const { location, languages, bio, gender, skills, latLng } = body
 
     const allLanguages = await prisma.language.findMany()
     const matchedLanguages = allLanguages.filter((lang) =>
