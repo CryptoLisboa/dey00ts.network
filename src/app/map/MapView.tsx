@@ -14,11 +14,7 @@ import MarkerClusterGroup from 'react-leaflet-cluster'
 import L from 'leaflet'
 import { useSession } from 'next-auth/react'
 import UserPopUp from '@/app/map/UserPopUp.MapView'
-import { isY00tCollectionAddress } from '@/utils/de[id]/collection'
-import {
-  generateDeGodsImageUrl,
-  generateY00tsImageUrl,
-} from '@/utils/de[id]/image'
+import { getImageOfFirstToken } from '@/utils/de[id]/image'
 
 const defaultCenter: LatLngExpression = [38.9072, -77.0369]
 const defaultZoom = 4
@@ -80,30 +76,13 @@ const UserMarker = ({
   user: any
   handleClick: (user: any) => void
 }) => {
-  const hasCollectionInstance =
-    user?.collections?.[0]?.contract && user?.collections?.[0]?.tokens?.[0]
-  let imageOfFirstToken
-  if (hasCollectionInstance) {
-    imageOfFirstToken = isY00tCollectionAddress(
-      user?.collections?.[0]?.contract
-    )
-      ? generateY00tsImageUrl(
-          user?.collections?.[0]?.tokens?.[0]?.tokenId,
-          64,
-          100
-        )
-      : generateDeGodsImageUrl(
-          user?.collections?.[0]?.tokens?.[0]?.tokenId,
-          64,
-          100
-        )
-  }
+  const imageOfFirstToken = getImageOfFirstToken(user)
   const myIcon = L.icon({
     iconUrl: user.image || '/temp/avatar.png',
     iconSize: [64, 64],
     iconAnchor: [32, 64],
     className: 'rounded-full',
-    ...(hasCollectionInstance && {
+    ...(imageOfFirstToken && {
       shadowUrl: imageOfFirstToken,
       shadowSize: [64, 64],
       shadowAnchor: [32, 64],
