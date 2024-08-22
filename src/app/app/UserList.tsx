@@ -13,7 +13,7 @@ export const UserList = ({
   className,
   isLoading,
 }: {
-  users: UserSearchResult[]
+  users: UserSearchResult[] | undefined
   className: string
   isLoading: boolean
 }) => {

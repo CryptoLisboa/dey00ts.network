@@ -105,7 +105,7 @@ export const UserSearchAndList = ({
             const pageNext = page + 1
             router.push(pathname + `?page=${pageNext}&skills=${skills}`)
           }}
-          isDisabled={users?.length < SEARCH_PAGE_SIZE || isUsersLoading}
+          isDisabled={(users?.length || 0) < SEARCH_PAGE_SIZE || isUsersLoading}
         >
           Next
         </Button>
