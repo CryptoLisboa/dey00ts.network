@@ -15,13 +15,30 @@ import SignOutSVG from '@/components/svg/sign-out'
 import EditSVG from '@/components/svg/edit'
 import ProfileSVG from '@/components/svg/profile'
 import { Socials, User } from '@prisma/client'
+import { useMemo } from 'react'
 
 interface MenuNavbarProps {
   session: Session
   user: (User & { socials: Socials | null }) | null
 }
 
-export default function MenuNavbar({ session, user }: MenuNavbarProps) {
+const getMenuItems = (
+  user: (User & { socials: Socials | null }) | null
+): { label: string; href: string }[] => [
+  { label: 'Profile', href: `/${user?.socials?.twitterHandle}` },
+  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'Activity', href: '/activity' },
+  { label: 'Analytics', href: '/analytics' },
+  { label: 'System', href: '/system' },
+  { label: 'Deployments', href: '/deployments' },
+  { label: 'My Settings', href: '/my-settings' },
+  { label: 'Team Settings', href: '/team-settings' },
+  { label: 'Help & Feedback', href: '/help-feedback' },
+  { label: 'Log Out', href: '/log-out' },
+]
+
+export default function MenuNavbarMobile({ session, user }: MenuNavbarProps) {
+  const menuItems = useMemo(() => getMenuItems(user), [user])
   return (
     <Dropdown>
       <DropdownTrigger>
