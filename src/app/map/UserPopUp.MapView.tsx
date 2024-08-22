@@ -4,38 +4,30 @@ import { isY00tCollectionAddress } from '@/utils/de[id]/collection'
 import {
   generateDeGodsImageUrl,
   generateY00tsImageUrl,
+  getImageOfFirstToken,
 } from '@/utils/de[id]/image'
 import Image from 'next/image'
+import ImageWithFallback from '@/components/ImageWithFallback'
+import { Collection, Language, Socials, Token, User } from '@prisma/client'
 
-interface User {
-  image?: string
-  name: string
-  socials: {
-    twitterHandle: string
+export default function UserPopUp({
+  user,
+}: {
+  user: User & {
+    collections: (Collection & { tokens: Token[] })[]
+    socials: Socials
+    languages: Language[]
   }
-  languages?: {
-    id: number
-    name: string
-  }[]
-  collections?: {
-    id: number
-    contract: string
-    tokens: {
-      id: number
-      tokenId: number
-    }[]
-  }[]
-}
-
-export default function UserPopUp({ user }: { user: User }) {
+}) {
   return (
     <div className='lg:w-48'>
       <div className='flex flex-col gap-3 bg-white rounded-xl w-full p-3 items-center content-center'>
         <div className='flex gap-3 justify-between place-self-center align-middle self-center content-center w-full'>
           <Link href={`/${user.socials.twitterHandle}`} className=''>
-            <Image
-              src={user.image || 'temp/avatar.png'}
-              alt={'Testing'}
+            <ImageWithFallback
+              src={user.image!}
+              fallback={getImageOfFirstToken(user)}
+              alt={user?.name || ''}
               width={50}
               height={50}
               className='rounded-full self-center content-center'

@@ -16,8 +16,8 @@ import { useSession } from 'next-auth/react'
 import UserPopUp from '@/app/map/UserPopUp.MapView'
 import { getImageOfFirstToken } from '@/utils/de[id]/image'
 
-const defaultCenter: LatLngExpression = [38.9072, -77.0369]
-const defaultZoom = 4
+const defaultCenter: LatLngExpression = [25, 20]
+const defaultZoom = 3
 
 const updateUserLocation = async () => {
   try {
@@ -119,7 +119,7 @@ const UserMarkersList = ({
       chunkedLoading
       maxClusterRadius={80}
       spiderfyDistanceMultiplier={3}
-      disableClusteringAtZoom={12}
+      // disableClusteringAtZoom={8}
       // node_modules/leaflet.markercluster/dist/leaflet.markercluster-src.js
     >
       {users?.map((user) => (
@@ -160,7 +160,7 @@ export const MapView = ({
       doubleClickZoom={true}
       zoomAnimation={true}
       minZoom={3}
-      maxZoom={10}
+      maxZoom={9}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

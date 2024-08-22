@@ -26,7 +26,7 @@ export function generateY00tsImageUrl(
 }
 
 export function getImageOfFirstToken(
-  user: User & { collections: Collection[] & { tokens: Token[] }[] }
+  user: User & { collections: (Collection & { tokens: Token[] })[] }
 ) {
   const hasCollectionInstance =
     user?.collections?.[0]?.contract && user?.collections?.[0]?.tokens?.[0]
