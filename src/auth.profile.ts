@@ -74,18 +74,24 @@ function upsertCollectionsAndTokens(
         .then((collection) => {
           console.log('collection', JSON.stringify(collection, null, 2))
           collectionsAdded.push(collection)
-          if (collectionsAdded?.length === collectionsToAdd?.length) {
-            tokensToAdd.forEach((token) => {
-              const collectionId =
-                collectionsAdded.find(
-                  (c) =>
-                    c.contract === token.contract && c.network === token.network
-                )?.id ||
-                user?.collections?.find(
-                  (c) =>
-                    c.contract === token.contract && c.network === token.network
-                )?.id
-              prisma.token.upsert({
+        })
+        .catch((error) => {
+          console.error('Error upserting collection', error)
+        })
+        .finally(() => {
+          console.log('All collections added')
+          tokensToAdd.forEach((token) => {
+            const collectionId =
+              collectionsAdded.find(
+                (c) =>
+                  c.contract === token.contract && c.network === token.network
+              )?.id ||
+              user?.collections?.find(
+                (c) =>
+                  c.contract === token.contract && c.network === token.network
+              )?.id
+            prisma.token
+              .upsert({
                 where: {
                   id: token.id,
                 },
@@ -102,11 +108,13 @@ function upsertCollectionsAndTokens(
                   collectionId: collectionId!,
                 },
               })
-            })
-          }
-        })
-        .catch((error) => {
-          console.error('Error upserting collection', error)
+              .then((token) => {
+                console.log('token upserted', JSON.stringify(token, null, 2))
+              })
+              .catch((error) => {
+                console.error('Error upserting token', error)
+              })
+          })
         })
     })
   } else {
@@ -248,7 +256,7 @@ export const profile = (response: { success: boolean; profile: IAuthUser }) => {
             },
           })
           .then((tokens) => {
-            console.log('tokens', JSON.stringify(tokens, null, 2))
+            console.log('deleted tokens', JSON.stringify(tokens, null, 2))
           })
           .catch((error) => {
             console.error('Error deleting tokens', error)
