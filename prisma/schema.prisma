@@ -59,11 +59,8 @@ model Profile {
 
 model Location {
   id                Int         @id @default(autoincrement())
-  name              String? // make it optional
-  // description String? // comment it out
-  // latitude    Float? // comment it out
-  // longitude   Float? // comment it out
-  value             String? // make it optional
+  name              String?
+  value             String?
   Event             Event[]
   User              User[]
   countryId         Int?

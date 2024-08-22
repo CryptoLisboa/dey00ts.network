@@ -5,7 +5,7 @@ import { profile } from '@/auth.profile'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { AdapterSession, AdapterUser } from 'next-auth/adapters'
 
-const nextAuthOptions = (req: NextApiRequest, res: NextApiResponse) => {
+export const getAuthOptions = (req: NextApiRequest, res: NextApiResponse) => {
   return {
     adapter: PrismaAdapter(prisma),
     redirectProxyUrl: process.env.REDIRECT_PROXY_URL,
@@ -80,68 +80,78 @@ const nextAuthOptions = (req: NextApiRequest, res: NextApiResponse) => {
   }
 }
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(prisma),
-  redirectProxyUrl: process.env.REDIRECT_PROXY_URL,
-  providers: [
-    {
-      id: 'deid',
-      name: 'de[id]',
-      type: 'oauth',
-      authorization: {
-        url: 'https://de.xyz/oauth/authorize',
-        params: {
-          scope:
-            'wallets:read collections:read dust:read socials:read email:read telegram:read',
-        },
-      },
-      checks: ['pkce', 'state'],
-      token: 'https://api.oauth.dustlabs.com/oauth/token',
-      userinfo: 'https://api.oauth.dustlabs.com/profile',
-      client: {
-        token_endpoint_auth_method: 'client_secret_post',
-      },
-      clientId: process.env.DEID_CLIENT_ID as string,
-      clientSecret: process.env.DEID_CLIENT_SECRET as string,
-      profile: profile,
-    },
-  ],
-  callbacks: {
-    async redirect({ url, baseUrl }) {
-      console.log('redirect callback', url, baseUrl)
-      return url
-    },
-    authorized({ request, auth }: { request: any; auth: any }) {
-      // console.log('authorized callback', request, auth)
-      const { pathname } = request.nextUrl
-      if (pathname === '/middleware-example') return !!auth
-      return true
-    },
-    async session({ session }) {
-      return session
-    },
-    async signIn({ user, account }) {
-      console.log('signIn callback', user, account)
-      setTimeout(async () => {
-        if (!account?.providerAccountId) return
-        const accountResponseUpdate = await prisma.account.update({
-          where: {
-            provider_providerAccountId: {
-              provider: 'deid',
-              providerAccountId: account.providerAccountId,
+export const { handlers, signIn, signOut, auth } = NextAuth(
+  (req, res, arg3) => {
+    const endWithSession = req?.url?.endsWith('/api/auth/session')
+    const endWithCsrf = req?.url?.endsWith('/api/auth/csrf')
+    const endWithProviders = req?.url?.endsWith('/api/auth/providers')
+    if (req && !endWithSession && !endWithCsrf && !endWithProviders) {
+      console.log(req) // do something with the request
+    }
+    return {
+      adapter: PrismaAdapter(prisma),
+      redirectProxyUrl: process.env.REDIRECT_PROXY_URL,
+      providers: [
+        {
+          id: 'deid',
+          name: 'de[id]',
+          type: 'oauth',
+          authorization: {
+            url: 'https://de.xyz/oauth/authorize',
+            params: {
+              scope:
+                'wallets:read collections:read dust:read socials:read email:read telegram:read',
             },
           },
-          data: {
-            access_token: accountResponse.access_token,
-            refresh_token: accountResponse.refresh_token,
-            expires_at: accountResponse.expires_at,
+          checks: ['pkce', 'state'],
+          token: 'https://api.oauth.dustlabs.com/oauth/token',
+          userinfo: 'https://api.oauth.dustlabs.com/profile',
+          client: {
+            token_endpoint_auth_method: 'client_secret_post',
           },
-        })
-      }, 1000)
-      return true
-    },
-  },
-})
+          clientId: process.env.DEID_CLIENT_ID as string,
+          clientSecret: process.env.DEID_CLIENT_SECRET as string,
+          profile: profile,
+        },
+      ],
+      callbacks: {
+        async redirect({ url, baseUrl }) {
+          console.log('redirect callback', url, baseUrl)
+          return url
+        },
+        authorized({ request, auth }: { request: any; auth: any }) {
+          // console.log('authorized callback', request, auth)
+          const { pathname } = request.nextUrl
+          if (pathname === '/middleware-example') return !!auth
+          return true
+        },
+        async session({ session }) {
+          return session
+        },
+        async signIn({ user, account }) {
+          console.log('signIn callback', user, account)
+          setTimeout(async () => {
+            if (!account?.providerAccountId) return
+            const accountResponseUpdate = await prisma.account.update({
+              where: {
+                provider_providerAccountId: {
+                  provider: 'deid',
+                  providerAccountId: account.providerAccountId,
+                },
+              },
+              data: {
+                access_token: accountResponse.access_token,
+                refresh_token: accountResponse.refresh_token,
+                expires_at: accountResponse.expires_at,
+              },
+            })
+          }, 1000)
+          return true
+        },
+      },
+    }
+  }
+)
 
 const accountResponse = {
   access_token:

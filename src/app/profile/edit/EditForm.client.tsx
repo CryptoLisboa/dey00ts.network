@@ -45,7 +45,6 @@ const getInitialStateValue = (
   states: StateApi[]
 ): string => {
   if (!states || !states.find || !externalStateId) return ''
-  debugger
   return (
     states
       ?.find((state) => state.externalStateId === externalStateId)
@@ -59,8 +58,9 @@ const getInitialCityValue = (
 ): string => {
   if (!cities) return ''
   return (
-    cities?.find((city) => city.externalCityId === parseInt(externalCityId))
-      ?.name || ''
+    cities
+      ?.find((city) => city.externalCityId === parseInt(externalCityId))
+      ?.externalCityId.toString() || ''
   )
 }
 
@@ -158,7 +158,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   useEffect(() => {
     if (selectedStateMemo) {
       console.log('selectedState', selectedStateMemo)
-      debugger
       // stateMutate()
     }
   }, [selectedStateMemo])
@@ -168,13 +167,11 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   }, [country?.states])
 
   useEffect(() => {
-    debugger
     setStatesLocal(countryStates)
     console.log('new statesLocal', countryStates)
   }, [countryStates])
 
   useEffect(() => {
-    debugger
     setCitiesLocal(state?.cities || [])
     console.log('new citiesLocal', state?.cities)
   }, [state?.cities])
@@ -204,7 +201,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   }, [userData, countries, state, setValue])
 
   useEffect(() => {
-    debugger
     setValue(
       'state',
       getInitialStateValue(userData?.location?.externalStateId, statesLocal!)
@@ -212,7 +208,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   }, [statesLocal])
 
   useEffect(() => {
-    debugger
     setValue(
       'city',
       getInitialCityValue(userData?.location?.externalCityId, citiesLocal!)
@@ -225,12 +220,34 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
         ({ name }) => name.toLowerCase() === gender.toLowerCase()
       )?.id
 
+      const city = citiesLocal.find(
+        (c) => c.externalCityId === parseInt(selectedCity)
+      )
+
+      const state = statesLocal.find(
+        (s) => s.externalStateId === parseInt(selectedState)
+      )
+
+      const country = countries?.find(
+        (c) => c.externalCountryId === parseInt(selectedCountry)
+      )
+
+      debugger
+
       const body = {
         ...data,
         languages: data.languages.map(
           (lang: string) => languages.find((l) => l.value === lang)?.id
         ),
         gender: genderId,
+        location: {
+          cityId: city?.id,
+          externalCityId: city?.externalCityId,
+          stateId: state?.id,
+          externalStateId: state?.externalStateId,
+          countryId: country?.id,
+          externalCountryId: country?.externalCountryId,
+        },
       }
 
       const response = await fetch('/api/user', {

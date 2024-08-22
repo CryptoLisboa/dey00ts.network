@@ -21,7 +21,13 @@ export async function GET(
       include: {
         profile: true,
         languages: true,
-        location: true,
+        location: {
+          include: {
+            country: true,
+            state: true,
+            city: true,
+          },
+        },
         skills: true,
         socials: true,
         userExperiences: {

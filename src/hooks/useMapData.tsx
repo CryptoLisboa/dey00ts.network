@@ -35,10 +35,7 @@ export const useCountry = (externalCountryId: string) => {
 export const useCountryState = (externalStateId: string) => {
   const { data, error, isLoading, isValidating, mutate } = useSWR<
     StateApi & { cities: CityApi[] }
-  >(
-    externalStateId ? `/api/map/state/${externalStateId}` : null,
-    fetcher
-  )
+  >(externalStateId ? `/api/map/state/${externalStateId}` : null, fetcher)
   return { data, error, isLoading, isValidating, mutate }
 }
 

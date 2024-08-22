@@ -15,6 +15,24 @@ import useSWR from 'swr'
 import { fetcher } from '@/utils/services'
 import UserProfileSkeleton from '@/components/User/UserProfileSkeleton'
 
+const getUserLocationName = (user: any) => {
+  let locationName = ''
+  if (user?.location?.country?.name) {
+    locationName = user?.location?.country?.name
+  }
+  if (user?.location?.state?.name) {
+    locationName = `${user?.location?.state?.name}, ${locationName}`
+  }
+  if (user?.location?.city?.name) {
+    locationName = `${user?.location?.city?.name}, ${locationName}`
+  }
+  if (locationName === '') {
+    locationName = user?.location?.name
+  }
+
+  return locationName
+}
+
 export default function ProfilePage({
   twitterHandle,
 }: {
@@ -91,7 +109,7 @@ export default function ProfilePage({
                   height={24}
                   unoptimized
                 />
-                <p>{user?.location?.name}</p>
+                <p>{`${getUserLocationName(user)}`}</p>
               </div>
               <div className='flex p-1 gap-3'>
                 <Image

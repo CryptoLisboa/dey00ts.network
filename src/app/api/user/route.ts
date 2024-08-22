@@ -121,7 +121,52 @@ export async function PUT(req: NextRequest, res: NextResponse) {
         id: user.id,
       },
       data: {
-        location: location?.id ? { connect: { id: location.id } } : undefined,
+        location: body.location
+          ? {
+              upsert: {
+                create: {
+                  ...(body?.location?.externalCountryId !== undefined && {
+                    externalCountryId: body.location.externalCountryId,
+                  }),
+                  ...(body?.location?.externalStateId !== undefined && {
+                    externalStateId: body.location.externalStateId,
+                  }),
+                  ...(body?.location?.externalCityId !== undefined && {
+                    externalCityId: body.location.externalCityId,
+                  }),
+                  ...(body?.location?.countryId !== undefined && {
+                    country: { connect: { id: body.location.countryId } },
+                  }),
+                  ...(body?.location?.stateId !== undefined && {
+                    state: { connect: { id: body.location.stateId } },
+                  }),
+                  ...(body?.location?.cityId !== undefined && {
+                    city: { connect: { id: body.location.cityId } },
+                  }),
+                },
+                update: {
+                  ...(body?.location?.externalCountryId !== undefined && {
+                    externalCountryId: body.location.externalCountryId,
+                  }),
+                  ...(body?.location?.externalStateId !== undefined && {
+                    externalStateId: body.location.externalStateId,
+                  }),
+                  ...(body?.location?.externalCityId !== undefined && {
+                    externalCityId: body.location.externalCityId,
+                  }),
+                  ...(body?.location?.countryId !== undefined && {
+                    country: { connect: { id: body.location.countryId } },
+                  }),
+                  ...(body?.location?.stateId !== undefined && {
+                    state: { connect: { id: body.location.stateId } },
+                  }),
+                  ...(body?.location?.cityId !== undefined && {
+                    city: { connect: { id: body.location.cityId } },
+                  }),
+                },
+              },
+            }
+          : undefined,
         languages: body.languages
           ? {
               set: [],
