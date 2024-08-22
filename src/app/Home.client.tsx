@@ -40,7 +40,7 @@ export const Home = () => {
             className='p-1 lg:p-2.5 text-center flex flex-col justify-center items-center font-offbit font-extrabold'
             size='sm'
           >
-            App
+            Directory
           </Button>
         </Link>
         <Link href={ROUTING.WORLD_MAP} prefetch={true}>

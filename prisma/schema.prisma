@@ -264,6 +264,8 @@ model Collection {
   userId   String
   user     User    @relation(fields: [userId], references: [id])
   tokens   Token[]
+
+  @@unique([contract, network, userId])
 }
 
 model Dust {
