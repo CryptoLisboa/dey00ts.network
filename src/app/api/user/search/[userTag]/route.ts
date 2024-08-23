@@ -43,6 +43,11 @@ export async function GET(
           include: {
             tokens: true,
           },
+          where: {
+            tokens: {
+              some: {},
+            },
+          },
         },
       },
     })

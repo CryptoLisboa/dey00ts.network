@@ -1,5 +1,4 @@
 import { auth } from '@/auth'
-import { UserCreated } from '@/types/app.types'
 import { prisma } from '@/utils/db.utils'
 import {
   Collection,
@@ -158,6 +157,11 @@ export async function searchUsers(
       collections: {
         include: {
           tokens: true,
+        },
+        where: {
+          tokens: {
+            some: {},
+          },
         },
       },
     },

@@ -1,5 +1,6 @@
 'use client'
 
+import { useUsersMap } from '@/hooks/useUserData'
 // import { Chip } from '@nextui-org/react'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
@@ -14,7 +15,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export default function Page() {
   const [selectedUser, setSelectedUser] = useState<any>(null)
-  const { data, isLoading } = useSWR('/api/map/users', fetcher)
+  const { data } = useUsersMap()
 
   return (
     <main

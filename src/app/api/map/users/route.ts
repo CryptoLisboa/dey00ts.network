@@ -13,6 +13,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
             not: null,
           },
         },
+        collections: {
+          some: {
+            tokens: {
+              some: {},
+            },
+          },
+        },
       },
       include: {
         location: {
@@ -33,7 +40,16 @@ export async function GET(req: NextRequest, res: NextResponse) {
         },
         socials: true,
         languages: true,
-        collections: { include: { tokens: true } },
+        collections: {
+          include: {
+            tokens: true,
+          },
+          where: {
+            tokens: {
+              some: {},
+            },
+          },
+        },
       },
     })
 
