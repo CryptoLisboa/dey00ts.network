@@ -5,9 +5,11 @@ import { motion } from 'framer-motion'
 import { Button } from '@nextui-org/react'
 import { ROUTING } from '@/constants/routing.contants'
 import { useCountries } from '@/hooks/useMapData'
+import { useUserSearchList } from '@/hooks/useUserData'
 
 export const Home = () => {
   useCountries()
+  useUserSearchList(1, [])
   return (
     <main className='flex flex-col items-center justify-center h-[85vh]'>
       <h1 className='font-offbit text-6xl md:text-8xl font-bold'>

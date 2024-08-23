@@ -8,6 +8,7 @@ import { fetcher } from '@/utils/services'
 import useSWR from 'swr'
 import { useEffect } from 'react'
 import { UserSearchResult } from '@/services/user'
+import { useUserSearchList } from '@/hooks/useUserData'
 
 type IUserSearchAndListProps = {
   skills: SkillIds[]
@@ -24,10 +25,7 @@ export const UserSearchAndList = ({
     data: users,
     isLoading: isUsersLoading,
     mutate,
-  } = useSWR<UserSearchResult[]>(
-    `/api/user/search?page=${page}&skills=${skills}`,
-    fetcher
-  )
+  } = useUserSearchList(page, skills)
 
   useEffect(() => {
     mutate()
