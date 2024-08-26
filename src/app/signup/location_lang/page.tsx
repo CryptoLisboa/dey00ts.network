@@ -3,7 +3,7 @@
 import BgImage from '@/components/BackgroundImage'
 import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
-import { Progress, Select, SelectItem, Spinner } from '@nextui-org/react'
+import { Progress, Select, SelectItem } from '@nextui-org/react'
 import { useToast } from 'rc-toastr'
 import { useEffect, useMemo, useState } from 'react'
 import { languages } from '@/constants/signup.constants'
