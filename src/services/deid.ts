@@ -5,5 +5,5 @@ export const handleLogin = async () =>
   await signIn('deid', {
     redirect: true,
     callbackUrl: ROUTING.APP,
-    scope: 'wallets:read collections:read dust:read socials:read',
+    scope: 'wallets:read collections:read dust:read socials:read email:read telegram:read location:read mobile:read',
   })

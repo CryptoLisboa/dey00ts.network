@@ -144,15 +144,15 @@ function upsertCollectionsAndTokens(
 }
 
 export const profile = (response: { success: boolean; profile: IAuthUser }) => {
-  const emailFromResponse = response.profile.email
+  const emailFromResponse = response?.profile?.email
   let email = emailFromResponse
   if (!email) {
-    const placeholderEmail = `${response.profile.id}@${
-      response.profile.socials.twitterUsername ||
-      response.profile.socials.twitterHandle ||
-      response.profile.socials.twitterId ||
-      response.profile.socials.discordUsername ||
-      response.profile.socials.telegramUsername
+    const placeholderEmail = `${response?.profile?.id}@${
+      response?.profile?.socials?.twitterUsername ||
+      response?.profile?.socials?.twitterHandle ||
+      response?.profile?.socials?.twitterId ||
+      response?.profile?.socials?.discordUsername ||
+      response?.profile?.socials?.telegramUsername
     }.fake`
     email = placeholderEmail
   }
