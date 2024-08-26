@@ -26,7 +26,7 @@ export default function Experiences() {
     if (user?.userExperiences) {
       setExperiencesCount(user.userExperiences.length)
     }
-  }, [user?.userExperiences?.length])
+  }, [user?.userExperiences?.length, user?.userExperiences])
 
   useEffect(() => {
     if (user?.userExperiences) {

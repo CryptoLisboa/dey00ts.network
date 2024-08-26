@@ -73,7 +73,7 @@ const getInitialLanguageValue = (locations: Language[]): string[] => {
 export const EditForm = ({ user }: { user: Partial<User> }) => {
   const { toast } = useToast()
 
-  const { data: countries, isLoading: countriesLoading } = useCountries()
+  const { data: countries } = useCountries()
 
   const {
     data: userData,
@@ -121,23 +121,11 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   const gender = watch('gender')
   const skills = watch('skills')
 
-  const {
-    data: country,
-    isLoading: countryLoading,
-    mutate: countryMutate,
-  } = useCountry(selectedCountry.toString())
+  const { data: country, isLoading: countryLoading } = useCountry(
+    selectedCountry.toString()
+  )
 
-  const {
-    data: state,
-    isLoading: stateLoading,
-    mutate: stateMutate,
-  } = useCountryState(selectedState.toString())
-
-  const {
-    data: city,
-    isLoading: cityLoading,
-    mutate: cityMutate,
-  } = useCity(selectedCity.toString())
+  const { data: state } = useCountryState(selectedState.toString())
 
   useEffect(() => {
     if (selectedCountry) {
@@ -181,14 +169,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
       'country',
       getInitialCountryValue(userData?.location?.externalCountryId, countries!)
     )
-    // setValue(
-    //   'state',
-    //   getInitialStateValue(userData?.location?.externalStateId, statesLocal!)
-    // )
-    // setValue(
-    //   'city',
-    //   getInitialCityValue(userData?.location?.externalCityId, citiesLocal!)
-    // )
     setValue('languages', getInitialLanguageValue(userData?.languages || []))
     setValue('bio', userData?.profile?.bio)
 

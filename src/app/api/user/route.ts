@@ -105,7 +105,7 @@ export async function PUT(req: NextRequest, res: NextResponse) {
     }
 
     const body = await req.json()
-    const { location, languages, bio, gender, skills, latLng } = body
+    const { location, languages, bio, gender, skills } = body
 
     const allLanguages = await prisma.language.findMany()
     const matchedLanguages = allLanguages.filter((lang) =>
@@ -125,42 +125,42 @@ export async function PUT(req: NextRequest, res: NextResponse) {
           ? {
               upsert: {
                 create: {
-                  ...(body?.location?.externalCountryId !== undefined && {
+                  ...(location?.externalCountryId !== undefined && {
                     externalCountryId: body.location.externalCountryId,
                   }),
-                  ...(body?.location?.externalStateId !== undefined && {
+                  ...(location?.externalStateId !== undefined && {
                     externalStateId: body.location.externalStateId,
                   }),
-                  ...(body?.location?.externalCityId !== undefined && {
+                  ...(location?.externalCityId !== undefined && {
                     externalCityId: body.location.externalCityId,
                   }),
-                  ...(body?.location?.countryId !== undefined && {
+                  ...(location?.countryId !== undefined && {
                     country: { connect: { id: body.location.countryId } },
                   }),
-                  ...(body?.location?.stateId !== undefined && {
+                  ...(location?.stateId !== undefined && {
                     state: { connect: { id: body.location.stateId } },
                   }),
-                  ...(body?.location?.cityId !== undefined && {
+                  ...(location?.cityId !== undefined && {
                     city: { connect: { id: body.location.cityId } },
                   }),
                 },
                 update: {
-                  ...(body?.location?.externalCountryId !== undefined && {
+                  ...(location?.externalCountryId !== undefined && {
                     externalCountryId: body.location.externalCountryId,
                   }),
-                  ...(body?.location?.externalStateId !== undefined && {
+                  ...(location?.externalStateId !== undefined && {
                     externalStateId: body.location.externalStateId,
                   }),
-                  ...(body?.location?.externalCityId !== undefined && {
+                  ...(location?.externalCityId !== undefined && {
                     externalCityId: body.location.externalCityId,
                   }),
-                  ...(body?.location?.countryId !== undefined && {
+                  ...(location?.countryId !== undefined && {
                     country: { connect: { id: body.location.countryId } },
                   }),
-                  ...(body?.location?.stateId !== undefined && {
+                  ...(location?.stateId !== undefined && {
                     state: { connect: { id: body.location.stateId } },
                   }),
-                  ...(body?.location?.cityId !== undefined && {
+                  ...(location?.cityId !== undefined && {
                     city: { connect: { id: body.location.cityId } },
                   }),
                 },

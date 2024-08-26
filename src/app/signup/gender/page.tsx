@@ -25,7 +25,7 @@ export default function GenderSignUp() {
     if (session.status === 'unauthenticated') {
       router.push('/signup/connect_de_id')
     }
-  }, [session])
+  }, [session, router])
 
   useEffect(() => {
     setGender(GENDERS.find((g) => g.id === user?.genderId)?.name || null)

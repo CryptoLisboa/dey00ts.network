@@ -25,7 +25,9 @@ type Country = CountryApi & {
 }
 
 export const useCountry = (externalCountryId: string) => {
-  const { data, error, isLoading, isValidating, mutate } = useSWR<Country>(
+  const { data, error, isLoading, isValidating, mutate } = useSWR<
+    Country & { states: StateApi[] }
+  >(
     externalCountryId ? `/api/map/country/${externalCountryId}` : null,
     fetcher
   )
