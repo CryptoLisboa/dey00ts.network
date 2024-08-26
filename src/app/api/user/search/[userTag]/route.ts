@@ -1,12 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { SEARCH_PAGE_SIZE } from '@/constants/app.constants'
+import { NextRequest } from 'next/server'
 import { searchUsers } from '@/services/user'
 import { prisma } from '@/utils/db.utils'
-
-interface SearchUsersForm {
-  page: number
-  skills: number[]
-}
 
 // create GET service to return one user
 export async function GET(
@@ -27,7 +21,13 @@ export async function GET(
       include: {
         profile: true,
         languages: true,
-        location: true,
+        location: {
+          include: {
+            country: true,
+            state: true,
+            city: true,
+          },
+        },
         skills: true,
         socials: true,
         userExperiences: {
@@ -42,6 +42,11 @@ export async function GET(
         collections: {
           include: {
             tokens: true,
+          },
+          where: {
+            tokens: {
+              some: {},
+            },
           },
         },
       },

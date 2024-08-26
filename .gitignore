@@ -47,3 +47,5 @@ next-env.d.ts
 #DB migration
 prisma/scripts/source_db.dump
 prisma/scripts/source_db.teigas_old_db.dump
+
+scripts/countries+states+cities.json

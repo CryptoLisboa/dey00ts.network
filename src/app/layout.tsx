@@ -1,11 +1,13 @@
 import './globals.css'
-import "rc-toastr/dist/index.css" 
+import 'rc-toastr/dist/index.css'
+import 'leaflet/dist/leaflet.css'
 
 import type { Metadata } from 'next'
 import { Inter, Luckiest_Guy } from 'next/font/google'
 import { Providers } from '../providers/Providers.client'
 import { Rowdies } from 'next/font/google'
 import Navbar from '@/components/navbar'
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -41,6 +43,7 @@ export default function RootLayout({
           <>{children}</>
         </Providers>
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID!} />
     </html>
   )
 }

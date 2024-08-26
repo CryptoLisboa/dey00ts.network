@@ -121,7 +121,52 @@ export async function PUT(req: NextRequest, res: NextResponse) {
         id: user.id,
       },
       data: {
-        location: location?.id ? { connect: { id: location.id } } : undefined,
+        location: body.location
+          ? {
+              upsert: {
+                create: {
+                  ...(location?.externalCountryId !== undefined && {
+                    externalCountryId: body.location.externalCountryId,
+                  }),
+                  ...(location?.externalStateId !== undefined && {
+                    externalStateId: body.location.externalStateId,
+                  }),
+                  ...(location?.externalCityId !== undefined && {
+                    externalCityId: body.location.externalCityId,
+                  }),
+                  ...(location?.countryId !== undefined && {
+                    country: { connect: { id: body.location.countryId } },
+                  }),
+                  ...(location?.stateId !== undefined && {
+                    state: { connect: { id: body.location.stateId } },
+                  }),
+                  ...(location?.cityId !== undefined && {
+                    city: { connect: { id: body.location.cityId } },
+                  }),
+                },
+                update: {
+                  ...(location?.externalCountryId !== undefined && {
+                    externalCountryId: body.location.externalCountryId,
+                  }),
+                  ...(location?.externalStateId !== undefined && {
+                    externalStateId: body.location.externalStateId,
+                  }),
+                  ...(location?.externalCityId !== undefined && {
+                    externalCityId: body.location.externalCityId,
+                  }),
+                  ...(location?.countryId !== undefined && {
+                    country: { connect: { id: body.location.countryId } },
+                  }),
+                  ...(location?.stateId !== undefined && {
+                    state: { connect: { id: body.location.stateId } },
+                  }),
+                  ...(location?.cityId !== undefined && {
+                    city: { connect: { id: body.location.cityId } },
+                  }),
+                },
+              },
+            }
+          : undefined,
         languages: body.languages
           ? {
               set: [],

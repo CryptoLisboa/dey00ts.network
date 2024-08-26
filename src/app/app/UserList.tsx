@@ -1,6 +1,9 @@
 // import { Image } from '@nextui-org/react'
 // import NextImage from 'next/image'
+import ImageWithFallback from '@/components/ImageWithFallback'
+import { UserSearchResult } from '@/services/user'
 import { getSkillButtonStyles } from '@/utils/button'
+import { getImageOfFirstToken } from '@/utils/de[id]/image'
 import { Button, Card, Skeleton } from '@nextui-org/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -10,7 +13,7 @@ export const UserList = ({
   className,
   isLoading,
 }: {
-  users: any
+  users: UserSearchResult[] | undefined
   className: string
   isLoading: boolean
 }) => {
@@ -59,7 +62,8 @@ export const UserList = ({
                         'radial-gradient(circle, #0049FF 0%, #01AE6A 20%, #0199FF 40%, #E7B114 62%, #E83847 82%, #6401FF 100%)',
                     }}
                   >
-                    <Image
+                    <ImageWithFallback
+                      fallback={getImageOfFirstToken(user)}
                       className='rounded-lg w-full h-full object-cover'
                       src={
                         user?.image ||

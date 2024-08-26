@@ -19,7 +19,7 @@ export default async function EditProfilePage() {
 
         <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
           <Link href={ROUTING.APP} prefetch={true}>
-            <Button color='primary'>App</Button>
+            <Button color='primary'>Directory</Button>
           </Link>
           <Link href='/signup/connect_de_id' prefetch={true}>
             <Button color='secondary'>Sign Up</Button>

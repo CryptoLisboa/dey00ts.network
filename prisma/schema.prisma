@@ -58,14 +58,71 @@ model Profile {
 }
 
 model Location {
-  id          Int     @id @default(autoincrement())
-  name        String
-  description String?
-  latitude    Float?
-  longitude   Float?
-  value       String
-  Event       Event[]
-  User        User[]
+  id                Int         @id @default(autoincrement())
+  name              String?
+  value             String?
+  Event             Event[]
+  User              User[]
+  countryId         Int?
+  stateId           Int?
+  cityId            Int?
+  country           CountryApi? @relation("UserLocationCountry", fields: [countryId], references: [id])
+  state             StateApi?   @relation("UserLocationState", fields: [stateId], references: [id])
+  city              CityApi?    @relation("UserLocationCity", fields: [cityId], references: [id])
+  externalCountryId Int?
+  externalStateId   Int?
+  externalCityId    Int?
+}
+
+model CountryApi {
+  id                  Int        @id @default(autoincrement())
+  externalCountryId   Int        @unique
+  name                String
+  iso3                String
+  iso2                String
+  region              String?
+  externalRegionId    Int?
+  subregion           String?
+  externalSubRegionId Int?
+  latitude            Float?
+  longitude           Float?
+  emoji               String
+  states              StateApi[]
+  cities              CityApi[]
+  locations           Location[] @relation("UserLocationCountry")
+
+  @@index([externalCountryId], map: "idx_country_external_id")
+}
+
+model StateApi {
+  id              Int        @id @default(autoincrement())
+  externalStateId Int        @unique
+  name            String
+  iso2            String
+  stateCode       String
+  latitude        Float?
+  longitude       Float?
+  countryId       Int
+  country         CountryApi @relation(fields: [countryId], references: [id])
+  cities          CityApi[]
+  locations       Location[] @relation("UserLocationState")
+
+  @@index([externalStateId], map: "idx_state_external_id")
+}
+
+model CityApi {
+  id             Int        @id @default(autoincrement())
+  externalCityId Int        @unique
+  name           String
+  latitude       Float?
+  longitude      Float?
+  stateId        Int
+  state          StateApi   @relation(fields: [stateId], references: [id])
+  countryId      Int
+  country        CountryApi @relation(fields: [countryId], references: [id])
+  locations      Location[] @relation("UserLocationCity")
+
+  @@index([externalCityId], map: "idx_city_external_id")
 }
 
 model Language {
@@ -207,6 +264,8 @@ model Collection {
   userId   String
   user     User    @relation(fields: [userId], references: [id])
   tokens   Token[]
+
+  @@unique([contract, network, userId])
 }
 
 model Dust {

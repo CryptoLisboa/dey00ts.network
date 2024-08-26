@@ -12,16 +12,56 @@ import {
   Spinner,
   Textarea,
 } from '@nextui-org/react'
-import { Language } from '@prisma/client'
+import { CityApi, CountryApi, Language, StateApi } from '@prisma/client'
 import { User } from 'next-auth'
 import { useToast } from 'rc-toastr'
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import useSWR from 'swr'
 import EditProfileSkeleton from '../EditForm.skeleton'
+import {
+  useCity,
+  useCountries,
+  useCountry,
+  useCountryState,
+} from '@/hooks/useMapData'
 
-const getInitialLocationValue = (locationId: number) => {
-  return locations.find((loc) => loc.id === locationId)?.value || ''
+const getInitialCountryValue = (
+  externalCountryId: string,
+  countries: CountryApi[]
+) => {
+  if (!countries || !countries.find || !externalCountryId) return ''
+  return (
+    countries
+      ?.find(
+        (country) => country.externalCountryId === parseInt(externalCountryId)
+      )
+      ?.externalCountryId.toString() || ''
+  )
+}
+
+const getInitialStateValue = (
+  externalStateId: number,
+  states: StateApi[]
+): string => {
+  if (!states || !states.find || !externalStateId) return ''
+  return (
+    states
+      ?.find((state) => state.externalStateId === externalStateId)
+      ?.externalStateId.toString() || ''
+  )
+}
+
+const getInitialCityValue = (
+  externalCityId: string,
+  cities: CityApi[]
+): string => {
+  if (!cities) return ''
+  return (
+    cities
+      ?.find((city) => city.externalCityId === parseInt(externalCityId))
+      ?.externalCityId.toString() || ''
+  )
 }
 
 const getInitialLanguageValue = (locations: Language[]): string[] => {
@@ -33,6 +73,8 @@ const getInitialLanguageValue = (locations: Language[]): string[] => {
 export const EditForm = ({ user }: { user: Partial<User> }) => {
   const { toast } = useToast()
 
+  const { data: countries } = useCountries()
+
   const {
     data: userData,
     isLoading,
@@ -40,6 +82,9 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   } = useSWR('/api/user', fetcher, {
     fallbackData: user,
   })
+
+  const [statesLocal, setStatesLocal] = useState<StateApi[]>([])
+  const [citiesLocal, setCitiesLocal] = useState<CityApi[]>([])
 
   const {
     register,
@@ -49,7 +94,18 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
     formState: { isSubmitting },
   } = useForm({
     defaultValues: {
-      location: getInitialLocationValue(userData?.locationId),
+      country: getInitialCountryValue(
+        userData?.location?.externalCountryId,
+        countries!
+      ),
+      state: getInitialStateValue(
+        userData?.location?.externalStateId,
+        statesLocal!
+      ),
+      city: getInitialCityValue(
+        userData?.location?.externalCityId,
+        citiesLocal!
+      ),
       languages: getInitialLanguageValue(userData?.languages),
       bio: userData?.profile?.bio,
       gender: userData?.genderId,
@@ -57,14 +113,62 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
     },
   })
 
-  const selectedLocation = watch('location')
+  const selectedCountry = watch('country')
+  const selectedState = watch('state')
+  const selectedCity = watch('city')
   const selectedLanguages = watch('languages')
   const bio = watch('bio')
   const gender = watch('gender')
   const skills = watch('skills')
 
+  const { data: country, isLoading: countryLoading } = useCountry(
+    selectedCountry.toString()
+  )
+
+  const { data: state } = useCountryState(selectedState.toString())
+
   useEffect(() => {
-    setValue('location', getInitialLocationValue(userData?.locationId))
+    if (selectedCountry) {
+      console.log(
+        'selectedCountry',
+        selectedCountry,
+        'country',
+        country,
+        'countryLoading',
+        countryLoading
+      )
+      // countryMutate()
+    }
+  }, [selectedCountry, country, countryLoading])
+
+  const selectedStateMemo = useMemo(() => selectedState, [selectedState])
+
+  useEffect(() => {
+    if (selectedStateMemo) {
+      console.log('selectedState', selectedStateMemo)
+      // stateMutate()
+    }
+  }, [selectedStateMemo])
+
+  const countryStates = useMemo(() => {
+    return country?.states || []
+  }, [country?.states])
+
+  useEffect(() => {
+    setStatesLocal(countryStates)
+    console.log('new statesLocal', countryStates)
+  }, [countryStates])
+
+  useEffect(() => {
+    setCitiesLocal(state?.cities || [])
+    console.log('new citiesLocal', state?.cities)
+  }, [state?.cities])
+
+  useEffect(() => {
+    setValue(
+      'country',
+      getInitialCountryValue(userData?.location?.externalCountryId, countries!)
+    )
     setValue('languages', getInitialLanguageValue(userData?.languages || []))
     setValue('bio', userData?.profile?.bio)
 
@@ -74,7 +178,21 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
       'skills',
       userData?.skills?.map((skill: any) => skill.id)
     )
-  }, [userData])
+  }, [userData, countries, state, setValue])
+
+  useEffect(() => {
+    setValue(
+      'state',
+      getInitialStateValue(userData?.location?.externalStateId, statesLocal!)
+    )
+  }, [statesLocal])
+
+  useEffect(() => {
+    setValue(
+      'city',
+      getInitialCityValue(userData?.location?.externalCityId, citiesLocal!)
+    )
+  }, [citiesLocal])
 
   const onSubmit = async (data: any) => {
     try {
@@ -82,12 +200,34 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
         ({ name }) => name.toLowerCase() === gender.toLowerCase()
       )?.id
 
+      const city = citiesLocal.find(
+        (c) => c.externalCityId === parseInt(selectedCity)
+      )
+
+      const state = statesLocal.find(
+        (s) => s.externalStateId === parseInt(selectedState)
+      )
+
+      const country = countries?.find(
+        (c) => c.externalCountryId === parseInt(selectedCountry)
+      )
+
+      debugger
+
       const body = {
         ...data,
         languages: data.languages.map(
           (lang: string) => languages.find((l) => l.value === lang)?.id
         ),
         gender: genderId,
+        location: {
+          cityId: city?.id,
+          externalCityId: city?.externalCityId,
+          stateId: state?.id,
+          externalStateId: state?.externalStateId,
+          countryId: country?.id,
+          externalCountryId: country?.externalCountryId,
+        },
       }
 
       const response = await fetch('/api/user', {
@@ -119,23 +259,57 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
       className='container mx-auto h-full px-12 sm:px-24 md:px-32 lg:px-96'
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h1 className='text-lg md:text-xl font-lucky text-center mb-3'>
+      <h1 className='text-lg md:text-xl font-offbit font-bold text-center mb-3'>
         Edit Profile
         {isLoading && <Spinner className='ml-6' size='sm' />}
       </h1>
 
-      <h2 className='text-md md:text-lg font-lucky text-left mb-3'>
-        Update your Location
+      <h2 className='text-md md:text-lg font-offbit font-bold text-left mb-3'>
+        Update your Country
+      </h2>
+      {countries && countries.length > 0 && (
+        <Select
+          variant='bordered'
+          selectionMode='single'
+          placeholder='Select Country'
+          name='country'
+          className='mb-6'
+          selectedKeys={[selectedCountry]}
+          onSelectionChange={(e: any) => {
+            setValue('country', e.currentKey)
+          }}
+          classNames={{
+            base: 'text-[#AFE5FF]',
+            value: 'text-[#AFE5FF]',
+            popoverContent: 'text-[#AFE5FF] bg-[#111111]',
+            trigger: 'border-[#AFE5FF]',
+          }}
+        >
+          {(countries || []).map((country) => {
+            return (
+              <SelectItem
+                key={country.externalCountryId.toString()}
+                value={country.externalCountryId.toString()}
+              >
+                {country.name}
+              </SelectItem>
+            )
+          })}
+        </Select>
+      )}
+
+      <h2 className='text-md md:text-lg font-offbit font-bold text-left mb-3'>
+        Update your State
       </h2>
       <Select
         variant='bordered'
         selectionMode='single'
-        placeholder='Select Location'
-        name='location'
+        placeholder='Select State'
+        name='state'
         className='mb-6'
-        selectedKeys={[selectedLocation]}
+        selectedKeys={[selectedState]}
         onSelectionChange={(e: any) => {
-          setValue('location', e.currentKey)
+          setValue('state', e.currentKey)
         }}
         classNames={{
           base: 'text-[#AFE5FF]',
@@ -144,14 +318,47 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
           trigger: 'border-[#AFE5FF]',
         }}
       >
-        {locations.map((location) => (
-          <SelectItem key={location.value} value={location.value}>
-            {location.name}
+        {(statesLocal || []).map((stateItr: StateApi) => (
+          <SelectItem
+            key={stateItr.externalStateId.toString()}
+            value={stateItr.externalStateId.toString()}
+          >
+            {stateItr.name}
           </SelectItem>
         ))}
       </Select>
 
-      <h2 className='text-md md:text-lg font-lucky text-left mb-3'>
+      <h2 className='text-md md:text-lg font-offbit font-bold text-left mb-3'>
+        Update your City
+      </h2>
+      <Select
+        variant='bordered'
+        selectionMode='single'
+        placeholder='Select City'
+        name='city'
+        className='mb-6'
+        selectedKeys={[selectedCity]}
+        onSelectionChange={(e: any) => {
+          setValue('city', e.currentKey)
+        }}
+        classNames={{
+          base: 'text-[#AFE5FF]',
+          value: 'text-[#AFE5FF]',
+          popoverContent: 'text-[#AFE5FF] bg-[#111111]',
+          trigger: 'border-[#AFE5FF]',
+        }}
+      >
+        {(citiesLocal || []).map((city: CityApi) => (
+          <SelectItem
+            key={city.externalCityId.toString()}
+            value={city.externalCityId.toString()}
+          >
+            {city.name}
+          </SelectItem>
+        ))}
+      </Select>
+
+      <h2 className='text-md md:text-lg font-offbit font-bold text-left mb-3'>
         Update your Language
       </h2>
 
@@ -184,7 +391,7 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
         ))}
       </Select>
 
-      <h2 className='text-md md:text-lg font-lucky text-left mb-3'>
+      <h2 className='text-md md:text-lg font-offbit font-bold text-left mb-3'>
         Update your Bio
       </h2>
       <Textarea
@@ -212,7 +419,8 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
         classNames={{
           base: 'w-full mb-6',
           wrapper: 'grid grid-cols-1 flex-row gap-y-3',
-          label: 'text-md md:text-lg font-lucky text-left mb-3 text-white',
+          label:
+            'text-md md:text-lg font-offbit font-bold text-left mb-3 text-white',
         }}
       >
         <Radio color='primary' value='Male'>
@@ -229,7 +437,7 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
         </Radio>
       </RadioGroup>
 
-      <h2 className='text-md md:text-lg font-lucky text-left mb-3'>
+      <h2 className='text-md md:text-lg font-offbit font-bold text-left mb-3'>
         Update your Skills
       </h2>
       <div className='flex flex-wrap justify-center gap-4 w-full mb-3'>

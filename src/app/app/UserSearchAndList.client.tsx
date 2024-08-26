@@ -3,10 +3,12 @@
 import { SEARCH_PAGE_SIZE, SkillIds, SKILLS } from '@/constants/app.constants'
 import { Button } from '@nextui-org/react'
 import { usePathname, useRouter } from 'next/navigation'
-import { UserList } from './UserList'
+import { UserList } from '@/app/app/UserList'
 import { fetcher } from '@/utils/services'
 import useSWR from 'swr'
 import { useEffect } from 'react'
+import { UserSearchResult } from '@/services/user'
+import { useUserSearchList } from '@/hooks/useUserData'
 
 type IUserSearchAndListProps = {
   skills: SkillIds[]
@@ -23,7 +25,7 @@ export const UserSearchAndList = ({
     data: users,
     isLoading: isUsersLoading,
     mutate,
-  } = useSWR(`/api/user/search?page=${page}&skills=${skills}`, fetcher)
+  } = useUserSearchList(page, skills)
 
   useEffect(() => {
     mutate()
@@ -101,7 +103,7 @@ export const UserSearchAndList = ({
             const pageNext = page + 1
             router.push(pathname + `?page=${pageNext}&skills=${skills}`)
           }}
-          isDisabled={users?.length < SEARCH_PAGE_SIZE || isUsersLoading}
+          isDisabled={(users?.length || 0) < SEARCH_PAGE_SIZE || isUsersLoading}
         >
           Next
         </Button>

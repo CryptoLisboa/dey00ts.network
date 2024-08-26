@@ -1,12 +1,34 @@
 import { auth } from '@/auth'
-import { UserCreated } from '@/types/app.types'
 import { prisma } from '@/utils/db.utils'
+import {
+  Collection,
+  Skill,
+  Socials,
+  Token,
+  User,
+  Location,
+} from '@prisma/client'
 
-export const fetchProfile = async (): Promise<UserCreated> => {
+export type UserFetchProfileResult =
+  | (User & {
+      socials:
+        | (Socials & {
+            twitterHandle: string | null
+          })
+        | null
+      location: Location | null
+      skills: Skill[]
+      collections: (Collection & {
+        tokens: Token[]
+      })[]
+    })
+  | null
+
+export const fetchProfile = async (): Promise<UserFetchProfileResult> => {
   try {
     const session = await auth()
 
-    const user = await prisma.user.findUnique({
+    const user: UserFetchProfileResult = await prisma.user.findUnique({
       where: {
         id: session?.user?.id,
       },
@@ -14,7 +36,6 @@ export const fetchProfile = async (): Promise<UserCreated> => {
         profile: true,
         location: true,
         languages: true,
-        contents: true,
         userExperiences: {
           include: {
             experience: {
@@ -42,10 +63,11 @@ export const fetchProfile = async (): Promise<UserCreated> => {
             tokens: true,
           },
         },
+        skills: true,
       },
     })
 
-    const data = user as UserCreated
+    const data = user as UserFetchProfileResult
     return data
   } catch (error) {
     console.error('Failed to fetch user profile:', error)
@@ -53,11 +75,32 @@ export const fetchProfile = async (): Promise<UserCreated> => {
   }
 }
 
+export type UserSearchResult = {
+  id: string
+  name: string | null
+  image: string | null
+  socials: {
+    id: string
+    twitterHandle: string | null
+  } | null
+  location: {
+    id: number
+    name: string | null
+  } | null
+  skills: {
+    id: number
+    name: string
+  }[]
+  collections: (Collection & {
+    tokens: Token[]
+  })[]
+}
+
 export async function searchUsers(
   skills: number[],
   page: number,
   SEARCH_PAGE_SIZE: number
-) {
+): Promise<UserSearchResult[]> {
   const skipAmount = (page - 1) * SEARCH_PAGE_SIZE
   const users = await prisma.user.findMany({
     where: {
@@ -76,6 +119,13 @@ export async function searchUsers(
       socials: {
         twitterHandle: {
           not: null,
+        },
+      },
+      collections: {
+        some: {
+          tokens: {
+            some: {},
+          },
         },
       },
     },
@@ -104,8 +154,18 @@ export async function searchUsers(
           name: true,
         },
       },
+      collections: {
+        include: {
+          tokens: true,
+        },
+        where: {
+          tokens: {
+            some: {},
+          },
+        },
+      },
     },
   })
 
-  return users
+  return users as UserSearchResult[]
 }

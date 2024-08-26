@@ -4,8 +4,13 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@nextui-org/react'
 import { ROUTING } from '@/constants/routing.contants'
+// import { useCountries } from '@/hooks/useMapData'
+// import { useUserSearchList, useUsersMap } from '@/hooks/useUserData'
 
 export const Home = () => {
+  // useCountries()
+  // useUserSearchList(1, [])
+  // useUsersMap()
   return (
     <main className='flex flex-col items-center justify-center h-[85vh]'>
       <h1 className='font-offbit text-6xl md:text-8xl font-bold'>
@@ -31,12 +36,33 @@ export const Home = () => {
         </Link>
       </h2>
 
-      <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky'>
+      <div className='flex flex-wrap items-center gap-12 mt-6 font-lucky px-4 lg:px-0'>
         <Link href={ROUTING.APP} prefetch={true}>
-          <Button color='primary'>App</Button>
+          <Button
+            color='primary'
+            className='p-1 lg:p-2.5 text-center flex flex-col justify-center items-center font-offbit font-extrabold'
+            size='sm'
+          >
+            Directory
+          </Button>
+        </Link>
+        <Link href={ROUTING.WORLD_MAP} prefetch={true}>
+          <Button
+            color='secondary'
+            className='p-1 lg:p-2.5 text-center flex flex-col justify-center items-center font-offbit font-extrabold'
+            size='sm'
+          >
+            World Map
+          </Button>
         </Link>
         <Link href={ROUTING.SKIN_BUILDER} prefetch={true}>
-          <Button color='warning'>Skin Builder</Button>
+          <Button
+            color='warning'
+            className='p-1 lg:p-2.5 text-center flex flex-col justify-center items-center font-offbit font-extrabold'
+            size='sm'
+          >
+            Skin Builder
+          </Button>
         </Link>
         {/* {!isAuthenticated && <LoginButton />} */}
       </div>

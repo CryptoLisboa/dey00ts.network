@@ -5,55 +5,136 @@ import BackButton from '@/components/buttons/Back'
 import SignUpCard from '@/components/cards/SignUp'
 import { Progress, Select, SelectItem } from '@nextui-org/react'
 import { useToast } from 'rc-toastr'
-import { useContext, useEffect, useState } from 'react'
-import AuthContext from '@/providers/AuthContext'
-import { languages, locations } from '@/constants/signup.constants'
+import { useEffect, useMemo, useState } from 'react'
+import { languages } from '@/constants/signup.constants'
 import { useRouter } from 'next/navigation'
-import { mutate } from 'swr'
+import useSWR, { mutate } from 'swr'
 import { ROUTING } from '@/constants/routing.contants'
+import { useCountries, useCountry, useCountryState } from '@/hooks/useMapData'
+import { Language, Location, User } from '@prisma/client'
+import { fetcher } from '@/utils/services'
 
 export default function LocationSignUp() {
   const router = useRouter()
   const { toast } = useToast()
 
-  const { user } = useContext(AuthContext)
+  const { data: user } = useSWR<
+    User & { languages: Language[]; location: Location }
+  >('/api/user', fetcher)
+
+  const { data: countriesData, isLoading: countriesLoading } = useCountries()
+  const countries = useMemo(() => countriesData || [], [countriesData])
+  // const [countries, setCountries] = useState<CountryApi[]>([])
 
   const [languagesValues, setLanguagesValues] = useState<Set<string>>(
     new Set([])
   )
-  const [locationsValue, setLocationsValue] = useState<Set<string>>(new Set([]))
+
+  const [selectedCountry, setSelectedCountry] = useState<Set<string>>(
+    new Set([])
+  )
+  const { data: country } = useCountry(Array.from(selectedCountry)?.[0])
+  const countryStates = useMemo(() => country?.states || [], [country])
+  useEffect(() => {
+    if (countries) {
+      const hasValidLocationValue = countries.find(
+        (countryInstance) =>
+          countryInstance?.externalCountryId ===
+          user?.location?.externalCountryId
+      )
+      if (hasValidLocationValue) {
+        setSelectedCountry(
+          new Set([hasValidLocationValue?.externalCountryId.toString()])
+        )
+      }
+    }
+  }, [user?.location?.externalCountryId, countries])
+
+  const [selectedState, setSelectedState] = useState<Set<string>>(new Set([]))
+  useEffect(() => {
+    if (countryStates) {
+      const hasValidStateValue = countryStates.find(
+        (state) => state?.externalStateId === user?.location?.externalStateId
+      )
+      if (hasValidStateValue) {
+        setSelectedState(
+          new Set([hasValidStateValue?.externalStateId.toString()])
+        )
+      }
+    }
+  }, [user?.location?.externalStateId, countryStates])
+
+  const { data: countryState, isLoading: countryStateLoading } =
+    useCountryState(Array.from(selectedState)[0])
+  const [selectedCity, setSelectedCity] = useState<Set<string>>(new Set([]))
+  const countryCities = useMemo(
+    () => countryState?.cities || [],
+    [countryState]
+  )
+  useEffect(() => {
+    if (countryState) {
+      const hasValidStateValue = countryState?.cities?.find(
+        (city) => city?.externalCityId === user?.location?.externalCityId
+      )
+      if (hasValidStateValue) {
+        setSelectedCity(
+          new Set([hasValidStateValue?.externalCityId.toString()])
+        )
+      }
+    }
+  }, [user?.location?.externalCityId, countryState])
 
   useEffect(() => {
     const hasValidLanguagesValues = user?.languages?.map((lang) => lang.name)
     if (hasValidLanguagesValues) {
       setLanguagesValues(new Set(hasValidLanguagesValues))
     }
-
-    const hasValidLocationValue = locations.find(
-      (loc) => loc.id === user?.locationId
-    )?.value
-    if (hasValidLocationValue) {
-      setLocationsValue(new Set([hasValidLocationValue]))
-    }
-  }, [user?.languages, user?.locationId])
+  }, [user?.languages])
 
   const handleNext = async () => {
-    if (!languagesValues.size) {
+    const hasSelectedCountry = selectedCountry.size > 0
+    const hasSelectedState = selectedState.size > 0
+    const hasSelectedCity = selectedCity.size > 0
+    const hasSelectedLanguages = languagesValues.size > 0
+    if (!hasSelectedLanguages) {
       toast.error('Please select your language')
     }
-    if (!locationsValue.size) {
+    if (!hasSelectedCountry) {
       toast.error('Please select your location')
     }
+    if (!hasSelectedState) {
+      toast.error('Please select your state')
+    }
 
-    if (languagesValues.size && locationsValue.size) {
+    const hasValidLocation = hasSelectedCountry && hasSelectedState
+
+    if (hasSelectedLanguages && hasValidLocation) {
       try {
+        const externalCountry = countries.find(
+          (country) =>
+            country.externalCountryId ===
+            parseInt(Array.from(selectedCountry)[0])
+        )
+        const externalState = countryStates.find(
+          (state) =>
+            state.externalStateId === parseInt(Array.from(selectedState)[0])
+        )
+        const externalCity = countryCities.find(
+          (city) =>
+            city.externalCityId === parseInt(Array.from(selectedCity)[0])
+        )
         const body = {
           languages: Array.from(languagesValues).map(
             (lang: string) => languages.find((l) => l.name === lang)?.id
           ),
-          location: locations.find((loc) =>
-            Array.from(locationsValue).includes(loc.value)
-          ),
+          location: {
+            externalCountryId: Number(externalCountry?.externalCountryId),
+            externalStateId: Number(externalState?.externalStateId),
+            externalCityId: Number(externalCity?.externalCityId),
+            countryId: Number(externalCountry?.id),
+            stateId: Number(externalState?.id),
+            cityId: Number(externalCity?.id),
+          },
         }
 
         const response = await fetch('/api/user', {
@@ -121,7 +202,6 @@ export default function LocationSignUp() {
                     trigger: 'border-[#AFE5FF]',
                   }}
                   selectedKeys={languagesValues}
-                  // onChange={setLanguages}
                   // @ts-ignore
                   onSelectionChange={setLanguagesValues}
                 >
@@ -134,7 +214,37 @@ export default function LocationSignUp() {
               </div>
 
               <div className='grid gap-y-2'>
-                <h4 className='text-white text-left'>Location</h4>
+                <h4 className='text-white text-left'>Country</h4>
+                <Select
+                  variant='bordered'
+                  selectionMode='single'
+                  placeholder='Select Country'
+                  name='country'
+                  classNames={{
+                    base: 'text-[#AFE5FF]',
+                    value: 'text-[#AFE5FF]',
+                    popoverContent: 'text-[#AFE5FF] bg-[#111111]',
+                    trigger: 'border-[#AFE5FF]',
+                  }}
+                  selectedKeys={selectedCountry}
+                  // @ts-ignore
+                  onSelectionChange={setSelectedCountry}
+                  isLoading={countriesLoading}
+                  isDisabled={countries?.length === 0 || countriesLoading}
+                >
+                  {countries.map((country) => (
+                    <SelectItem
+                      key={country.externalCountryId}
+                      value={country.externalCountryId}
+                    >
+                      {country.name}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
+
+              <div className='grid gap-y-2'>
+                <h4 className='text-white text-left'>State</h4>
                 <Select
                   variant='bordered'
                   selectionMode='single'
@@ -146,13 +256,49 @@ export default function LocationSignUp() {
                     popoverContent: 'text-[#AFE5FF] bg-[#111111]',
                     trigger: 'border-[#AFE5FF]',
                   }}
-                  selectedKeys={locationsValue}
+                  selectedKeys={selectedState}
                   // @ts-ignore
-                  onSelectionChange={setLocationsValue}
+                  onSelectionChange={setSelectedState}
+                  isDisabled={countryStates?.length === 0 || countriesLoading}
                 >
-                  {locations.map((location) => (
-                    <SelectItem key={location.value} value={location.value}>
-                      {location.name}
+                  {countryStates.map((state) => (
+                    <SelectItem
+                      key={state?.externalStateId}
+                      value={state?.externalStateId}
+                    >
+                      {state.name}
+                    </SelectItem>
+                  ))}
+                </Select>
+              </div>
+
+              <div className='grid gap-y-2'>
+                <h4 className='text-white text-left'>City (optional)</h4>
+                <Select
+                  variant='bordered'
+                  selectionMode='single'
+                  placeholder='Select Location'
+                  name='location'
+                  classNames={{
+                    base: 'text-[#AFE5FF]',
+                    value: 'text-[#AFE5FF]',
+                    popoverContent: 'text-[#AFE5FF] bg-[#111111]',
+                    trigger: 'border-[#AFE5FF]',
+                  }}
+                  selectedKeys={selectedCity}
+                  // @ts-ignore
+                  onSelectionChange={setSelectedCity}
+                  isLoading={countryStateLoading}
+                  isDisabled={
+                    countryCities?.length === 0 || countryStateLoading
+                  }
+                >
+                  {countryCities.map((city) => (
+                    <SelectItem
+                      key={city.externalCityId}
+                      value={city.externalCityId}
+                    >
+                      {city.name}
                     </SelectItem>
                   ))}
                 </Select>
