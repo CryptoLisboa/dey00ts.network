@@ -273,7 +273,7 @@ export default function LocationSignUp() {
               </div>
 
               <div className='grid gap-y-2'>
-                <h4 className='text-white text-left'>City</h4>
+                <h4 className='text-white text-left'>City (optional)</h4>
                 <Select
                   variant='bordered'
                   selectionMode='single'
