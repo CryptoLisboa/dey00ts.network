@@ -4,14 +4,11 @@ import { useUsersMap } from '@/hooks/useUserData'
 // import { Chip } from '@nextui-org/react'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import useSWR from 'swr'
 
 const DynamicMapView = dynamic(
   () => import('./MapView').then((mod) => mod.MapView),
   { ssr: false }
 )
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export default function Page() {
   const [selectedUser, setSelectedUser] = useState<any>(null)
