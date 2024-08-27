@@ -1,6 +1,6 @@
 export const ROUTING = {
   HOME: '/',
-  APP: '/app?page=1',
+  APP: '/app',
   PROFILE_EDIT: '/profile/edit',
   SIGNUP: {
     WELCOME: '/signup/welcome',

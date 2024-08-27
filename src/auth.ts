@@ -32,7 +32,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth((req) => {
           url: 'https://de.xyz/oauth/authorize',
           params: {
             scope:
-              'wallets:read collections:read dust:read socials:read email:read telegram:read',
+              'wallets:read collections:read dust:read socials:read email:read telegram:read location:read mobile:read',
           },
         },
         checks: ['pkce', 'state'],

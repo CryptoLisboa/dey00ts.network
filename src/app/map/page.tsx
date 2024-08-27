@@ -10,8 +10,6 @@ const DynamicMapView = dynamic(
   { ssr: false }
 )
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
-
 export default function Page() {
   const [selectedUser, setSelectedUser] = useState<any>(null)
   const { data } = useUsersMap()

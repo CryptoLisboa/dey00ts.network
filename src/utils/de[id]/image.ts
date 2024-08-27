@@ -1,4 +1,4 @@
-import { Collection, Token, User } from '@prisma/client'
+import { Collection, Token } from '@prisma/client'
 import { isY00tCollectionAddress } from '@/utils/de[id]/collection'
 
 export function generateDeGodsImageUrl(
@@ -26,7 +26,7 @@ export function generateY00tsImageUrl(
 }
 
 export function getImageOfFirstToken(
-  user: User & { collections: (Collection & { tokens: Token[] })[] }
+  user: { collections: (Collection & { tokens: Token[] })[] }
 ) {
   const hasCollectionInstance =
     user?.collections?.[0]?.contract && user?.collections?.[0]?.tokens?.[0]
