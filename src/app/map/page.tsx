@@ -4,7 +4,6 @@ import { useUsersMap } from '@/hooks/useUserData'
 // import { Chip } from '@nextui-org/react'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import useSWR from 'swr'
 
 const DynamicMapView = dynamic(
   () => import('./MapView').then((mod) => mod.MapView),
