@@ -1,6 +1,5 @@
 import { prisma } from '@/utils/db.utils'
-import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@/auth'
+import { NextRequest } from 'next/server'
 import { SEARCH_PAGE_SIZE } from '@/constants/app.constants'
 
 // create GET service to return the user

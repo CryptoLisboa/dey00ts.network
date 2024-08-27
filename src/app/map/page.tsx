@@ -16,8 +16,8 @@ export default function Page() {
   const swr = useSWRInfinite<{
     users: UserMap[]
     nextPage: number | null
-  }>((page) => `/api/map/users/${page + 1}`, {
-    fetcher,
+  }>((page) => `/api/map/users/${page + 1}`, fetcher, {
+    revalidateFirstPage: false,
     dedupingInterval: 600000,
     refreshInterval: 600000,
     focusThrottleInterval: 600000,

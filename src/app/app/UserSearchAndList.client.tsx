@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { UserList } from '@/app/app/UserList'
 import useSWRInfinite from 'swr/infinite'
 import { UserSearchResult } from '@/services/user'
+import { fetcher } from '@/utils/services'
 
 type IUserSearchAndListProps = {
   skills: SkillIds[]
@@ -17,15 +18,19 @@ export const UserSearchAndList = ({ skills }: IUserSearchAndListProps) => {
   const swr = useSWRInfinite<{
     users: UserSearchResult[]
     nextPage: number | null
-  }>((page) => `/api/user/search?page=${page + 1}&skills=${skills}`, {
-    fetcher: async (key: string) => fetch(key).then((res) => res.json()),
-    dedupingInterval: 600000,
-    refreshInterval: 600000,
-    revalidateOnFocus: false,
-    revalidateOnMount: true,
-    revalidateOnReconnect: false,
-    revalidateIfStale: false,
-  })
+  }>(
+    (page) => `/api/user/search?page=${page + 1}&skills=${skills}`,
+    fetcher,
+    {
+      revalidateFirstPage: false,
+      dedupingInterval: 600000,
+      refreshInterval: 600000,
+      revalidateOnFocus: false,
+      revalidateOnMount: true,
+      revalidateOnReconnect: false,
+      revalidateIfStale: false,
+    }
+  )
 
   return (
     <main className='container pt-0 mx-auto p-4'>
