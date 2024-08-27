@@ -1,20 +1,8 @@
 'use client'
 
 import { UserMap } from '@/services/user'
-import { findLastNonEmptyUsers, findLastNonEmptyUsersMap } from '@/utils/api'
-// import { useUsersMap } from '@/hooks/useUserData'
+import { findLastNonEmptyUsersMap } from '@/utils/api'
 import { fetcher } from '@/utils/services'
-import {
-  CityApi,
-  Collection,
-  CountryApi,
-  Language,
-  Location,
-  Socials,
-  StateApi,
-  Token,
-  User,
-} from '@prisma/client'
 import dynamic from 'next/dynamic'
 import { useEffect, useMemo, useState } from 'react'
 import useSWRInfinite from 'swr/infinite'
@@ -39,7 +27,7 @@ export default function Page() {
     revalidateIfStale: true,
   })
 
-  const { data, isLoading, isValidating, setSize, size } = swr
+  const { data, isValidating, setSize, size } = swr
   const [pagesQueried, setPagesQueried] = useState<number[]>([])
 
   useEffect(() => {
