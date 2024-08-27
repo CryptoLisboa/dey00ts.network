@@ -4,36 +4,13 @@ import ImageWithFallback from '@/components/ImageWithFallback'
 import InfiniteScroll from '@/components/InfiniteScroll'
 import { SEARCH_PAGE_SIZE } from '@/constants/app.constants'
 import { UserSearchResult } from '@/services/user'
+import { findLastNonEmptyUsers } from '@/utils/api'
 import { getSkillButtonStyles } from '@/utils/button'
 import { getImageOfFirstToken } from '@/utils/de[id]/image'
-import { Button, Card, Skeleton, Spinner } from '@nextui-org/react'
+import { Button, Card, Skeleton } from '@nextui-org/react'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import { SWRInfiniteResponse } from 'swr/infinite'
-
-function findLastNonEmptyUsers(
-  response: SWRInfiniteResponse<{
-    users: UserSearchResult[]
-    nextPage: number | null
-  }>
-): {
-  users: UserSearchResult[]
-  nextPage: number | null
-} | null {
-  const data = response?.data
-  // Iterate the array from the last element to the first
-  for (let i = (data?.length || 0) - 1; data && i >= 0; i--) {
-    // Check if the current element has a non-empty 'users' array
-    if (data?.[i]?.users && data?.[i]?.users?.length > 0) {
-      // Return the last element where 'users' is not empty
-      const users = data[i]?.users
-      const nextPage = data[i]?.nextPage
-      return { users, nextPage }
-    }
-  }
-  // Return null if no non-empty 'users' array is found
-  return null
-}
 
 const LoadingSkeleton = ({
   className,

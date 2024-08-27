@@ -7,6 +7,10 @@ import {
   Token,
   User,
   Location,
+  CountryApi,
+  StateApi,
+  CityApi,
+  Language,
 } from '@prisma/client'
 
 export type UserFetchProfileResult =
@@ -142,13 +146,6 @@ export async function searchUsers(
           twitterHandle: true,
         },
       },
-      location: {
-        include: {
-          country: true,
-          state: true,
-          city: true,
-        },
-      },
       skills: {
         select: {
           id: true,
@@ -177,3 +174,17 @@ export async function searchUsers(
 
   return { users: users as UserSearchResult[], nextPage }
 }
+
+export type UserMap = (User & {
+  location: Location & {
+    country: CountryApi
+    state: StateApi
+    city: CityApi
+  }
+  socials: Socials[]
+  languages: Language[]
+  collections: Collection &
+    {
+      tokens: Token[]
+    }[]
+})[]
