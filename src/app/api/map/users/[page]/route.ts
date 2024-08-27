@@ -2,6 +2,7 @@ import { prisma } from '@/utils/db.utils'
 import { NextRequest } from 'next/server'
 import { SEARCH_PAGE_SIZE } from '@/constants/app.constants'
 
+export const revalidate = 60 * 60 * 24 // 1 day
 // create GET service to return the user
 export async function GET(
   req: NextRequest,
