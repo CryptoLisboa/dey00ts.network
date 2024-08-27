@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { SEARCH_PAGE_SIZE } from '@/constants/app.constants'
 import { searchUsers } from '@/services/user'
 
+export const revalidate = 60 * 60 * 24 // 1 day
 // create GET service to return the user
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
