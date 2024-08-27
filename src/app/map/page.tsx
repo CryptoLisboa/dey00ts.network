@@ -3,6 +3,7 @@
 import { UserMap } from '@/services/user'
 import { findLastNonEmptyUsersMap } from '@/utils/api'
 import { fetcher } from '@/utils/services'
+import { Spinner } from '@nextui-org/react'
 import dynamic from 'next/dynamic'
 import { useEffect, useMemo, useState } from 'react'
 import useSWRInfinite from 'swr/infinite'
@@ -12,22 +13,19 @@ const DynamicMapView = dynamic(
   { ssr: false }
 )
 
+const getKey = (page: number) => `/api/map/users/${page + 1}`
+
 export default function Page() {
   const swr = useSWRInfinite<{
     users: UserMap[]
     nextPage: number | null
-  }>((page) => `/api/map/users/${page + 1}`, fetcher, {
+  }>(getKey, fetcher, {
     revalidateFirstPage: false,
-    dedupingInterval: 600000,
-    refreshInterval: 600000,
-    focusThrottleInterval: 600000,
-    revalidateOnFocus: true,
-    revalidateOnMount: true,
-    revalidateOnReconnect: true,
-    revalidateIfStale: true,
+    parallel: true,
+    initialSize: 2,
   })
 
-  const { data, isValidating, setSize, size } = swr
+  const { data, isValidating, isLoading, setSize, size } = swr
   const [pagesQueried, setPagesQueried] = useState<number[]>([])
 
   useEffect(() => {
@@ -55,6 +53,9 @@ export default function Page() {
       className='dark flex flex-col gap-y-3 w-full h-[85vh] relative'
       id='map'
     >
+      {(isLoading || isValidating) && (
+        <Spinner className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[1000]' />
+      )}
       <DynamicMapView users={users} />
     </main>
   )

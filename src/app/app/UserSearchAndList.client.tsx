@@ -11,6 +11,10 @@ import { fetcher } from '@/utils/services'
 type IUserSearchAndListProps = {
   skills: SkillIds[]
 }
+
+const getKey = (skills: SkillIds[]) => (page: number) =>
+  `/api/user/search?page=${page + 1}&skills=${skills}`
+
 export const UserSearchAndList = ({ skills }: IUserSearchAndListProps) => {
   const pathname = usePathname()
   const router = useRouter()
@@ -18,19 +22,11 @@ export const UserSearchAndList = ({ skills }: IUserSearchAndListProps) => {
   const swr = useSWRInfinite<{
     users: UserSearchResult[]
     nextPage: number | null
-  }>(
-    (page) => `/api/user/search?page=${page + 1}&skills=${skills}`,
-    fetcher,
-    {
-      revalidateFirstPage: false,
-      dedupingInterval: 600000,
-      refreshInterval: 600000,
-      revalidateOnFocus: false,
-      revalidateOnMount: true,
-      revalidateOnReconnect: false,
-      revalidateIfStale: false,
-    }
-  )
+  }>(getKey(skills), fetcher, {
+    revalidateFirstPage: false,
+    parallel: true,
+    initialSize: 2,
+  })
 
   return (
     <main className='container pt-0 mx-auto p-4'>
