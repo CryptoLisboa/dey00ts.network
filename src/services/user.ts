@@ -143,9 +143,10 @@ export async function searchUsers(
         },
       },
       location: {
-        select: {
-          id: true,
-          name: true,
+        include: {
+          country: true,
+          state: true,
+          city: true,
         },
       },
       skills: {

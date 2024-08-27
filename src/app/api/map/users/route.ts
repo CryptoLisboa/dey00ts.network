@@ -29,15 +29,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
             city: true,
           },
         },
-        userExperiences: {
-          include: {
-            experience: {
-              include: {
-                skill: true,
-              },
-            },
-          },
-        },
         socials: true,
         languages: true,
         collections: {

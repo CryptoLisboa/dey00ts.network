@@ -1,9 +1,9 @@
 'use client'
 
 import { useUsersMap } from '@/hooks/useUserData'
-// import { Chip } from '@nextui-org/react'
+import { fetcher } from '@/utils/services'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import useSWRInfinite from 'swr/infinite'
 
 const DynamicMapView = dynamic(
   () => import('./MapView').then((mod) => mod.MapView),
@@ -11,39 +11,27 @@ const DynamicMapView = dynamic(
 )
 
 export default function Page() {
-  const [selectedUser, setSelectedUser] = useState<any>(null)
-  const { data } = useUsersMap()
+  // const { data } = useUsersMap()
+  const { data, isLoading, isValidating, mutate, error } = useSWRInfinite(
+    '/api/map/users',
+    {
+      fetcher,
+      dedupingInterval: 600000,
+      refreshInterval: 600000,
+      focusThrottleInterval: 600000,
+      revalidateOnFocus: true,
+      revalidateOnMount: true,
+      revalidateOnReconnect: true,
+      revalidateIfStale: true,
+    }
+  )
 
   return (
     <main
       className='dark flex flex-col gap-y-3 w-full h-[85vh] relative'
       id='map'
     >
-      {/* <div
-        className='flex flex-col gap-3 w-fit h-fit'
-        style={{
-          top: 10,
-          left: 60,
-          zIndex: 10000,
-        }}
-      >
-        <div className='flex gap-3'>
-          <Chip variant='shadow' color='success'>
-            DeGods
-          </Chip>
-          <Chip variant='shadow' color='warning'>
-            Y00ts
-          </Chip>
-          <Chip variant='shadow' color='primary'>
-            BTC DeGods
-          </Chip>
-        </div>
-      </div> */}
-      <DynamicMapView
-        users={data}
-        handleClick={setSelectedUser}
-        selectedUser={selectedUser}
-      />
+      <DynamicMapView users={data} />
     </main>
   )
 }
