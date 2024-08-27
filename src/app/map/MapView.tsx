@@ -69,13 +69,7 @@ const getUserCoordinates = (user: any) => {
   return [user?.location?.country?.latitude, user?.location?.country?.longitude]
 }
 
-const UserMarker = ({
-  user,
-  handleClick,
-}: {
-  user: any
-  handleClick: (user: any) => void
-}) => {
+const UserMarker = ({ user }: { user: any }) => {
   const imageOfFirstToken = getImageOfFirstToken(user)
   const myIcon = L.icon({
     iconUrl: user.image || '/temp/avatar.png',
@@ -96,7 +90,6 @@ const UserMarker = ({
       eventHandlers={{
         click: (e) => {
           console.log('marker clicked', e)
-          // handleClick(user)
         },
       }}
     >
@@ -107,13 +100,7 @@ const UserMarker = ({
   )
 }
 
-const UserMarkersList = ({
-  users,
-  handleClick,
-}: {
-  users: any[]
-  handleClick: (user: any) => void
-}) => {
+const UserMarkersList = ({ users }: { users: any[] }) => {
   return (
     <MarkerClusterGroup
       chunkedLoading
@@ -123,20 +110,13 @@ const UserMarkersList = ({
       // node_modules/leaflet.markercluster/dist/leaflet.markercluster-src.js
     >
       {users?.map((user) => (
-        <UserMarker key={user.id} user={user} handleClick={handleClick} />
+        <UserMarker key={user.id} user={user} />
       ))}
     </MarkerClusterGroup>
   )
 }
 
-export const MapView = ({
-  users,
-  handleClick,
-}: {
-  users: any[]
-  handleClick: (user: any) => void
-  selectedUser: any
-}) => {
+export const MapView = ({ users }: { users: any[] }) => {
   const [unmountMap, setunmountMap] = useState(false)
 
   useLayoutEffect(() => {
@@ -166,7 +146,7 @@ export const MapView = ({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
       />
-      <UserMarkersList users={users} handleClick={handleClick} />
+      <UserMarkersList users={users} />
 
       {/* <LocationMarker /> */}
     </MapContainer>

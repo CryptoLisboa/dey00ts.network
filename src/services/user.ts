@@ -7,6 +7,10 @@ import {
   Token,
   User,
   Location,
+  CountryApi,
+  StateApi,
+  CityApi,
+  Language,
 } from '@prisma/client'
 
 export type UserFetchProfileResult =
@@ -100,7 +104,7 @@ export async function searchUsers(
   skills: number[],
   page: number,
   SEARCH_PAGE_SIZE: number
-): Promise<UserSearchResult[]> {
+): Promise<{ users: UserSearchResult[]; nextPage: number | null }> {
   const skipAmount = (page - 1) * SEARCH_PAGE_SIZE
   const users = await prisma.user.findMany({
     where: {
@@ -130,7 +134,7 @@ export async function searchUsers(
       },
     },
     orderBy: { createdAt: 'desc' },
-    take: SEARCH_PAGE_SIZE,
+    take: SEARCH_PAGE_SIZE + 1, // Fetch one more record than the page size
     skip: skipAmount,
     select: {
       id: true,
@@ -140,12 +144,6 @@ export async function searchUsers(
         select: {
           id: true,
           twitterHandle: true,
-        },
-      },
-      location: {
-        select: {
-          id: true,
-          name: true,
         },
       },
       skills: {
@@ -167,5 +165,26 @@ export async function searchUsers(
     },
   })
 
-  return users as UserSearchResult[]
+  const hasNextPage = users.length > SEARCH_PAGE_SIZE
+  if (hasNextPage) {
+    users.pop() // Remove the extra record
+  }
+
+  const nextPage = hasNextPage ? page + 1 : null
+
+  return { users: users as UserSearchResult[], nextPage }
 }
+
+export type UserMap = (User & {
+  location: Location & {
+    country: CountryApi
+    state: StateApi
+    city: CityApi
+  }
+  socials: Socials[]
+  languages: Language[]
+  collections: Collection &
+    {
+      tokens: Token[]
+    }[]
+})[]

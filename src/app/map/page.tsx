@@ -1,52 +1,61 @@
 'use client'
 
-import { useUsersMap } from '@/hooks/useUserData'
-// import { Chip } from '@nextui-org/react'
+import { UserMap } from '@/services/user'
+import { findLastNonEmptyUsersMap } from '@/utils/api'
+import { fetcher } from '@/utils/services'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
-import useSWR from 'swr'
+import { useEffect, useMemo, useState } from 'react'
+import useSWRInfinite from 'swr/infinite'
 
 const DynamicMapView = dynamic(
   () => import('./MapView').then((mod) => mod.MapView),
   { ssr: false }
 )
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
-
 export default function Page() {
-  const [selectedUser, setSelectedUser] = useState<any>(null)
-  const { data } = useUsersMap()
+  const swr = useSWRInfinite<{
+    users: UserMap[]
+    nextPage: number | null
+  }>((page) => `/api/map/users/${page + 1}`, fetcher, {
+    revalidateFirstPage: false,
+    dedupingInterval: 600000,
+    refreshInterval: 600000,
+    focusThrottleInterval: 600000,
+    revalidateOnFocus: true,
+    revalidateOnMount: true,
+    revalidateOnReconnect: true,
+    revalidateIfStale: true,
+  })
+
+  const { data, isValidating, setSize, size } = swr
+  const [pagesQueried, setPagesQueried] = useState<number[]>([])
+
+  useEffect(() => {
+    if (data) {
+      const lastNonEmptyUsers = findLastNonEmptyUsersMap(data)
+      const nextPage = lastNonEmptyUsers?.nextPage
+      const hasNextPage = !isNaN(nextPage!)
+      if (!isValidating && hasNextPage) {
+        if (size + 1 === nextPage && !pagesQueried.includes(nextPage)) {
+          setPagesQueried((pages) => [...pages, nextPage])
+          setSize(size + 1)
+        }
+      }
+    }
+  }, [data, isValidating, setSize, size, pagesQueried])
+
+  // const { data: dataUsers } = useUsersMap()
+
+  const users = useMemo(() => {
+    return data?.flatMap((page) => page?.users) || []
+  }, [data])
 
   return (
     <main
       className='dark flex flex-col gap-y-3 w-full h-[85vh] relative'
       id='map'
     >
-      {/* <div
-        className='flex flex-col gap-3 w-fit h-fit'
-        style={{
-          top: 10,
-          left: 60,
-          zIndex: 10000,
-        }}
-      >
-        <div className='flex gap-3'>
-          <Chip variant='shadow' color='success'>
-            DeGods
-          </Chip>
-          <Chip variant='shadow' color='warning'>
-            Y00ts
-          </Chip>
-          <Chip variant='shadow' color='primary'>
-            BTC DeGods
-          </Chip>
-        </div>
-      </div> */}
-      <DynamicMapView
-        users={data}
-        handleClick={setSelectedUser}
-        selectedUser={selectedUser}
-      />
+      <DynamicMapView users={users} />
     </main>
   )
 }

@@ -1,35 +1,36 @@
 'use client'
 
-import { SEARCH_PAGE_SIZE, SkillIds, SKILLS } from '@/constants/app.constants'
+import { SkillIds, SKILLS } from '@/constants/app.constants'
 import { Button } from '@nextui-org/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { UserList } from '@/app/app/UserList'
-import { fetcher } from '@/utils/services'
-import useSWR from 'swr'
-import { useEffect } from 'react'
+import useSWRInfinite from 'swr/infinite'
 import { UserSearchResult } from '@/services/user'
-import { useUserSearchList } from '@/hooks/useUserData'
+import { fetcher } from '@/utils/services'
 
 type IUserSearchAndListProps = {
   skills: SkillIds[]
-  page: number
 }
-export const UserSearchAndList = ({
-  skills,
-  page,
-}: IUserSearchAndListProps) => {
+export const UserSearchAndList = ({ skills }: IUserSearchAndListProps) => {
   const pathname = usePathname()
   const router = useRouter()
 
-  const {
-    data: users,
-    isLoading: isUsersLoading,
-    mutate,
-  } = useUserSearchList(page, skills)
-
-  useEffect(() => {
-    mutate()
-  }, [skills, page, mutate])
+  const swr = useSWRInfinite<{
+    users: UserSearchResult[]
+    nextPage: number | null
+  }>(
+    (page) => `/api/user/search?page=${page + 1}&skills=${skills}`,
+    fetcher,
+    {
+      revalidateFirstPage: false,
+      dedupingInterval: 600000,
+      refreshInterval: 600000,
+      revalidateOnFocus: false,
+      revalidateOnMount: true,
+      revalidateOnReconnect: false,
+      revalidateIfStale: false,
+    }
+  )
 
   return (
     <main className='container pt-0 mx-auto p-4'>
@@ -70,7 +71,12 @@ export const UserSearchAndList = ({
                   )
                     .sort((a, b) => a - b)
                     ?.join(',')
-                  router.push(pathname + `?page=1&skills=${newSkillsParams}`)
+                  router.push(
+                    pathname +
+                      (newSkillsParams?.length
+                        ? `?skills=${newSkillsParams}`
+                        : '')
+                  )
                 }}
               >
                 {name}
@@ -81,33 +87,8 @@ export const UserSearchAndList = ({
       </div>
       <UserList
         className='grid grid-cols-1 lg:grid-cols-5 gap-y-5 lg:gap-y-10 gap-x-4 lg:gap-x-8 w-full mb-4'
-        users={users}
-        isLoading={isUsersLoading}
+        swr={swr}
       />
-
-      {/* pagination buttons */}
-      <div className='flex justify-center gap-x-4'>
-        <Button
-          variant='bordered'
-          onClick={() => {
-            const pagePrevious = Math.max(1, page - 1)
-            router.push(pathname + `?page=${pagePrevious}&skills=${skills}`)
-          }}
-          isDisabled={page === 1 || isUsersLoading}
-        >
-          Previous
-        </Button>
-        <Button
-          variant='bordered'
-          onClick={() => {
-            const pageNext = page + 1
-            router.push(pathname + `?page=${pageNext}&skills=${skills}`)
-          }}
-          isDisabled={(users?.length || 0) < SEARCH_PAGE_SIZE || isUsersLoading}
-        >
-          Next
-        </Button>
-      </div>
     </main>
   )
 }

@@ -5,6 +5,7 @@ import { Auth, CreateUser, SignupData } from '@/types/app.types'
 import { useRouter } from 'next/navigation'
 import useSWR from 'swr'
 import { IAuthUser } from '@/types/auth.types'
+import { fetcher } from '@/utils/services'
 
 /**
  * Create context
@@ -25,8 +26,6 @@ const AuthContext = React.createContext<Auth>({
 /**
  * Provider
  */
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,

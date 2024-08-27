@@ -3,9 +3,10 @@ import { fetcher } from '@/utils/services'
 import useSWR from 'swr'
 
 export function useUserSearchList(page: number, skills: number[]) {
-  const { data, isLoading, mutate, isValidating, error } = useSWR<
-    UserSearchResult[]
-  >(`/api/user/search?page=${page}&skills=${skills}`, fetcher, {
+  const { data, isLoading, mutate, isValidating, error } = useSWR<{
+    users: UserSearchResult[]
+    nextPage: number | null
+  }>(`/api/user/search?page=${page}&skills=${skills}`, fetcher, {
     dedupingInterval: 600000,
     refreshInterval: 600000,
     focusThrottleInterval: 600000,
@@ -15,12 +16,15 @@ export function useUserSearchList(page: number, skills: number[]) {
     revalidateIfStale: true,
   })
 
+  let nextPage = data?.nextPage
+
   return {
-    data,
+    data: data?.users,
     isLoading,
     mutate,
     isValidating,
     error,
+    nextPage,
   }
 }
 
