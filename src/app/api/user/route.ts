@@ -95,7 +95,55 @@ export async function PUT(req: NextRequest, res: NextResponse) {
       where: {
         id: userFromSession?.id,
       },
+      include: {
+        location: {
+          include: {
+            _count: {
+              select: {
+                User: true,
+              },
+            },
+          },
+        },
+      },
     })
+
+    const shouldCreateNewLocation = user?.location?._count?.User! > 1
+    if (shouldCreateNewLocation) {
+      const newLocation = await prisma.location.create({
+        data: {
+          ...(user?.location?.externalCountryId !== undefined && {
+            externalCountryId: user?.location?.externalCountryId,
+          }),
+          ...(user?.location?.externalStateId !== undefined && {
+            externalStateId: user?.location?.externalStateId,
+          }),
+          ...(user?.location?.externalCityId !== undefined && {
+            externalCityId: user?.location?.externalCityId,
+          }),
+          ...(user?.location?.countryId &&
+            !isNaN(user?.location?.countryId) && {
+              country: { connect: { id: user?.location?.countryId } },
+            }),
+          ...(user?.location?.stateId &&
+            !isNaN(user?.location?.stateId) && {
+              state: { connect: { id: user?.location?.stateId } },
+            }),
+          ...(user?.location?.cityId &&
+            !isNaN(user?.location?.cityId) && {
+              city: { connect: { id: user?.location?.cityId } },
+            }),
+        },
+      })
+      await prisma.user.update({
+        where: {
+          id: user?.id,
+        },
+        data: {
+          location: { connect: { id: newLocation?.id } },
+        },
+      })
+    }
 
     if (!user) {
       return new Response(JSON.stringify({ error: 'User not found' }), {
