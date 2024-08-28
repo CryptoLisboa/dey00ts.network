@@ -63,6 +63,10 @@ function upsertCollectionsAndTokens(
 
   if (!isAllCollectionsAdded) {
     collectionsToAdd.forEach((collectionToAdd) => {
+      console.log(
+        'Adding new collection',
+        JSON.stringify(collectionToAdd, null, 2)
+      )
       prisma.collection
         .create({
           data: {
@@ -117,30 +121,39 @@ function upsertCollectionsAndTokens(
           })
         })
     })
-  } else {
-    console.log('All collections already added')
-
-    tokensToAdd.forEach((token) => {
-      const collectionId = user?.collections?.find(
-        (c) => c.contract === token.contract && c.network === token.network
-      )?.id
-      prisma.token
-        .create({
-          data: {
-            tokenId: token.tokenId,
-            wallet: token.wallet,
-            staked: token.staked,
-            collectionId: collectionId!,
-          },
-        })
-        .then((token) => {
-          console.log('token', JSON.stringify(token, null, 2))
-        })
-        .catch((error) => {
-          console.error('Error upserting token', error)
-        })
-    })
   }
+
+  console.log('Processing tokens from collections already added')
+
+  const isTokenFromExistingCollection = (token: TokenToAdd) =>
+    !collectionsToAdd.find(
+      (c) => c.contract === token.contract && c.network === token.network
+    )
+
+  tokensToAdd.filter(isTokenFromExistingCollection).forEach((token) => {
+    const collectionId = user?.collections?.find(
+      (c) => c.contract === token.contract && c.network === token.network
+    )?.id
+    prisma.token
+      .create({
+        data: {
+          tokenId: token.tokenId,
+          wallet: token.wallet,
+          staked: token.staked,
+          collectionId: collectionId!,
+        },
+      })
+      .then((token) => {
+        console.log(
+          'created token',
+          JSON.stringify(token, null, 2),
+          'in existing collection'
+        )
+      })
+      .catch((error) => {
+        console.error('Error upserting token', error)
+      })
+  })
 }
 
 export const profile = (response: { success: boolean; profile: IAuthUser }) => {
@@ -207,6 +220,9 @@ export const profile = (response: { success: boolean; profile: IAuthUser }) => {
       },
     })
     .then((user) => {
+      const removeNull = (
+        token: (Token & { collection: Collection }) | undefined
+      ) => token !== undefined
       const tokensToRemove = user?.collections
         ?.flatMap((collection) => {
           return collection.tokens.map((token) => {
@@ -222,7 +238,7 @@ export const profile = (response: { success: boolean; profile: IAuthUser }) => {
             }
           })
         })
-        .filter((token) => token !== undefined)
+        .filter(removeNull)
       console.log('tokensToRemove', JSON.stringify(tokensToRemove, null, 2))
 
       const tokensToAdd = userObj?.collections?.create
@@ -315,173 +331,3 @@ export const profile = (response: { success: boolean; profile: IAuthUser }) => {
     })
   return removeNullProperties(userObj)
 }
-
-/*
-const userObjTemplate = {
-        socials: {
-          create: {
-            telegramId: '474856002',
-            telegramUsername: 'CryptoLisboa',
-            discordId: '613126953829924896',
-            discordUsername: 'cryptolisboa#0',
-            twitterId: '942220335264550912',
-            twitterHandle: 'CryptoLisboa',
-          },
-        },
-        id: 'ad5b1e5f-b296-4df6-9a91-7d4441aa0f17',
-        website: null,
-        email: null,
-        emailVerified: true,
-        dust: {
-          create: {
-            amount: 26.907897293,
-            preciseAmount: '26907897293',
-            decimals: 9,
-          },
-        },
-        collections: {
-          create: [
-            {
-              network: 'SOLANA',
-              contract: '4mKSoDDqApmF1DqXvVTSL6tu2zixrSSNjqMxUnwvVzy2',
-              tokens: {
-                create: [
-                  {
-                    wallet: '8JSpcQNDhQXL5vkKoyvSEmoYCXihMmB2ayNdP959hBEM',
-                    tokenId: 1449,
-                    staked: false,
-                  },
-                  {
-                    wallet: '8JSpcQNDhQXL5vkKoyvSEmoYCXihMmB2ayNdP959hBEM',
-                    tokenId: 4906,
-                    staked: false,
-                  },
-                  {
-                    wallet: '8JSpcQNDhQXL5vkKoyvSEmoYCXihMmB2ayNdP959hBEM',
-                    tokenId: 14442,
-                    staked: false,
-                  },
-                  {
-                    wallet: '8JSpcQNDhQXL5vkKoyvSEmoYCXihMmB2ayNdP959hBEM',
-                    tokenId: 58,
-                    staked: false,
-                  },
-                ],
-              },
-            },
-            {
-              network: 'SOLANA',
-              contract: '6XxjKYFbcndh2gDcsUrmZgVEsoDxXMnfsaGY6fpTJzNr',
-              tokens: {
-                create: [
-                  {
-                    wallet: '8JSpcQNDhQXL5vkKoyvSEmoYCXihMmB2ayNdP959hBEM',
-                    tokenId: 8017,
-                    staked: false,
-                  },
-                ],
-              },
-            },
-          ],
-        },
-        description: null,
-        imageUrl: undefined,
-        name: 'Ben',
-        wallets: {
-          create: [
-            {
-              network: 'ETHEREUM',
-              address: '0xe1D3e4efA8729ae9DF488da239f0907202B744a9',
-            },
-            {
-              network: 'ETHEREUM',
-              address: '0xB16452961bfBfeB85298A5e2e591bE1042b252C0',
-            },
-            {
-              network: 'ETHEREUM',
-              address: '0x3aAa57DAF2D1aF8b6B0F7DC7025A35CAa6c2f0eB',
-            },
-            {
-              network: 'SOLANA',
-              address: '8JSpcQNDhQXL5vkKoyvSEmoYCXihMmB2ayNdP959hBEM',
-            },
-            {
-              network: 'ETHEREUM',
-              address: '0x719E574633BfA2530b4F05ddBAddDF58e7c45dB3',
-            },
-          ],
-        },
-        externalId: 'ad5b1e5f-b296-4df6-9a91-7d4441aa0f17',
-        image:
-          'https://pbs.twimg.com/profile_images/1821304671081738240/qeI3FyEi.jpg',
-      }
-      const userTemplate = {
-        id: 'clwq6zj1e0002k9zyn4qfot8b',
-        email: 'wains-perk0c@icloud.com',
-        name: 'Ben',
-        bio: null,
-        createdAt: '2024-05-28T10:25:36.000Z',
-        emailVerified: null,
-        updatedAt: '2024-08-22T18:47:35.040Z',
-        externalId: 'ad5b1e5f-b296-4df6-9a91-7d4441aa0f17',
-        website: null,
-        image:
-          'https://pbs.twimg.com/profile_images/1821304671081738240/qeI3FyEi.jpg',
-        active: true,
-        genderId: 1,
-        locationId: 53,
-        collections: [
-          {
-            id: 1,
-            network: 'ETHEREUM',
-            contract: '0x8821BeE2ba0dF28761AffF119D66390D594CD280',
-            userId: 'clwq6zj1e0002k9zyn4qfot8b',
-            tokens: [
-              {
-                id: 1,
-                wallet: '0xe1D3e4efA8729ae9DF488da239f0907202B744a9',
-                tokenId: 8017,
-                staked: false,
-                collectionId: 1,
-              },
-            ],
-          },
-          {
-            id: 2,
-            network: 'SOLANA',
-            contract: '4mKSoDDqApmF1DqXvVTSL6tu2zixrSSNjqMxUnwvVzy2',
-            userId: 'clwq6zj1e0002k9zyn4qfot8b',
-            tokens: [
-              {
-                id: 2,
-                wallet: '8JSpcQNDhQXL5vkKoyvSEmoYCXihMmB2ayNdP959hBEM',
-                tokenId: 2159,
-                staked: false,
-                collectionId: 2,
-              },
-              {
-                id: 3,
-                wallet: '8JSpcQNDhQXL5vkKoyvSEmoYCXihMmB2ayNdP959hBEM',
-                tokenId: 14442,
-                staked: false,
-                collectionId: 2,
-              },
-              {
-                id: 4,
-                wallet: '8JSpcQNDhQXL5vkKoyvSEmoYCXihMmB2ayNdP959hBEM',
-                tokenId: 58,
-                staked: false,
-                collectionId: 2,
-              },
-              {
-                id: 5,
-                wallet: '8JSpcQNDhQXL5vkKoyvSEmoYCXihMmB2ayNdP959hBEM',
-                tokenId: 4906,
-                staked: false,
-                collectionId: 2,
-              },
-            ],
-          },
-        ],
-      }
-*/

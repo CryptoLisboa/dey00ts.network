@@ -8,7 +8,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "studio": "npx prisma studio --browser none",
     "prisma:generate": "exec prisma generate",
     "prisma:format": "exec prisma format",
     "prisma:studio": "exec prisma studio --browser none",
