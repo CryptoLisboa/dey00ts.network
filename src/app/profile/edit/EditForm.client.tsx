@@ -128,7 +128,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   const { data: state } = useCountryState(selectedState.toString())
 
   useEffect(() => {
-    debugger
     if (selectedCountry) {
       console.log(
         'selectedCountry',
@@ -144,7 +143,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   const selectedStateMemo = useMemo(() => selectedState, [selectedState])
 
   useEffect(() => {
-    debugger
     if (selectedStateMemo) {
       console.log('selectedState', selectedStateMemo)
     }
@@ -155,13 +153,11 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   }, [country?.states])
 
   useEffect(() => {
-    debugger
     setStatesLocal(countryStates)
     console.log('new statesLocal', countryStates)
   }, [countryStates])
 
   useEffect(() => {
-    debugger
     setCitiesLocal(state?.cities || [])
     console.log('new citiesLocal', state?.cities)
   }, [state?.cities])
@@ -188,7 +184,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
     const shouldSetCountry =
       !selectedCountry && userData?.location?.externalCountryId
     if (shouldSetCountry) {
-      debugger
       setValue(
         'country',
         getInitialCountryValue(
@@ -207,7 +202,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   useEffect(() => {
     const shouldSetState = !selectedState && userData?.location?.externalStateId
     if (shouldSetState) {
-      debugger
       setValue(
         'state',
         getInitialStateValue(userData?.location?.externalStateId, statesLocal!)
@@ -223,7 +217,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   useEffect(() => {
     const shouldSetCity = !selectedCity && userData?.location?.externalCityId
     if (shouldSetCity) {
-      debugger
       setValue(
         'city',
         getInitialCityValue(userData?.location?.externalCityId, citiesLocal!)
