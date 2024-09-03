@@ -164,6 +164,8 @@ export async function PUT(req: NextRequest, res: NextResponse) {
       skills?.includes(skill.id)
     )
 
+    console.log('body api/user/ PUT', JSON.stringify(body, null, 2))
+
     const updatedUser = await prisma.user.update({
       where: {
         id: user.id,
