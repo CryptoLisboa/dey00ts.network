@@ -94,7 +94,6 @@ export default function LocationSignUp() {
   const handleNext = async () => {
     const hasSelectedCountry = selectedCountry.size > 0
     const hasSelectedState = selectedState.size > 0
-    const hasSelectedCity = selectedCity.size > 0
     const hasSelectedLanguages = languagesValues.size > 0
     if (!hasSelectedLanguages) {
       toast.error('Please select your language')
