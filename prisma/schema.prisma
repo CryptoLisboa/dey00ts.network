@@ -24,19 +24,20 @@ model User {
   accounts        Account[]
   Authenticator   Authenticator[]
   collections     Collection[]
-  followers       Connection[]     @relation("followingConnection")
-  followings      Connection[]     @relation("followerConnection")
+  followers       Connection[]     @relation("followerConnection")
+  followings      Connection[]     @relation("followingConnection")
   contents        Content[]
   dust            Dust?
   profile         Profile?
   sessions        Session[]
   socials         Socials?
-  gender          Gender?          @relation("UserToGender", fields: [genderId], references: [id], map: "UserToGenderFK")
-  location        Location?        @relation(fields: [locationId], references: [id])
+  gender          Gender?          @relation("UserToGender", fields: [genderId], references: [id], map: "UserToGenderFK", onDelete: Cascade)
+  location        Location?        @relation(fields: [locationId], references: [id], onDelete: Cascade)
   userExperiences UserExperience[]
   wallets         Wallet[]
   languages       Language[]       @relation("UserLanguages")
   skills          Skill[]          @relation("UserSkills")
+  Connection      Connection[]
 }
 
 model Wallet {
@@ -44,7 +45,7 @@ model Wallet {
   userId  String
   address String @unique
   network String
-  user    User   @relation(fields: [userId], references: [id])
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId], map: "idx_wallets_user")
 }
@@ -54,7 +55,7 @@ model Profile {
   userId    String  @unique
   bio       String?
   avatarUrl String?
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Location {
@@ -66,9 +67,9 @@ model Location {
   countryId         Int?
   stateId           Int?
   cityId            Int?
-  country           CountryApi? @relation("UserLocationCountry", fields: [countryId], references: [id])
-  state             StateApi?   @relation("UserLocationState", fields: [stateId], references: [id])
-  city              CityApi?    @relation("UserLocationCity", fields: [cityId], references: [id])
+  country           CountryApi? @relation("UserLocationCountry", fields: [countryId], references: [id], onDelete: Cascade)
+  state             StateApi?   @relation("UserLocationState", fields: [stateId], references: [id], onDelete: Cascade)
+  city              CityApi?    @relation("UserLocationCity", fields: [cityId], references: [id], onDelete: Cascade)
   externalCountryId Int?
   externalStateId   Int?
   externalCityId    Int?
@@ -154,11 +155,13 @@ model UserExperience {
 }
 
 model Connection {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   followerId  String
   followingId String
-  follower    User   @relation("followingConnection", fields: [followerId], references: [id])
-  following   User   @relation("followerConnection", fields: [followingId], references: [id])
+  follower    User    @relation("followerConnection", fields: [followerId], references: [id])
+  following   User    @relation("followingConnection", fields: [followingId], references: [id])
+  User        User?   @relation(fields: [userId], references: [id])
+  userId      String?
 }
 
 model Avatar {
@@ -243,7 +246,7 @@ model Socials {
   twitterId        String?
   twitterHandle    String?
   twitterUsername  String?
-  user             User    @relation(fields: [userId], references: [id])
+  user             User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId], map: "idx_socials_user")
 }
@@ -262,7 +265,7 @@ model Collection {
   network  String
   contract String
   userId   String
-  user     User    @relation(fields: [userId], references: [id])
+  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   tokens   Token[]
 
   @@unique([contract, network, userId])
@@ -274,7 +277,7 @@ model Dust {
   amount        Int
   preciseAmount String
   decimals      Int
-  user          User   @relation(fields: [userId], references: [id])
+  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId], map: "idx_dust_user")
 }
