@@ -148,8 +148,8 @@ model Experience {
 model UserExperience {
   userId       String
   experienceId Int
-  experience   Experience @relation(fields: [experienceId], references: [id])
-  user         User       @relation(fields: [userId], references: [id])
+  experience   Experience @relation(fields: [experienceId], references: [id], onDelete: Cascade)
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, experienceId])
 }
@@ -257,7 +257,7 @@ model Token {
   tokenId      Int
   staked       Boolean
   collectionId Int
-  collection   Collection @relation(fields: [collectionId], references: [id])
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
 }
 
 model Collection {
