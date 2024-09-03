@@ -108,7 +108,10 @@ export async function PUT(req: NextRequest, res: NextResponse) {
       },
     })
 
-    const shouldCreateNewLocation = user?.location?._count?.User! > 1
+    const hasAggregatedLocation =
+      user?.location?._count?.User && user?.location?._count?.User > 1
+    const hasNoLocation = !user?.location
+    const shouldCreateNewLocation = hasAggregatedLocation || hasNoLocation
     if (shouldCreateNewLocation) {
       const newLocation = await prisma.location.create({
         data: {
@@ -171,42 +174,42 @@ export async function PUT(req: NextRequest, res: NextResponse) {
         ? {
             upsert: {
               create: {
-                ...(location?.externalCountryId !== undefined && {
+                ...(!!location?.externalCountryId && {
                   externalCountryId: location?.externalCountryId,
                 }),
-                ...(location?.externalStateId !== undefined && {
+                ...(!!location?.externalStateId && {
                   externalStateId: location?.externalStateId,
                 }),
-                ...(location?.externalCityId !== undefined && {
+                ...(!!location?.externalCityId && {
                   externalCityId: location?.externalCityId,
                 }),
-                ...(location?.countryId !== undefined && {
+                ...(!!location?.countryId && {
                   country: { connect: { id: location?.countryId } },
                 }),
-                ...(location?.stateId !== undefined && {
+                ...(!!location?.stateId && {
                   state: { connect: { id: location?.stateId } },
                 }),
-                ...(location?.cityId !== undefined && {
+                ...(!!location?.cityId && {
                   city: { connect: { id: location?.cityId } },
                 }),
               },
               update: {
-                ...(location?.externalCountryId !== undefined && {
+                ...(!!body?.location?.externalCountryId && {
                   externalCountryId: body.location.externalCountryId,
                 }),
-                ...(location?.externalStateId !== undefined && {
+                ...(!!body?.location?.externalStateId && {
                   externalStateId: body.location.externalStateId,
                 }),
-                ...(location?.externalCityId !== undefined && {
+                ...(!!body?.location?.externalCityId && {
                   externalCityId: body.location.externalCityId,
                 }),
-                ...(location?.countryId !== undefined && {
+                ...(!!body?.location?.countryId && {
                   country: { connect: { id: body.location.countryId } },
                 }),
-                ...(location?.stateId !== undefined && {
+                ...(!!body?.location?.stateId && {
                   state: { connect: { id: body.location.stateId } },
                 }),
-                ...(location?.cityId !== undefined && {
+                ...(!!body?.location?.cityId && {
                   city: { connect: { id: body.location.cityId } },
                 }),
               },
