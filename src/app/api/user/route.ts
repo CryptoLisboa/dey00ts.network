@@ -164,83 +164,92 @@ export async function PUT(req: NextRequest, res: NextResponse) {
       skills?.includes(skill.id)
     )
 
+    console.log('body api/user/ PUT', JSON.stringify(body, null, 2))
+
+    const dataUserUpdate = {
+      location: body.location
+        ? {
+            upsert: {
+              create: {
+                ...(location?.externalCountryId !== undefined && {
+                  externalCountryId: location?.externalCountryId,
+                }),
+                ...(location?.externalStateId !== undefined && {
+                  externalStateId: location?.externalStateId,
+                }),
+                ...(location?.externalCityId !== undefined && {
+                  externalCityId: location?.externalCityId,
+                }),
+                ...(location?.countryId !== undefined && {
+                  country: { connect: { id: location?.countryId } },
+                }),
+                ...(location?.stateId !== undefined && {
+                  state: { connect: { id: location?.stateId } },
+                }),
+                ...(location?.cityId !== undefined && {
+                  city: { connect: { id: location?.cityId } },
+                }),
+              },
+              update: {
+                ...(location?.externalCountryId !== undefined && {
+                  externalCountryId: body.location.externalCountryId,
+                }),
+                ...(location?.externalStateId !== undefined && {
+                  externalStateId: body.location.externalStateId,
+                }),
+                ...(location?.externalCityId !== undefined && {
+                  externalCityId: body.location.externalCityId,
+                }),
+                ...(location?.countryId !== undefined && {
+                  country: { connect: { id: body.location.countryId } },
+                }),
+                ...(location?.stateId !== undefined && {
+                  state: { connect: { id: body.location.stateId } },
+                }),
+                ...(location?.cityId !== undefined && {
+                  city: { connect: { id: body.location.cityId } },
+                }),
+              },
+            },
+          }
+        : undefined,
+      languages: body.languages
+        ? {
+            set: [],
+            connect: matchedLanguages.map((l) => l.id)?.map((id) => ({ id })),
+          }
+        : undefined,
+      gender: body.gender ? { connect: { id: gender } } : undefined,
+      skills: body.skills
+        ? {
+            set: [], // Clear existing skills
+            connect: matchedSkills?.map(({ id }) => ({ id })),
+          }
+        : undefined,
+      profile: body.bio
+        ? {
+            upsert: {
+              create: {
+                bio,
+              },
+              update: {
+                bio,
+              },
+            },
+          }
+        : undefined,
+    }
+
+    console.log(
+      'dataUserUpdate api/user/ PUT',
+      JSON.stringify(dataUserUpdate, null, 2)
+    )
+
     const updatedUser = await prisma.user.update({
       where: {
         id: user.id,
       },
-      data: {
-        location: body.location
-          ? {
-              upsert: {
-                create: {
-                  ...(location?.externalCountryId !== undefined && {
-                    externalCountryId: body.location.externalCountryId,
-                  }),
-                  ...(location?.externalStateId !== undefined && {
-                    externalStateId: body.location.externalStateId,
-                  }),
-                  ...(location?.externalCityId !== undefined && {
-                    externalCityId: body.location.externalCityId,
-                  }),
-                  ...(location?.countryId !== undefined && {
-                    country: { connect: { id: body.location.countryId } },
-                  }),
-                  ...(location?.stateId !== undefined && {
-                    state: { connect: { id: body.location.stateId } },
-                  }),
-                  ...(location?.cityId !== undefined && {
-                    city: { connect: { id: body.location.cityId } },
-                  }),
-                },
-                update: {
-                  ...(location?.externalCountryId !== undefined && {
-                    externalCountryId: body.location.externalCountryId,
-                  }),
-                  ...(location?.externalStateId !== undefined && {
-                    externalStateId: body.location.externalStateId,
-                  }),
-                  ...(location?.externalCityId !== undefined && {
-                    externalCityId: body.location.externalCityId,
-                  }),
-                  ...(location?.countryId !== undefined && {
-                    country: { connect: { id: body.location.countryId } },
-                  }),
-                  ...(location?.stateId !== undefined && {
-                    state: { connect: { id: body.location.stateId } },
-                  }),
-                  ...(location?.cityId !== undefined && {
-                    city: { connect: { id: body.location.cityId } },
-                  }),
-                },
-              },
-            }
-          : undefined,
-        languages: body.languages
-          ? {
-              set: [],
-              connect: matchedLanguages.map((l) => l.id)?.map((id) => ({ id })),
-            }
-          : undefined,
-        gender: body.gender ? { connect: { id: gender } } : undefined,
-        skills: body.skills
-          ? {
-              set: [], // Clear existing skills
-              connect: matchedSkills?.map(({ id }) => ({ id })),
-            }
-          : undefined,
-        profile: body.bio
-          ? {
-              upsert: {
-                create: {
-                  bio,
-                },
-                update: {
-                  bio,
-                },
-              },
-            }
-          : undefined,
-      },
+      data: dataUserUpdate,
     })
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

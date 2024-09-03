@@ -73,15 +73,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth((req) => {
             expires_at: account?.expires_at,
           }
           console.log('accountResponseUpdate', data)
-          await prisma.account.update({
+          const existingAccount = await prisma.account.findUnique({
             where: {
               provider_providerAccountId: {
                 provider: 'deid',
                 providerAccountId: account?.providerAccountId,
               },
             },
-            data,
+            select: {
+              providerAccountId: true,
+            },
           })
+
+          if (existingAccount) {
+            await prisma.account.update({
+              where: {
+                provider_providerAccountId: {
+                  provider: 'deid',
+                  providerAccountId: account?.providerAccountId,
+                },
+              },
+              data,
+            })
+          } else {
+            console.log('Account not found, skipping update.')
+          }
         }, 1000)
         return true
       },
