@@ -128,6 +128,7 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   const { data: state } = useCountryState(selectedState.toString())
 
   useEffect(() => {
+    debugger
     if (selectedCountry) {
       console.log(
         'selectedCountry',
@@ -137,16 +138,15 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
         'countryLoading',
         countryLoading
       )
-      // countryMutate()
     }
   }, [selectedCountry, country, countryLoading])
 
   const selectedStateMemo = useMemo(() => selectedState, [selectedState])
 
   useEffect(() => {
+    debugger
     if (selectedStateMemo) {
       console.log('selectedState', selectedStateMemo)
-      // stateMutate()
     }
   }, [selectedStateMemo])
 
@@ -155,20 +155,18 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
   }, [country?.states])
 
   useEffect(() => {
+    debugger
     setStatesLocal(countryStates)
     console.log('new statesLocal', countryStates)
   }, [countryStates])
 
   useEffect(() => {
+    debugger
     setCitiesLocal(state?.cities || [])
     console.log('new citiesLocal', state?.cities)
   }, [state?.cities])
 
   useEffect(() => {
-    setValue(
-      'country',
-      getInitialCountryValue(userData?.location?.externalCountryId, countries!)
-    )
     setValue('languages', getInitialLanguageValue(userData?.languages || []))
     setValue('bio', userData?.profile?.bio)
 
@@ -178,21 +176,60 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
       'skills',
       userData?.skills?.map((skill: any) => skill.id)
     )
-  }, [userData, countries, state, setValue])
+  }, [
+    userData?.languages,
+    userData?.profile?.bio,
+    userData?.genderId,
+    userData?.skills,
+    setValue,
+  ])
 
   useEffect(() => {
-    setValue(
-      'state',
-      getInitialStateValue(userData?.location?.externalStateId, statesLocal!)
-    )
-  }, [statesLocal])
+    const shouldSetCountry =
+      !selectedCountry && userData?.location?.externalCountryId
+    if (shouldSetCountry) {
+      debugger
+      setValue(
+        'country',
+        getInitialCountryValue(
+          userData?.location?.externalCountryId,
+          countries!
+        )
+      )
+    }
+  }, [
+    userData?.location?.externalCountryId,
+    countries,
+    setValue,
+    selectedCountry,
+  ])
 
   useEffect(() => {
-    setValue(
-      'city',
-      getInitialCityValue(userData?.location?.externalCityId, citiesLocal!)
-    )
-  }, [citiesLocal])
+    const shouldSetState = !selectedState && userData?.location?.externalStateId
+    if (shouldSetState) {
+      debugger
+      setValue(
+        'state',
+        getInitialStateValue(userData?.location?.externalStateId, statesLocal!)
+      )
+    }
+  }, [
+    statesLocal,
+    userData?.location?.externalStateId,
+    setValue,
+    selectedState,
+  ])
+
+  useEffect(() => {
+    const shouldSetCity = !selectedCity && userData?.location?.externalCityId
+    if (shouldSetCity) {
+      debugger
+      setValue(
+        'city',
+        getInitialCityValue(userData?.location?.externalCityId, citiesLocal!)
+      )
+    }
+  }, [citiesLocal, userData?.location?.externalCityId, setValue, selectedCity])
 
   const onSubmit = async (data: any) => {
     try {
@@ -212,8 +249,6 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
         (c) => c.externalCountryId === parseInt(selectedCountry)
       )
 
-      debugger
-
       const body = {
         ...data,
         languages: data.languages.map(
@@ -229,6 +264,8 @@ export const EditForm = ({ user }: { user: Partial<User> }) => {
           externalCountryId: country?.externalCountryId,
         },
       }
+
+      debugger
 
       const response = await fetch('/api/user', {
         method: 'PUT',

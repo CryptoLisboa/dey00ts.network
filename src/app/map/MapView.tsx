@@ -83,6 +83,9 @@ const UserMarker = ({ user }: { user: any }) => {
     }),
   })
   const coordinates = getUserCoordinates(user)
+  if (!coordinates[0] || !coordinates[1]) {
+    return null
+  }
   return (
     <Marker
       position={coordinates as LatLngExpression}
